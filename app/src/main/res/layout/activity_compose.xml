@@ -3,33 +3,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/composeColor"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Announcement"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"
+        android:layout_marginBottom="10dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etTitleWrapper"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:background="@color/white"
+        android:textColorHint="@color/colorAccent"
+        app:boxStrokeColor="@color/colorAccent">
 
     <EditText
-        android:id="@+id/etCaption"
+        android:id="@+id/etTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btSubmit"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Write a caption..."
-        android:maxLines="7"
-        android:minLines="7"
-        android:padding="10dp" />
+        android:hint="Title"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btPicture"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etComposeWrapper"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/etCaption"
-        android:text="Upload an Image" />
+        android:background="@color/white"
+        android:textColorHint="@color/colorAccent"
+        app:boxStrokeColor="@color/colorAccent"
+        android:layout_marginTop="10dp">
+
+
+
+        <EditText
+            android:id="@+id/etBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="What's your announcement?"
+            android:inputType="textMultiLine"
+            android:minLines="5" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/ivPost"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_above="@+id/btPicture"
+        android:id="@+id/ivPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btTakePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="11dp"
+            android:text="Take a Photo" />
+
+        <Button
+        android:id="@+id/btUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload an Image" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btSubmit"

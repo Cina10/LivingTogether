@@ -39,9 +39,15 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1' // for logging API calls to LogCat
 
 
-    // Facebook and parseutils
+    // Facebook SDK
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     // implementation 'com.parse:parsefacebookutils-v4-android:1.10.7'
     implementation 'com.facebook.android:facebook-login:[5,6)'
+
+    // MDC
+    implementation 'com.google.android.material:material:1.0.0'
+
+    // Glide for remote image loading
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 
 }
