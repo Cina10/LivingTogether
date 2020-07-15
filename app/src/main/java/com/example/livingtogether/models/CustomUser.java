@@ -5,7 +5,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-@ParseClassName("Message")
+@ParseClassName("CustomUser")
 public class CustomUser extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_PROFILE = "profilePhoto";

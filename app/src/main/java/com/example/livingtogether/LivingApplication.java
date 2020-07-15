@@ -2,7 +2,11 @@ package com.example.livingtogether;
 
 import android.app.Application;
 
+import com.example.livingtogether.models.CustomUser;
+import com.example.livingtogether.models.Message;
+
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.facebook.ParseFacebookUtils;
 
 public class LivingApplication extends Application {
@@ -10,6 +14,10 @@ public class LivingApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Register Parse model
+        ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(CustomUser.class);
 
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
