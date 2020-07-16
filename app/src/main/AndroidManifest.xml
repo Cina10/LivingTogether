@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ComposeActivity"></activity>
+        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".ComposeActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

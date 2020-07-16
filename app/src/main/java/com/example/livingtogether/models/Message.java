@@ -2,10 +2,16 @@ package com.example.livingtogether.models;
 
 import android.util.Log;
 
+import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
@@ -15,8 +21,8 @@ public class Message extends ParseObject {
     public static final String KEY_CUSTOM_USER = "customUser";
     public static final String KEY_BODY = "body";
     public static final String CREATED_AT = "createdAt";
+    public static final String KEY_TYPE = "messageType";
 
-    public static final String KEY_MESSAGE_TYPE = "messageType";
     // 0 = announcement messages
 
     //for time calculations
@@ -34,6 +40,7 @@ public class Message extends ParseObject {
     public void setTitle(String title) {
         put(KEY_TITLE, title);
     }
+
     public ParseFile getImage() {
         return getParseFile(KEY_IMAGE);
     }
@@ -41,12 +48,18 @@ public class Message extends ParseObject {
         put(KEY_IMAGE, image);
     }
 
-    public CustomUser getCustomUser() {
-        return (CustomUser)getParseObject(KEY_CUSTOM_USER);
+    public int getType() {
+        return getInt(KEY_TYPE);
     }
-    public void setCustomUser(ParseUser user) {
-        CustomUser customUser = (CustomUser) user.getParseObject(KEY_CUSTOM_USER);
-        customUser.setParseUser(user);
+    public void setType(int type) {
+        put(KEY_TYPE, type);
+    }
+
+    public CustomUser getCustomUser() {
+        return (CustomUser) get(KEY_CUSTOM_USER);
+    }
+    public void setCustomUser(CustomUser user) {
+        put(KEY_CUSTOM_USER, user);
     }
     public ParseFile getBody() {
         return getParseFile(KEY_BODY);
@@ -82,4 +95,6 @@ public class Message extends ParseObject {
             return String.format("%tB %td, %tY", getCreatedAt());
         }
     }
+
+
 }

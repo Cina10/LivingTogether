@@ -1,17 +1,27 @@
 package com.example.livingtogether.models;
 
+import android.util.Log;
+
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 @ParseClassName("CustomUser")
 public class CustomUser extends ParseObject {
+    public static final String TAG = "CustomUser";
     public static final String KEY_USER = "user";
     public static final String KEY_PROFILE = "profilePhoto";
     public static final String KEY_NAME = "name";
     public static final String KEY_BALANCE = "balanceList";
     public static final String KEY_TODO = "toDoList";
+    //public static CustomUser curUser;
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -24,6 +34,7 @@ public class CustomUser extends ParseObject {
     public ParseFile getProfilePhoto() {
         return getParseFile(KEY_PROFILE);
     }
+
     public void setProfilePhoto(ParseFile profilePhoto) {
         put(KEY_PROFILE, profilePhoto);
     }
@@ -36,5 +47,19 @@ public class CustomUser extends ParseObject {
         put(KEY_NAME, name);
     }
 
-    // TODO create methods to access balance list and todo list
+    // TODO create methods to access balance list and todo list and to modify them
+    public static CustomUser queryForCurUser(){
+        ParseQuery query = ParseQuery.getQuery(CustomUser.class);
+
+        query.whereEqualTo(CustomUser.KEY_USER, ParseUser.getCurrentUser());
+        try {
+            List<CustomUser> curUser = query.find();
+            Log.i(TAG, curUser.get(0).getName());
+            return curUser.get(0);
+        } catch (ParseException e) {
+            Log.e(TAG, "Issue with finding CustomUser", e);
+            return null;
+        }
+    }
+
 }

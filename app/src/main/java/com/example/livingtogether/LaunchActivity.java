@@ -31,7 +31,8 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
 
         // if already signed in
         if (ParseUser.getCurrentUser() != null) {
-            Intent i = new Intent(this, MainActivity.class);
+            // TODO fix to main activity
+            Intent i = new Intent(this, ComposeActivity.class);
             startActivity(i);
             finish();
         }
@@ -57,7 +58,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 goLoginActivity();
                 break;
             case R.id.btSignup:
-                // do your code
+                // TODO
                 break;
             default:
                 break;
@@ -104,7 +105,8 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void goMainActivity() {
-        Intent i = new Intent(LaunchActivity.this, MainActivity.class);
+        // TODO fix to main activity
+        Intent i = new Intent(LaunchActivity.this, ComposeActivity.class);
         startActivity(i);
         finish();
         Toast.makeText(LaunchActivity.this, "Success!", Toast.LENGTH_SHORT).show();
