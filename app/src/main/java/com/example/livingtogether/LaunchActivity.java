@@ -69,7 +69,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     private void goLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
-        //make for result to finish() once you creat
+        //TODO make for result to finish() once you finish login activity
     }
 
     @Override
