@@ -30,7 +30,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/tvScreenName"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -38,17 +38,17 @@
             android:layout_marginTop="0dp"
             android:layout_toEndOf="@+id/profileWrapper"
             android:textStyle="bold"
-            tools:text="Chianna Cohen" />
+            tools:text="Chianna made an announcement" />
 
         <TextView
             android:id="@+id/tvBody"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvScreenName"
+            android:layout_below="@+id/tvTitle"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/profileWrapper"
-            tools:text="This is my tweet.....haahahahhahahahha" />
+            tools:text="This is my message" />
 
 
         <com.google.android.material.card.MaterialCardView

@@ -61,8 +61,8 @@ public class Message extends ParseObject {
     public void setCustomUser(CustomUser user) {
         put(KEY_CUSTOM_USER, user);
     }
-    public ParseFile getBody() {
-        return getParseFile(KEY_BODY);
+    public String getBody() {
+        return getString(KEY_BODY);
     }
     public void setBody(String body) {
         put(KEY_BODY, body);
