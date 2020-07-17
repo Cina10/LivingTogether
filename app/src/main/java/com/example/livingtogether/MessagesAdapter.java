@@ -62,13 +62,20 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         }
 
         public void bind(Message message) {
-            tvBody.setText(message.getBody());
+            // If/else block so that if there is no body text, it doesn't show a blank line.
+            if (message.getBody().equals("")) {
+                tvBody.setVisibility(View.GONE);
+            } else {
+                tvBody.setVisibility(View.VISIBLE);
+                tvBody.setText(message.getBody());
+            }
+
             Glide.with(context)
                     .load(message.getCustomUser().getProfilePhoto().getUrl())
                     .into(ivProfile);
             tvTime.setText(message.getRelativeTime());
 
-            if(message.getType() == Message.ANNOUNCEMENT_TYPE) {
+            if (message.getType() == Message.ANNOUNCEMENT_TYPE) {
                 bindAnnouncement(message);
             }
 
@@ -77,10 +84,16 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         private void bindAnnouncement(Message message) {
             String title = message.getCustomUser().getName() + ": " + message.getTitle();
             tvTitle.setText(title);
-            Glide.with(context)
-                    .load(message.getImage().getUrl())
-                    .into(ivMedia);
 
+            // Shows or hides image depending on if message has image.
+            if (message.getImage() == null) {
+                ivMedia.setVisibility(View.GONE);
+            } else {
+                ivMedia.setVisibility(View.VISIBLE);
+                Glide.with(context)
+                        .load(message.getImage().getUrl())
+                        .into(ivMedia);
+            }
         }
     }
 
