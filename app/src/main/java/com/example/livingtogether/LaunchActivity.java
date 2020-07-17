@@ -2,6 +2,7 @@ package com.example.livingtogether;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,9 +33,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         // if already signed in
         if (ParseUser.getCurrentUser() != null) {
             // TODO fix to main activity
-            Intent i = new Intent(this, ComposeActivity.class);
-            startActivity(i);
-            finish();
+            goMainActivity();
         }
 
         // finding the views and setting OnClickListeners
@@ -105,10 +104,8 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void goMainActivity() {
-        // TODO fix to main activity
-        Intent i = new Intent(LaunchActivity.this, ComposeActivity.class);
+        Intent i = new Intent(LaunchActivity.this, MainActivity.class);
         startActivity(i);
         finish();
-        Toast.makeText(LaunchActivity.this, "Success!", Toast.LENGTH_SHORT).show();
     }
 }
