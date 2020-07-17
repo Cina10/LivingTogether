@@ -1,13 +1,14 @@
 package com.example.livingtogether;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 
 import com.example.livingtogether.models.Message;
@@ -22,6 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 public static final String TAG = "MainActivity";
 private FloatingActionButton fab;
+private Toolbar toolbar;
 private RecyclerView rvMessages;
 private MessagesAdapter adapter;
 private List<Message> allMessages;
@@ -30,6 +32,9 @@ private List<Message> allMessages;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         fab = findViewById(R.id.floating_action_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +60,7 @@ private List<Message> allMessages;
         ParseQuery query = ParseQuery.getQuery(Message.class);
         //query.setLimit(20);
         query.include(Message.KEY_CUSTOM_USER);
+        query.setLimit(20);
         query.addDescendingOrder(Message.CREATED_AT);
         query.findInBackground(new FindCallback<Message>() {
             @Override
@@ -76,5 +82,11 @@ private List<Message> allMessages;
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 }
