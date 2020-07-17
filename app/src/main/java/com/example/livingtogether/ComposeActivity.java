@@ -35,7 +35,6 @@ import java.io.IOException;
 
 public class ComposeActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "ComposeActivity";
-    public static final int ANNOUNCEMENT_TYPE = 0;
     EditText etTitle;
     EditText etBody;
     ImageView ivPreview;
@@ -114,7 +113,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.d(TAG, "failed to create directory");
         }
 
@@ -168,11 +167,11 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public static Bitmap scaleToFitWidth(Bitmap b, int width)
-    {
+    public static Bitmap scaleToFitWidth(Bitmap b, int width) {
         float factor = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
     }
+
     // saves message to database
     private void submit() {
         String title = etTitle.getText().toString();
@@ -188,24 +187,25 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             CustomUser curUser = CustomUser.queryForCurUser();
             Log.i(TAG, curUser.getName());
             message.setCustomUser(curUser);
-            message.setType(ANNOUNCEMENT_TYPE);
-            if (preview != null)
+            message.setType(Message.ANNOUNCEMENT_TYPE);
+            if (preview != null) {
                 message.setImage(new ParseFile(photoFile));
-            message.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e != null) {
-                        Log.e(TAG, "Error while saving", e);
-                        Toast.makeText(ComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.i(TAG, "Post saved!");
-                        etBody.setText("");
-                        etTitle.setText("");
-                        ivPreview.setImageResource(0);
-                        ivPreview.setVisibility(View.GONE);
+                message.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Error while saving", e);
+                            Toast.makeText(ComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.i(TAG, "Post saved!");
+                            etBody.setText("");
+                            etTitle.setText("");
+                            ivPreview.setImageResource(0);
+                            ivPreview.setVisibility(View.GONE);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 

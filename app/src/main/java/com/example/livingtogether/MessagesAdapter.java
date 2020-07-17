@@ -66,8 +66,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             Glide.with(context)
                     .load(message.getCustomUser().getProfilePhoto().getUrl())
                     .into(ivProfile);
+            tvTime.setText(message.getRelativeTime());
 
-            if(message.getType() == ComposeActivity.ANNOUNCEMENT_TYPE) {
+            if(message.getType() == Message.ANNOUNCEMENT_TYPE) {
                 bindAnnouncement(message);
             }
 
@@ -76,7 +77,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         private void bindAnnouncement(Message message) {
             String title = message.getCustomUser().getName() + ": " + message.getTitle();
             tvTitle.setText(title);
-
+            Glide.with(context)
+                    .load(message.getImage().getUrl())
+                    .into(ivMedia);
 
         }
     }

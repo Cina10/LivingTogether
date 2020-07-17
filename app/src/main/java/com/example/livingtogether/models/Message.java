@@ -18,12 +18,14 @@ public class Message extends ParseObject {
     public static final String TAG = "Message";
     public static final String KEY_TITLE = "title";
     public static final String KEY_IMAGE = "image";
+    //public static final String KEY_MEDIA = "media";
     public static final String KEY_CUSTOM_USER = "customUser";
     public static final String KEY_BODY = "body";
     public static final String CREATED_AT = "createdAt";
     public static final String KEY_TYPE = "messageType";
 
-    // 0 = announcement messages
+    // Message types
+    public static final int ANNOUNCEMENT_TYPE = 0;
 
     //for time calculations
     private static final int SECOND_MILLIS = 1000;
