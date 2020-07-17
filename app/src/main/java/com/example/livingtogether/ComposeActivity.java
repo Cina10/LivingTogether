@@ -68,11 +68,11 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btSubmit:
-                //show preview first
+                //TODO show preview first?
                 submit();
+                finish();
                 break;
             case R.id.btTakePicture:
-                Toast.makeText(this, "camera clicked", Toast.LENGTH_SHORT).show();
                 launchCamera();
                 break;
             case R.id.btUpload:
