@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name="com.livingtogether.activites.AddPhotoActivity"></activity>
-        <activity android:name="com.livingtogether.activites.CreateProfileActivity" />
+        <activity android:name="com.livingtogether.activites.SetDisplayNameActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -26,7 +26,8 @@
         android:layout_height="250dp"
         android:layout_below="@+id/tvPage"
         android:layout_centerHorizontal="true"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/ivProfile"
@@ -54,7 +55,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btPhoto"
+        android:layout_below="@+id/btUpload"
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
         android:src="@drawable/ic_baseline_arrow_forward_24"

@@ -12,10 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.livingtogether.livingtogether.R;
+import com.livingtogether.models.CustomUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import java.util.Set;
 
 public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "SignupActivity";
@@ -65,11 +68,16 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void login(String username, String password) {
+    private void login(final String username, String password) {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                Intent i = new Intent(SignUpActivity.this, CreateProfileActivity.class);
+                CustomUser customUser = new CustomUser();
+                customUser.setParseUser(user);
+                customUser.setName(user.getUsername());
+                customUser.saveInBackground();
+                Intent i = new Intent(SignUpActivity.this, SetDisplayNameActivity.class);
+                i.putExtra(SetDisplayNameActivity.NEXT_ACTIVITY, SetDisplayNameActivity.CREATE_PROFILE);
                 startActivity(i);
                 finish();
 
