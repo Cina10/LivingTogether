@@ -57,7 +57,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 goLoginActivity();
                 break;
             case R.id.btSignup:
-                // TODO
+                goSignupActivity();
                 break;
             default:
                 break;
@@ -67,6 +67,12 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
 
     private void goLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+        //TODO make for result to finish() once you finish login activity
+    }
+
+    private void goSignupActivity() {
+        Intent i = new Intent(this, SignUpActivity.class);
         startActivity(i);
         //TODO make for result to finish() once you finish login activity
     }
