@@ -69,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+                Intent i = new Intent(SignUpActivity.this, CreateProfileActivity.class);
                 startActivity(i);
                 finish();
 

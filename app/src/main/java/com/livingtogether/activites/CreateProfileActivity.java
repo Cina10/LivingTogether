@@ -2,6 +2,7 @@ package com.livingtogether.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -24,7 +25,9 @@ EditText etName;
             @Override
             public void onClick(View view) {
                 String name = etName.getText().toString();
-                I
+                Intent i = new Intent(CreateProfileActivity.this, AddPhotoActivity.class);
+                i.putExtra("name", name);
+                startActivity(i);
             }
         });
 
