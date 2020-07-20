@@ -1,4 +1,4 @@
-package com.example.livingtogether.models;
+package com.livingtogether.models;
 
 import android.util.Log;
 

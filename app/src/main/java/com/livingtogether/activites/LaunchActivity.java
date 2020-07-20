@@ -1,4 +1,4 @@
-package com.example.livingtogether.activites;
+package com.livingtogether.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.livingtogether.R;
+import com.livingtogether.livingtogether.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;

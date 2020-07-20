@@ -1,4 +1,4 @@
-package com.example.livingtogether;
+package com.livingtogether;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import com.example.livingtogether.models.Message;
+import com.livingtogether.livingtogether.R;
+import com.livingtogether.models.Message;
 
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.livingtogether.activites;
+package com.livingtogether.activites;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +19,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.livingtogether.R;
-import com.example.livingtogether.models.CustomUser;
-import com.example.livingtogether.models.Message;
+import com.livingtogether.livingtogether.R;
+import com.livingtogether.models.CustomUser;
+import com.livingtogether.models.Message;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.SaveCallback;

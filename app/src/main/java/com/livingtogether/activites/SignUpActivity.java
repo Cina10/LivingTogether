@@ -1,4 +1,4 @@
-package com.example.livingtogether.activites;
+package com.livingtogether.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.livingtogether.R;
+import com.livingtogether.livingtogether.R;
 
 public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "SignupActivity";

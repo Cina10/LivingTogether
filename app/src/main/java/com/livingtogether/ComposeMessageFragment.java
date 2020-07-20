@@ -1,4 +1,4 @@
-package com.example.livingtogether;
+package com.livingtogether;
 
 import android.os.Bundle;
 
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.livingtogether.livingtogether.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +48,7 @@ public class ComposeMessageFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment com.example.livingtogether.ComposeMessageFragment.
+     * @return A new instance of fragment com.example.ComposeMessageFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static ComposeMessageFragment newInstance(String param1, String param2) {

@@ -1,9 +1,9 @@
-package com.example.livingtogether;
+package com.livingtogether;
 
 import android.app.Application;
 
-import com.example.livingtogether.models.CustomUser;
-import com.example.livingtogether.models.Message;
+import com.livingtogether.models.CustomUser;
+import com.livingtogether.models.Message;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
