@@ -183,29 +183,27 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             Message message = new Message();
             message.setTitle(title);
             message.setBody(body);
-
             CustomUser curUser = CustomUser.queryForCurUser();
-            Log.i(TAG, curUser.getName());
             message.setCustomUser(curUser);
             message.setType(Message.ANNOUNCEMENT_TYPE);
-            if (preview != null) {
+            if (preview != null)
                 message.setImage(new ParseFile(photoFile));
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Log.e(TAG, "Error while saving", e);
-                            Toast.makeText(ComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.i(TAG, "Post saved!");
-                            etBody.setText("");
-                            etTitle.setText("");
-                            ivPreview.setImageResource(0);
-                            ivPreview.setVisibility(View.GONE);
-                        }
+            message.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "Error while saving", e);
+                        Toast.makeText(ComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.i(TAG, "Post saved!");
+                        etBody.setText("");
+                        etTitle.setText("");
+                        ivPreview.setImageResource(0);
+                        ivPreview.setVisibility(View.GONE);
                     }
-                });
-            }
+                }
+            });
+
         }
     }
 

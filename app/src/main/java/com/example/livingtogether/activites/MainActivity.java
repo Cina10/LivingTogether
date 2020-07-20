@@ -1,11 +1,15 @@
 package com.example.livingtogether.activites;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +23,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +35,30 @@ private Toolbar toolbar;
 private RecyclerView rvMessages;
 private MessagesAdapter adapter;
 private List<Message> allMessages;
+private SwipeRefreshLayout swipeContainer;
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+               queryMessages();
+            }
+        });
+        // setting refreshing colors
+        swipeContainer.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(R.color.colorAccent),
+                getResources().getColor(R.color.composeColor));
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+
         fab = findViewById(R.id.floating_action_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +67,7 @@ private List<Message> allMessages;
                 startActivity(i);
             }
         });
+
         rvMessages = findViewById(R.id.rvMessages);
         allMessages = new ArrayList<>();
         adapter = new MessagesAdapter(this, allMessages);
@@ -54,6 +77,7 @@ private List<Message> allMessages;
         queryMessages();
 
     }
+
 
     // retrieves messages
     private void queryMessages()
@@ -74,13 +98,11 @@ private List<Message> allMessages;
                     for (Message message : messages) {
                         Log.i(TAG, "Message: " + message.getTitle());
                     }
-//                    adapter.clear();
-//                    adapter.addAll(posts);
-//                    swipeContainer.setRefreshing(false);
+                    adapter.clear();
+                    adapter.addAll(messages);
+                    swipeContainer.setRefreshing(false);
                     Log.i(TAG, "Posts added");
                 }
-                allMessages.addAll(messages);
-                adapter.notifyDataSetChanged();
 
             }
         });
