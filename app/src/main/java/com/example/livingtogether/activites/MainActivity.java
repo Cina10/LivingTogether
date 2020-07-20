@@ -13,7 +13,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.livingtogether.MessagesAdapter;
 import com.example.livingtogether.R;
@@ -22,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 
@@ -112,5 +115,29 @@ private SwipeRefreshLayout swipeContainer;
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.actionGroupSettings:
+                // TODO
+                return true;
+            case R.id.actionProfSettings:
+                // TODO
+                return true;
+            case R.id.actionLogout:
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                if (currentUser == null) {
+                    Intent i = new Intent(MainActivity.this, LaunchActivity.class);
+                    startActivity(i);
+                }
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
