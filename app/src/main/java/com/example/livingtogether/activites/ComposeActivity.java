@@ -1,4 +1,4 @@
-package com.example.livingtogether;
+package com.example.livingtogether.activites;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.livingtogether.R;
 import com.example.livingtogether.models.CustomUser;
 import com.example.livingtogether.models.Message;
 import com.parse.ParseException;

@@ -1,4 +1,4 @@
-package com.example.livingtogether;
+package com.example.livingtogether.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import com.example.livingtogether.MessagesAdapter;
+import com.example.livingtogether.R;
 import com.example.livingtogether.models.Message;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
 import com.example.livingtogether.models.Message;
 
 
@@ -41,6 +42,16 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public int getItemCount() {
         return messages.size();
+    }
+
+    public void clear() {
+        messages.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Message> list) {
+        messages.addAll(list);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

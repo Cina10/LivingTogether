@@ -1,8 +1,10 @@
-package com.example.livingtogether;
+package com.example.livingtogether.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.livingtogether.R;
 
 public class SignUpActivity extends AppCompatActivity {
 

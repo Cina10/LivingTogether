@@ -7,7 +7,7 @@
     android:padding="25dp"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context=".LaunchActivity">
+    tools:context="com.example.livingtogether.activites.LaunchActivity">
 
     <TextView
         android:id="@+id/textView"

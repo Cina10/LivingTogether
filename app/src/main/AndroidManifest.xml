@@ -25,8 +25,8 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name=".SignUpActivity"/>
-        <activity android:name=".ComposeActivity" />
+        <activity android:name="com.example.livingtogether.activites.SignUpActivity"/>
+        <activity android:name="com.example.livingtogether.activites.ComposeActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -41,9 +41,9 @@
             android:name="com.facebook.sdk.PERMISSIONS"
             android:value="email" />
 
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LaunchActivity">
+        <activity android:name="com.example.livingtogether.activites.LoginActivity" />
+        <activity android:name="com.example.livingtogether.activites.MainActivity" />
+        <activity android:name="com.example.livingtogether.activites.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

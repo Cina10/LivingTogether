@@ -2,16 +2,9 @@ package com.example.livingtogether.models;
 
 import android.util.Log;
 
-import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.util.List;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
