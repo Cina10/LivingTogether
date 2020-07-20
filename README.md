@@ -72,7 +72,8 @@ The purpose of this app is to act as a communal living messaging board. It has t
         * Response type: someone can claim it and it will be added to their chore list on their profile
         * Or it will randomly assign it to someone
         
+ # Wireframes
+        
 ![Living Together Wireframes](https://github.com/Cina10/LivingTogether/blob/master/LivingTogether_Wireframe.png)
 
     
-Day 3: Finish the functionality of the first two message types ie xmls, text edits, submit a photo
