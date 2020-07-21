@@ -14,8 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.livingtogether.activites.AddPhotoActivity"></activity>
-        <activity android:name="com.livingtogether.activites.SetDisplayNameActivity" />
+        <activity android:name="com.livingtogether.activities.AddPhotoActivity"></activity>
+        <activity android:name="com.livingtogether.activities.SetDisplayNameActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -27,8 +27,8 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name="com.livingtogether.activites.SignUpActivity" />
-        <activity android:name="com.livingtogether.activites.ComposeActivity" />
+        <activity android:name="com.livingtogether.activities.SignUpActivity" />
+        <activity android:name="com.livingtogether.activities.ComposeActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -43,9 +43,9 @@
             android:name="com.facebook.sdk.PERMISSIONS"
             android:value="email" />
 
-        <activity android:name="com.livingtogether.activites.LoginActivity" />
-        <activity android:name="com.livingtogether.activites.MainActivity" />
-        <activity android:name="com.livingtogether.activites.LaunchActivity">
+        <activity android:name="com.livingtogether.activities.LoginActivity" />
+        <activity android:name="com.livingtogether.activities.MainActivity" />
+        <activity android:name="com.livingtogether.activities.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

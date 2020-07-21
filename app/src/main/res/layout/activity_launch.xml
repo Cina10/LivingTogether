@@ -7,14 +7,14 @@
     android:padding="25dp"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context="com.livingtogether.activites.LaunchActivity">
+    tools:context="com.livingtogether.activities.LaunchActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_logo_forgound" />
 
     <TextView
         android:id="@+id/tvAppName"

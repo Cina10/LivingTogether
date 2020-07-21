@@ -1,4 +1,4 @@
-package com.livingtogether.activites;
+package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,8 +17,6 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
-
-import java.util.Set;
 
 public class SignUpActivity extends AppCompatActivity {
     public static final String TAG = "SignupActivity";

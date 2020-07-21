@@ -1,4 +1,4 @@
-package com.livingtogether.activites;
+package com.livingtogether.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,16 +35,17 @@ import java.io.IOException;
 
 public class ComposeActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "ComposeActivity";
-    EditText etTitle;
-    EditText etBody;
-    ImageView ivPreview;
-    Button btUpload;
-    Button btTakePicture;
-    Button btSubmit;
+    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 12;
+
+    private EditText etTitle;
+    private EditText etBody;
+    private ImageView ivPreview;
+    private Button btUpload;
+    private Button btTakePicture;
+    private Button btSubmit;
 
     // For launch camera
     private File photoFile;
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 12;
     private String photoFileName = "photo.jpg";
 
     @Override
@@ -61,14 +62,13 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         ivPreview = (ImageView) findViewById(R.id.ivPreview);
         btUpload = (Button) findViewById(R.id.btUpload);
         btUpload.setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btSubmit:
-                //TODO show preview first?
+                // TODO show preview first?
                 submit();
                 finish();
                 break;
@@ -76,19 +76,15 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                 launchCamera();
                 break;
             case R.id.btUpload:
-                // TODO
+                // TODO upload a file (extra)
                 break;
             default:
                 break;
         }
-
     }
 
-    // opens new activity - camera
     public void launchCamera() {
-        // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Create a File reference for future access
         photoFile = getPhotoFileUri(photoFileName);
 
         // wrap File object into a content provider
@@ -100,7 +96,6 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
         // So as long as the result is not null, it's safe to use the intent.
         if (intent.resolveActivity(getPackageManager()) != null) {
-            // Start the image capture intent to take photo
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
     }
@@ -129,26 +124,15 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                // by this point we have the camera photo on disk
-                // RESIZE BITMAP
                 Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
-                // by this point we have the camera photo on disk
                 Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
-                // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
                 Bitmap resizedBitmap = scaleToFitWidth(rawTakenImage, 1500);
-
-                //resizedBitmap = rotateBitmap(resizedBitmap, 90);
-
-                // Configure byte output stream
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                // Compress the image further
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
                 File resizedFile = getPhotoFileUri("resized_" + photoFileName);
                 try {
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
-                    // Write the bytes of the bitmap to file
                     fos.write(bytes.toByteArray());
                     fos.close();
                 } catch (FileNotFoundException e) {
@@ -161,7 +145,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
 
                 ivPreview.setImageBitmap(resizedBitmap);
                 ivPreview.setVisibility(View.VISIBLE);
-            } else { // Result was a failure
+            } else {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
@@ -172,7 +156,6 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
     }
 
-    // saves message to database
     private void submit() {
         String title = etTitle.getText().toString();
         String body = etBody.getText().toString();

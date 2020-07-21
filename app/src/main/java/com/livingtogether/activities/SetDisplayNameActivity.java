@@ -1,4 +1,4 @@
-package com.livingtogether.activites;
+package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

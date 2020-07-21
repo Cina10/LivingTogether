@@ -1,4 +1,4 @@
-package com.livingtogether.activites;
+package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,18 +21,17 @@ import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.parse.ParseFile;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class AddPhotoActivity extends AppCompatActivity {
-    public static final int GET_FROM_GALLERY = 42;
     public static final String TAG = "AddPhotoActivity";
-    FloatingActionButton fab;
-    Button btUpload;
-    ImageView ivProfile;
+    public static final int GET_FROM_GALLERY = 42;
+
+    private FloatingActionButton floatingbt;
+    private Button btUpload;
+    private ImageView ivProfile;
     private File photoFile;
     private String photoFileName = "profile.jpg";
 
@@ -41,8 +40,8 @@ public class AddPhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_photo);
 
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        floatingbt = findViewById(R.id.fab);
+        floatingbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Drawable preview = ivProfile.getDrawable();
@@ -63,8 +62,6 @@ public class AddPhotoActivity extends AppCompatActivity {
             }
         });
         ivProfile = findViewById(R.id.ivProfile);
-
-
     }
 
     private void uploadPhoto() {
@@ -74,8 +71,6 @@ public class AddPhotoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        //Detects request codes
         if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri imageUri = data.getData();
             Bitmap bitmap = null;
@@ -129,5 +124,4 @@ public class AddPhotoActivity extends AppCompatActivity {
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
         return file;
     }
-
 }

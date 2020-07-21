@@ -1,4 +1,4 @@
-package com.livingtogether.activites;
+package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,21 +9,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.livingtogether.livingtogether.R;
+import com.livingtogether.models.CustomUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.facebook.ParseFacebookUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class LaunchActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String TAG = "LaunchActivity";
     private static final String EMAIL = "email";
-    public static final String TAG = "Launch Activity";
-    Button btSignup;
-    Button btLogin;
-    Button fbLogin;
+
+    private Button btSignup;
+    private Button btLogin;
+    private Button fbLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +41,15 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
 
         // if already signed in
         if (ParseUser.getCurrentUser() != null) {
-            // TODO fix to main activity
             goMainActivity();
         }
 
-        // finding the views and setting OnClickListeners
         btLogin = findViewById(R.id.btLogin);
         btLogin.setOnClickListener(this);
         btSignup = findViewById(R.id.btSignup);
         btSignup.setOnClickListener(this);
         fbLogin = findViewById(R.id.login_button);
         fbLogin.setOnClickListener(this);
-
     }
 
 
@@ -62,19 +68,18 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
             default:
                 break;
         }
-
     }
 
     private void goLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
-        //TODO make for result to finish() once you finish login activity
+        // TODO make for result to finish() once you finish login activity
     }
 
     private void goSignupActivity() {
         Intent i = new Intent(this, SignUpActivity.class);
         startActivity(i);
-        //TODO make for result to finish() once you finish login activity
+        // TODO make for result to finish() once you finish login activity
     }
 
     @Override
@@ -84,7 +89,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void signInFB() {
-        List<String> permissions = Arrays.asList(EMAIL);
+        List<String> permissions = Arrays.asList("email", "public_profile", "user_birthday");
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
@@ -99,11 +104,24 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 } else if (parseUser.isNew()) {
                     Log.i(TAG, "User signed up and logged in through Facebook!");
                     Toast.makeText(LaunchActivity.this, "New Account Created", Toast.LENGTH_SHORT).show();
-                    goMainActivity();
+                    CustomUser customUser = new CustomUser();
+                    AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                    Profile profile = Profile.getCurrentProfile();
+                    if (profile != null) {
+                        Log.i(TAG, "profile not null");
+                        String name = profile.getName();
+                        customUser.setName(name);
+                        customUser.setIsFacebookUser(true);
+                        customUser.setParseUser(ParseUser.getCurrentUser());
+                        customUser.saveInBackground();
+                        goMainActivity();
+                    } else {
+                        Log.e(TAG, "Error retrieving Facebook profile");
+                    }
+
                 } else {
                     Log.i(TAG, "User logged in through Facebook!");
                     goMainActivity();
-
                 }
             }
         });

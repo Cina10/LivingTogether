@@ -1,6 +1,7 @@
 package com.livingtogether;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import com.facebook.Profile;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.Message;
 
@@ -70,7 +72,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             tvBody = itemView.findViewById(R.id.tvBody);
             ivMedia = itemView.findViewById(R.id.ivMedia);
             tvTime = itemView.findViewById(R.id.tvTime);
-
         }
 
         public void bind(Message message) {
@@ -84,8 +85,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
             if (message.getCustomUser().getProfilePhoto() != null) {
                 Glide.with(context)
-                        .load(message.getCustomUser().getProfilePhoto().getUrl())
-                        .into(ivProfile);
+                        .load(message.getCustomUser().getProfilePhoto().getUrl()).into(ivProfile);
+            } else if(message.getCustomUser().getIsFacebookUser()) {
+                Profile profile = Profile.getCurrentProfile();
+                String pictureUrl = profile.getProfilePictureUri(300,300).toString();
+                Glide.with(context)
+                        .load(pictureUrl).into(ivProfile);
             }
 
             tvTime.setText(message.getRelativeTime());
@@ -93,7 +98,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             if (message.getType() == Message.ANNOUNCEMENT_TYPE) {
                 bindAnnouncement(message);
             }
-
         }
 
         private void bindAnnouncement(Message message) {
@@ -111,10 +115,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                         .load(message.getImage().getUrl())
                         .into(ivMedia);
                 ivMedia.setVisibility(View.VISIBLE);
-
             }
         }
     }
-
 }
 

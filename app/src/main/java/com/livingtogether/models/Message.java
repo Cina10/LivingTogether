@@ -6,12 +6,14 @@ import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 @ParseClassName("Message")
 public class Message extends ParseObject {
     public static final String TAG = "Message";
     public static final String KEY_TITLE = "title";
     public static final String KEY_IMAGE = "image";
-    //public static final String KEY_MEDIA = "media";
     public static final String KEY_CUSTOM_USER = "customUser";
     public static final String KEY_BODY = "body";
     public static final String CREATED_AT = "createdAt";
@@ -84,10 +86,11 @@ public class Message extends ParseObject {
         } else if (diff < 7 * DAY_MILLIS) {
             return diff / DAY_MILLIS + " days ago";
         } else if (diff < YEAR_MILLIS) {
-            return String.format("%tB %td", getCreatedAt());
+            DateFormat df = new SimpleDateFormat("MMMM dd");
+            return df.format(getCreatedAt());
         } else {
-            // display time and date
-            return String.format("%tB %td, %tY", getCreatedAt());
+            DateFormat df = new SimpleDateFormat("MMMM dd, YYYY");
+            return df.format(getCreatedAt());
         }
     }
 

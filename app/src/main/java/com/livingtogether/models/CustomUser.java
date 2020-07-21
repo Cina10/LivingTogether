@@ -17,9 +17,9 @@ public class CustomUser extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_PROFILE = "profilePhoto";
     public static final String KEY_NAME = "name";
+    public static final String KEY_IS_FACEBOOK_USER = "isFacebookUser";
     public static final String KEY_BALANCE = "balanceList";
     public static final String KEY_TODO = "toDoList";
-    //public static CustomUser curUser;
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -43,6 +43,14 @@ public class CustomUser extends ParseObject {
 
     public void setName(String name) {
         put(KEY_NAME, name);
+    }
+
+    public boolean getIsFacebookUser() {
+        return getBoolean(KEY_IS_FACEBOOK_USER);
+    }
+
+    public void setIsFacebookUser(boolean isFacebookUser) {
+        put(KEY_IS_FACEBOOK_USER, isFacebookUser);
     }
 
     // TODO create methods to access balance list and todo list and to modify them

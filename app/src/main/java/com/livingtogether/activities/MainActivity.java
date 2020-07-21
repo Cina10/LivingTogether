@@ -1,4 +1,4 @@
-package com.livingtogether.activites;
+package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -28,7 +28,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 public static final String TAG = "MainActivity";
-private FloatingActionButton fab;
+
+private FloatingActionButton floatingbt;
 private Toolbar toolbar;
 private RecyclerView rvMessages;
 private MessagesAdapter adapter;
@@ -57,8 +58,8 @@ private SwipeRefreshLayout swipeContainer;
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
-        fab = findViewById(R.id.floating_action_button);
-        fab.setOnClickListener(new View.OnClickListener() {
+        floatingbt= findViewById(R.id.floating_action_button);
+        floatingbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, ComposeActivity.class);
@@ -73,14 +74,9 @@ private SwipeRefreshLayout swipeContainer;
         rvMessages.setAdapter(adapter);
         rvMessages.setLayoutManager(new LinearLayoutManager(this));
         queryMessages();
-
     }
 
-
-    // retrieves messages
-    private void queryMessages()
-    {
-        // Specify which class to query
+    private void queryMessages() {
         ParseQuery query = ParseQuery.getQuery(Message.class);
         //query.setLimit(20);
         query.include(Message.KEY_CUSTOM_USER);
@@ -101,7 +97,6 @@ private SwipeRefreshLayout swipeContainer;
                     swipeContainer.setRefreshing(false);
                     Log.i(TAG, "Posts added");
                 }
-
             }
         });
     }
@@ -114,13 +109,12 @@ private SwipeRefreshLayout swipeContainer;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.actionGroupSettings:
-                // TODO
+                // TODO go to group settings
                 return true;
             case R.id.actionProfSettings:
-                // TODO
+                // TODO go to profile settings
                 return true;
             case R.id.actionLogout:
                 ParseUser.logOut();
@@ -129,7 +123,6 @@ private SwipeRefreshLayout swipeContainer;
                     Intent i = new Intent(MainActivity.this, LaunchActivity.class);
                     startActivity(i);
                 }
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

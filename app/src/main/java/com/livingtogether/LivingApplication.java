@@ -1,7 +1,11 @@
 package com.livingtogether;
 
 import android.app.Application;
+import android.media.FaceDetector;
+import android.util.Log;
 
+import com.facebook.FacebookSdk;
+import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Message;
 
@@ -19,15 +23,12 @@ public class LivingApplication extends Application {
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(CustomUser.class);
 
-        // set applicationId, and server server based on the values in the Heroku settings.
-        // clientKey is not needed unless explicitly configured
-        // any network interceptors must be added with the Configuration Builder given this syntax
+        // values based on Heroku settings
         Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("livingtogether-chi") // should correspond to APP_ID env variable
+                .applicationId("livingtogether-chi")
                 .clientKey("qwewehskshds")  // set explicitly unless clientKey is explicitly configured on Parse server
                 .server("https://livingtogether-chi.herokuapp.com/parse").build());
 
         ParseFacebookUtils.initialize(this);
     }
-
 }

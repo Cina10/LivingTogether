@@ -1,4 +1,4 @@
-package com.livingtogether.activites;
+package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,11 +16,11 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class LoginActivity extends AppCompatActivity {
-
     public static final String TAG = "LoginActivity";
-    EditText etUsername;
-    EditText etPassword;
-    Button btLogin;
+
+    private EditText etUsername;
+    private EditText etPassword;
+    private Button btLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
 }
