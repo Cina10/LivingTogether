@@ -18,6 +18,7 @@ public class CustomUser extends ParseObject {
     public static final String KEY_PROFILE = "profilePhoto";
     public static final String KEY_NAME = "name";
     public static final String KEY_IS_FACEBOOK_USER = "isFacebookUser";
+    public static final String KEY_PHOTO_URL = "photoUrl";
     public static final String KEY_BALANCE = "balanceList";
     public static final String KEY_TODO = "toDoList";
 
@@ -43,6 +44,14 @@ public class CustomUser extends ParseObject {
 
     public void setName(String name) {
         put(KEY_NAME, name);
+    }
+
+    public String getPhotoUrl() {
+        return getString(KEY_PHOTO_URL);
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        put(KEY_PHOTO_URL, photoUrl);
     }
 
     public boolean getIsFacebookUser() {

@@ -2,6 +2,7 @@ package com.livingtogether;
 
 import android.content.Context;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivProfile;
-        private TextView tvHeader;
         private TextView tvTitle;
         private TextView tvBody;
         private ImageView ivMedia;
@@ -76,21 +76,22 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
         public void bind(Message message) {
             // If/else block so that if there is no body text, it doesn't show a blank line.
-            if (message.getBody() == null) {
+            if (message.getBody().equals("")) {
                 tvBody.setVisibility(View.GONE);
             } else {
                 tvBody.setVisibility(View.VISIBLE);
                 tvBody.setText(message.getBody());
             }
 
+
             if (message.getCustomUser().getProfilePhoto() != null) {
                 Glide.with(context)
                         .load(message.getCustomUser().getProfilePhoto().getUrl()).into(ivProfile);
             } else if(message.getCustomUser().getIsFacebookUser()) {
-                Profile profile = Profile.getCurrentProfile();
-                String pictureUrl = profile.getProfilePictureUri(300,300).toString();
                 Glide.with(context)
-                        .load(pictureUrl).into(ivProfile);
+                        .load(message.getCustomUser().getPhotoUrl()).into(ivProfile);
+            } else {
+                ivMedia.setImageResource(R.drawable.com_facebook_profile_picture_blank_portrait);
             }
 
             tvTime.setText(message.getRelativeTime());

@@ -2,8 +2,8 @@ package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
@@ -72,7 +72,10 @@ private SwipeRefreshLayout swipeContainer;
         adapter = new MessagesAdapter(this, allMessages);
 
         rvMessages.setAdapter(adapter);
-        rvMessages.setLayoutManager(new LinearLayoutManager(this));
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        //layoutManager.canScrollVertically();
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        rvMessages.setLayoutManager(layoutManager);
         queryMessages();
     }
 
@@ -113,7 +116,7 @@ private SwipeRefreshLayout swipeContainer;
             case R.id.actionGroupSettings:
                 // TODO go to group settings
                 return true;
-            case R.id.actionProfSettings:
+            case R.id.actionProfile:
                 // TODO go to profile settings
                 return true;
             case R.id.actionLogout:
