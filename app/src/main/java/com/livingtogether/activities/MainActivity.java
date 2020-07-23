@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import android.view.View;
 
 import com.livingtogether.MessagesAdapter;
 import com.livingtogether.fragments.MessageBoardFragment;
+import com.livingtogether.fragments.ProfileFragment;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.Message;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingbt;
     private Toolbar toolbar;
+
     private Fragment fragment;
 
 
@@ -42,9 +46,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = new MessageBoardFragment();;
-        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        fragment = new MessageBoardFragment();
+
+        ft.replace(R.id.flContainer, fragment);
+        ft.commit();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -68,14 +76,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+
         switch (item.getItemId()) {
             case R.id.actionGroupSettings:
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
                 return true;
+            case R.id.actionMessageBoard:
+                fragment = new MessageBoardFragment();
+                break;
             case R.id.actionProfile:
-                // TODO go to profile
-                return true;
+                fragment = new ProfileFragment();
+                break;
             case R.id.actionLogout:
                 ParseUser.logOut();
                 ParseUser currentUser = ParseUser.getCurrentUser();
@@ -87,5 +100,7 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+        return true;
     }
 }

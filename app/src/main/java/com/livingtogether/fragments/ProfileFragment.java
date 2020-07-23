@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.zxing.client.result.TextParsedResult;
 import com.livingtogether.livingtogether.R;
+import com.livingtogether.models.CustomUser;
 
 public class ProfileFragment extends Fragment {
     TextView tvName;
@@ -34,8 +36,22 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         tvName = view.findViewById(R.id.tvName);
-        tvGroup = view.findViewById(R.id.tvGroup);
+        CustomUser curUser = CustomUser.queryForCurUser();
+
         ivProfile = view.findViewById(R.id.ivProfile);
+        if (curUser.getProfilePhoto() != null) {
+            Glide.with(getContext())
+                    .load(curUser.getProfilePhoto().getUrl()).into(ivProfile);
+        } else if(curUser.getIsFacebookUser()) {
+            Glide.with(getContext())
+                    .load(curUser.getPhotoUrl()).into(ivProfile);
+        } else {
+            ivProfile.setImageResource(R.drawable.com_facebook_profile_picture_blank_portrait);
+        }
+
+        tvName.setText(curUser.getName());
+        tvGroup = view.findViewById(R.id.tvGroup);
+        // TODO insert group specific information
 
     }
 }

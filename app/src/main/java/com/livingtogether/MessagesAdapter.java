@@ -91,7 +91,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                 Glide.with(context)
                         .load(message.getCustomUser().getPhotoUrl()).into(ivProfile);
             } else {
-                ivMedia.setImageResource(R.drawable.com_facebook_profile_picture_blank_portrait);
+                Glide.with(context)
+                        .load(R.drawable.com_facebook_profile_picture_blank_portrait).into(ivProfile);
             }
 
             tvTime.setText(message.getRelativeTime());

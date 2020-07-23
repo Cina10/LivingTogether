@@ -19,6 +19,7 @@ public class CustomUser extends ParseObject {
     public static final String KEY_NAME = "name";
     public static final String KEY_IS_FACEBOOK_USER = "isFacebookUser";
     public static final String KEY_PHOTO_URL = "photoUrl";
+    public static final String KEY_CURRENT_GROUP = "curGroup";
     public static final String KEY_BALANCE = "balanceList";
     public static final String KEY_TODO = "toDoList";
 
@@ -61,6 +62,15 @@ public class CustomUser extends ParseObject {
     public void setIsFacebookUser(boolean isFacebookUser) {
         put(KEY_IS_FACEBOOK_USER, isFacebookUser);
     }
+
+    public ParseObject getCurGroup() {
+        return getParseObject(KEY_CURRENT_GROUP);
+    }
+
+    public void setCurrentGroup(ParseObject currentGroup) {
+        put(KEY_CURRENT_GROUP, currentGroup);
+    }
+
 
     // TODO create methods to access balance list and todo list and to modify them
     public static CustomUser queryForCurUser(){

@@ -5,6 +5,9 @@
         android:id="@+id/actionProfile"
         android:title="Profile" />
     <item
+        android:id="@+id/actionMessageBoard"
+        android:title=" Message Board" />
+    <item
         android:id="@+id/actionGroupSettings"
         android:title="Settings" />
     <item
