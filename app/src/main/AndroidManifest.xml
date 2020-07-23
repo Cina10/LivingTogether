@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.livingtogether.activities.AddPhotoActivity"></activity>
+        <activity android:name="com.livingtogether.activities.NewGroupActivity"></activity>
+        <activity android:name="com.livingtogether.activities.GroupSettingsActivity" />
+        <activity android:name="com.livingtogether.activities.AddPhotoActivity" />
         <activity android:name="com.livingtogether.activities.SetDisplayNameActivity" />
 
         <provider

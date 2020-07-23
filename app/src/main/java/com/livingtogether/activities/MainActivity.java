@@ -114,7 +114,7 @@ private SwipeRefreshLayout swipeContainer;
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionGroupSettings:
-                // TODO go to group settings
+                Intent i = new Intent()
                 return true;
             case R.id.actionProfile:
                 // TODO go to profile settings
