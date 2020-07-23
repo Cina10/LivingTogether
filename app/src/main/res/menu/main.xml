@@ -6,7 +6,7 @@
         android:title="Profile" />
     <item
         android:id="@+id/actionGroupSettings"
-        android:title="Group Settings" />
+        android:title="Settings" />
     <item
         android:id="@+id/actionLogout"
         android:title="Logout"

@@ -1,4 +1,4 @@
-package com.livingtogether;
+package com.livingtogether.fragments;
 
 import android.os.Bundle;
 

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.livingtogether.activities.NewGroupActivity"
     android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="25dp">
 
     <TextView
         android:id="@+id/tvAddGrouo"
@@ -53,13 +54,13 @@
         android:textSize="36sp" />
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@color/white"
         android:ems="10"
-        android:hint="username"
+        android:hint="Choose a Name"
         android:inputType="textPersonName"
         android:padding="15dp" />
 
@@ -75,4 +76,4 @@
         android:background="@color/colorAccent"
         android:text="Create New Group" />
 
-</>
+</LinearLayout>

@@ -6,6 +6,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 @ParseClassName("Group")
 public class Group extends ParseObject {
@@ -39,21 +40,15 @@ public class Group extends ParseObject {
         put(KEY_GROUP_NAME, groupName);
     }
 
-    public CustomUser[] getMembers() {
-        return (CustomUser[]) get(KEY_MEMBERS);
+    public ArrayList<CustomUser> getMembers() {
+        return (ArrayList<CustomUser>) get(KEY_MEMBERS);
     }
 
-    public void setMembers(CustomUser[] members) {
+    public void setMembers(ArrayList<CustomUser> members) {
         put(KEY_MEMBERS, members);
     };
 
     public void addMember(CustomUser member) {
-        int oldArrayLength = getMembers().length;
-        CustomUser[] newArray = new CustomUser[oldArrayLength+ 1];
-        for(int i = 0; i < oldArrayLength; i++) {
-            newArray[i] = getMembers()[i];
-        }
-        newArray[oldArrayLength] = member;
-        setMembers(newArray);
+        getMembers().add(member);
     }
 }
