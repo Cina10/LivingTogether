@@ -8,6 +8,7 @@ import com.parse.ParseObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @ParseClassName("Message")
 public class Message extends ParseObject {
@@ -19,9 +20,6 @@ public class Message extends ParseObject {
     public static final String CREATED_AT = "createdAt";
     public static final String KEY_TYPE = "messageType";
 
-    // Message types
-    public static final int ANNOUNCEMENT_TYPE = 0;
-
     //for time calculations
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
@@ -29,6 +27,9 @@ public class Message extends ParseObject {
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
     private static final int YEAR_MILLIS = 365 * DAY_MILLIS;
 
+    public enum MessageType {
+        ANNOUNCEMENT, TODO, PURCHASE, SHOPPING_LIST;
+    }
 
     // Getters and Setters
     public String getTitle() {
@@ -45,11 +46,11 @@ public class Message extends ParseObject {
         put(KEY_IMAGE, image);
     }
 
-    public int getType() {
-        return getInt(KEY_TYPE);
+    public String getType() {
+        return getString(KEY_TYPE);
     }
-    public void setType(int type) {
-        put(KEY_TYPE, type);
+    public void setType(String type) {
+        put(KEY_TYPE, MessageType.ANNOUNCEMENT.toString());
     }
 
     public CustomUser getCustomUser() {
@@ -93,6 +94,10 @@ public class Message extends ParseObject {
             return df.format(getCreatedAt());
         }
     }
+
+//    public static List<Message> queryForMessageType(MessageType type) {
+//
+//    }
 
 
 }

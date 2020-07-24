@@ -27,7 +27,7 @@ import java.io.IOException;
 
 public class AddPhotoActivity extends AppCompatActivity {
     public static final String TAG = "AddPhotoActivity";
-    public static final int GET_FROM_GALLERY = 42;
+    public static final int GET_FROM_GALLERY_REQUEST_CODE = 42;
 
     private FloatingActionButton floatingbt;
     private Button btUpload;
@@ -65,13 +65,13 @@ public class AddPhotoActivity extends AppCompatActivity {
     }
 
     private void uploadPhoto() {
-        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GET_FROM_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri imageUri = data.getData();
             Bitmap bitmap = null;
             try {

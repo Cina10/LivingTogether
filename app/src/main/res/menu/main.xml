@@ -8,7 +8,7 @@
         android:id="@+id/actionMessageBoard"
         android:title=" Message Board" />
     <item
-        android:id="@+id/actionGroupSettings"
+        android:id="@+id/actionSettings"
         android:title="Settings" />
     <item
         android:id="@+id/actionLogout"

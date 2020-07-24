@@ -1,15 +1,16 @@
 package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.google.android.material.card.MaterialCardView;
 import com.livingtogether.livingtogether.R;
 
 
@@ -19,8 +20,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     ImageView curGroupArrow;
     ImageView allGroupsArrow;
-    MaterialCardView curGroupBt;
-    MaterialCardView allGroupsBt;
+    CardView curGroupBt;
+    CardView allGroupsBt;
     LinearLayout groupSettingsWrapper;
     LinearLayout allGroupsWrapper;
     Button btAddGroup;
@@ -30,7 +31,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
         curGroupArrow = findViewById(R.id.curGroupArrow);
         allGroupsArrow = findViewById(R.id.allGroupsArrow);
         groupSettingsWrapper = findViewById(R.id.groupSettingWrapper);

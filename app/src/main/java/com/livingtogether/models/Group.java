@@ -20,7 +20,7 @@ public class Group extends ParseObject {
         return getParseUser(KEY_ADMIN);
     }
 
-    public void setParseUser(CustomUser admin) {
+    public void setAdmin(CustomUser admin) {
         put(KEY_ADMIN, admin);
     }
 
@@ -50,5 +50,9 @@ public class Group extends ParseObject {
 
     public void addMember(CustomUser member) {
         getMembers().add(member);
+    }
+
+    public void queryForGroup(String string) {
+
     }
 }

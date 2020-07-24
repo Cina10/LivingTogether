@@ -79,8 +79,9 @@ public class MainActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
         switch (item.getItemId()) {
-            case R.id.actionGroupSettings:
+            case R.id.actionSettings:
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                Log.i(TAG, "1");
                 startActivity(i);
                 return true;
             case R.id.actionMessageBoard:
@@ -93,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 ParseUser.logOut();
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 if (currentUser == null) {
-                    i = new Intent(MainActivity.this, LaunchActivity.class);
-                    startActivity(i);
+                    Intent j = new Intent(MainActivity.this, LaunchActivity.class);
+                    startActivity(j);
                 }
                 return true;
             default:

@@ -97,7 +97,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
             tvTime.setText(message.getRelativeTime());
 
-            if (message.getType() == Message.ANNOUNCEMENT_TYPE) {
+            if (message.getType().equals(Message.MessageType.ANNOUNCEMENT.toString())) {
                 bindAnnouncement(message);
             }
         }

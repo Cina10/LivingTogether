@@ -9,6 +9,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @ParseClassName("CustomUser")
@@ -20,6 +23,7 @@ public class CustomUser extends ParseObject {
     public static final String KEY_IS_FACEBOOK_USER = "isFacebookUser";
     public static final String KEY_PHOTO_URL = "photoUrl";
     public static final String KEY_CURRENT_GROUP = "curGroup";
+    public static final String KEY_GROUP_LIST = "groups";
     public static final String KEY_BALANCE = "balanceList";
     public static final String KEY_TODO = "toDoList";
 
@@ -69,6 +73,21 @@ public class CustomUser extends ParseObject {
 
     public void setCurrentGroup(ParseObject currentGroup) {
         put(KEY_CURRENT_GROUP, currentGroup);
+    }
+
+    public ArrayList<Group> getGroups() {
+        JSONArray groups = getJSONArray(KEY_GROUP_LIST);
+        ArrayList<Group> ret = new ArrayList<>();
+        if (groups != null) {
+            for (int i = 0; i < groups.length(); i++) {
+
+            }
+        }
+        return ret;
+    }
+
+    public void addGroup(Group group) {
+        add(KEY_CURRENT_GROUP, group);
     }
 
 

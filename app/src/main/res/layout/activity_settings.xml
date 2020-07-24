@@ -44,6 +44,7 @@
                 android:id="@+id/profileArrow"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
                 android:layout_gravity="center_vertical|end"
                 android:src="@drawable/ic_action_foward" />
         </androidx.cardview.widget.CardView>
@@ -68,6 +69,7 @@
                 android:id="@+id/curGroupArrow"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
                 android:layout_gravity="center_vertical|end"
                 android:src="@drawable/ic_action_foward" />
         </androidx.cardview.widget.CardView>
@@ -76,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -118,9 +120,10 @@
             <ImageView
                 android:id="@+id/allGroupsArrow"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:src="@drawable/ic_action_foward"/>
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_action_foward" />
         </androidx.cardview.widget.CardView>
 
     <LinearLayout
@@ -128,7 +131,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/allGroupsWrapper"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

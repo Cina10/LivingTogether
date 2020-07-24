@@ -12,12 +12,22 @@
         android:id="@+id/tvAddGrouo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:fontFamily="sans-serif-medium"
         android:text="Add Group"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/white"
         android:textSize="36sp" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:hint="Group Name"
+        android:inputType="textPersonName"
+        android:padding="15dp" />
 
     <EditText
         android:id="@+id/etGroupCode"
@@ -31,7 +41,7 @@
         android:padding="15dp" />
 
     <Button
-        android:id="@+id/btAdd"
+        android:id="@+id/btJoinGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -40,32 +50,10 @@
         android:paddingLeft="40dp"
         android:layout_gravity="right"
         android:background="@color/colorAccent"
-        android:text="Add Group" />
-
-    <TextView
-        android:id="@+id/tvCreateGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Create Group"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/white"
-        android:textSize="36sp" />
-
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@color/white"
-        android:ems="10"
-        android:hint="Choose a Name"
-        android:inputType="textPersonName"
-        android:padding="15dp" />
+        android:text="Join Group" />
 
     <Button
-        android:id="@+id/btSubmitCreate"
+        android:id="@+id/btCreateGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"

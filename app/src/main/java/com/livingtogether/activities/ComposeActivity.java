@@ -168,7 +168,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             message.setBody(body);
             CustomUser curUser = CustomUser.queryForCurUser();
             message.setCustomUser(curUser);
-            message.setType(Message.ANNOUNCEMENT_TYPE);
+            message.setType(Message.MessageType.ANNOUNCEMENT.toString());
+            // TODO set linked group
             if (preview != null)
                 message.setImage(new ParseFile(photoFile));
             message.saveInBackground(new SaveCallback() {
