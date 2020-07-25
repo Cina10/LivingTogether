@@ -32,8 +32,7 @@ public class MessageBoardFragment extends Fragment {
     private List<Message> allMessages;
     private SwipeRefreshLayout swipeContainer;
 
-    public MessageBoardFragment() {
-    }
+    public MessageBoardFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
