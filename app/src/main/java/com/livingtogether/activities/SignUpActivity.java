@@ -58,7 +58,6 @@ public class SignUpActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     login(username,password);
-
                 } else {
                     Toast.makeText(SignUpActivity.this, "Sorry, there was an issue with signing up", Toast.LENGTH_SHORT).show();
                 }
@@ -74,11 +73,11 @@ public class SignUpActivity extends AppCompatActivity {
                 customUser.setParseUser(user);
                 customUser.setName(user.getUsername());
                 customUser.saveInBackground();
+
                 Intent i = new Intent(SignUpActivity.this, SetDisplayNameActivity.class);
-                i.putExtra(SetDisplayNameActivity.NEXT_ACTIVITY, SetDisplayNameActivity.CREATE_PROFILE);
+                i.putExtra(SetDisplayNameActivity.NEXT_ACTIVITY, SetDisplayNameActivity.CREATE_PROFILE_ACTION_CODE);
                 startActivity(i);
                 finish();
-
             }
         });
     }

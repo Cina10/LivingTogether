@@ -88,32 +88,6 @@ public class AddPhotoActivity extends AppCompatActivity {
         }
     }
 
-//    private void resize(Bitmap bitmap) {
-//        Bitmap resizedBitmap = ComposeActivity.scaleToFitWidth(bitmap, 1500);
-//
-//        // Configure byte output stream
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        // Compress the image further
-//        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-//        // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
-//        File resizedFile = getPhotoFileUri("resized_" + photoFileName);
-//        try {
-//            resizedFile.createNewFile();
-//            FileOutputStream fos = new FileOutputStream(resizedFile);
-//            // Write the bytes of the bitmap to file
-//            fos.write(bytes.toByteArray());
-//            fos.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        photoFile = resizedFile;
-//
-//        ivProfile.setImageBitmap(resizedBitmap);
-//        Toast.makeText(this, "Image View", Toast.LENGTH_SHORT).show();
-//        ivProfile.setVisibility(View.VISIBLE);
-//    }
 
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {

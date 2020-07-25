@@ -12,22 +12,20 @@ import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 
 public class SetDisplayNameActivity extends AppCompatActivity {
-    // This code determines which activity is launched after this one
-    public static final int CREATE_PROFILE = 0;
-    public static final int EDIT_PROFILE = 1;
+    public static final int CREATE_PROFILE_ACTION_CODE = 0;
+    public static final int EDIT_PROFILE_ACTION_CODE = 1;
     public static final String NEXT_ACTIVITY = "nextActivity";
-    FloatingActionButton fab;
+    FloatingActionButton floatingBt;
     EditText etName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_display_name);
-
-        fab = findViewById(R.id.fab);
+        floatingBt = findViewById(R.id.fab);
         etName = findViewById(R.id.etName);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        floatingBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CustomUser curUser = CustomUser.queryForCurUser();
@@ -37,15 +35,13 @@ public class SetDisplayNameActivity extends AppCompatActivity {
                 Bundle extras = getIntent().getExtras();
                 if (extras != null) {
                     int nextActivity = extras.getInt(NEXT_ACTIVITY);
-                    if (nextActivity == CREATE_PROFILE) {
+                    if (nextActivity == CREATE_PROFILE_ACTION_CODE) {
                         Intent i = new Intent(SetDisplayNameActivity.this, AddPhotoActivity.class);
                         startActivity(i);
                     }
                     // TODO for edit display name once signed in
-
                 }
             }
         });
-
     }
 }

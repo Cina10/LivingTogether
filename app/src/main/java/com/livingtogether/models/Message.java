@@ -17,11 +17,10 @@ public class Message extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_CUSTOM_USER = "customUser";
     public static final String KEY_BODY = "body";
-    public static final String CREATED_AT = "createdAt";
     public static final String KEY_TYPE = "messageType";
     public static final String KEY_QUANTITY = "quantity";
 
-    //for time calculations
+    // For time calculations
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
@@ -35,39 +34,51 @@ public class Message extends ParseObject {
     public String getTitle() {
         return getString(KEY_TITLE);
     }
+
     public void setTitle(String title) {
         put(KEY_TITLE, title);
     }
+
     public ParseFile getImage() {
         return getParseFile(KEY_IMAGE);
     }
+
     public void setImage(ParseFile image) {
         put(KEY_IMAGE, image);
     }
+
     public String getType() {
         return getString(KEY_TYPE);
     }
+
     public void setType(String type) {
         put(KEY_TYPE, type);
     }
+
     public CustomUser getCustomUser() {
         return (CustomUser) get(KEY_CUSTOM_USER);
     }
+
     public void setCustomUser(CustomUser user) {
         put(KEY_CUSTOM_USER, user);
     }
+
     public String getBody() {
         return getString(KEY_BODY);
     }
+
     public void setBody(String body) {
         put(KEY_BODY, body);
     }
+
     public int getQuantity() {
         return getInt(KEY_QUANTITY);
     }
+
     public void setQuantity(int quantity) {
         super.put(KEY_QUANTITY, quantity);
     }
+
     public void incrementQuantity(Message message) {
         int newQuantity = getQuantity() + 1;
         super.put(KEY_QUANTITY, newQuantity);
@@ -75,7 +86,6 @@ public class Message extends ParseObject {
 
     public String getRelativeTime() {
         long time = getCreatedAt().getTime();
-        Log.i(TAG, "time: " + time);
         long now = System.currentTimeMillis();
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {
@@ -100,6 +110,4 @@ public class Message extends ParseObject {
             return df.format(getCreatedAt());
         }
     }
-
- // TODO query for message type
 }

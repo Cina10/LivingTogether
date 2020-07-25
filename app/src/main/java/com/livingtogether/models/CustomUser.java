@@ -24,8 +24,7 @@ public class CustomUser extends ParseObject {
     public static final String KEY_PHOTO_URL = "photoUrl";
     public static final String KEY_CURRENT_GROUP = "curGroup";
     public static final String KEY_GROUP_LIST = "groups";
-    public static final String KEY_BALANCE = "balanceList";
-    public static final String KEY_TODO = "toDoList";
+    // TODO create methods to access balance list and todo list and to modify them
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -80,7 +79,7 @@ public class CustomUser extends ParseObject {
         ArrayList<Group> ret = new ArrayList<>();
         if (groups != null) {
             for (int i = 0; i < groups.length(); i++) {
-
+                //retrieve groups pointers
             }
         }
         return ret;
@@ -90,12 +89,10 @@ public class CustomUser extends ParseObject {
         add(KEY_CURRENT_GROUP, group);
     }
 
-
-    // TODO create methods to access balance list and todo list and to modify them
     public static CustomUser queryForCurUser(){
         ParseQuery query = ParseQuery.getQuery(CustomUser.class);
-
         query.whereEqualTo(CustomUser.KEY_USER, ParseUser.getCurrentUser());
+
         try {
             List<CustomUser> curUser = query.find();
             Log.i(TAG, curUser.get(0).getName());
@@ -105,5 +102,4 @@ public class CustomUser extends ParseObject {
             return null;
         }
     }
-
 }

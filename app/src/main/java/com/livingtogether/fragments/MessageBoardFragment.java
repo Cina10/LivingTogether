@@ -25,6 +25,7 @@ import java.util.List;
 
 public class MessageBoardFragment extends Fragment {
     public static final String TAG = "MessageBoardFragment";
+    public static final String CREATED_AT = "createdAt";
 
     private RecyclerView rvMessages;
     private MessagesAdapter adapter;
@@ -37,7 +38,6 @@ public class MessageBoardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_message_board, container, false);
     }
 
@@ -64,7 +64,6 @@ public class MessageBoardFragment extends Fragment {
 
         rvMessages.setAdapter(adapter);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        //layoutManager.canScrollVertically();
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         rvMessages.setLayoutManager(layoutManager);
         queryMessages();
@@ -72,10 +71,9 @@ public class MessageBoardFragment extends Fragment {
 
     private void queryMessages() {
         ParseQuery query = ParseQuery.getQuery(Message.class);
-        //query.setLimit(20);
         query.include(Message.KEY_CUSTOM_USER);
         query.setLimit(20);
-        query.addDescendingOrder(Message.CREATED_AT);
+        query.addDescendingOrder(CREATED_AT);
         query.findInBackground(new FindCallback<Message>() {
             @Override
             public void done(List<Message> messages, ParseException e) {
