@@ -37,12 +37,12 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     public static final String TAG = "ComposeActivity";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 12;
 
-    private EditText etTitle;
-    private EditText etBody;
+    protected EditText etTitle;
+    protected EditText etBody;
     private ImageView ivPreview;
-    private Button btUpload;
-    private Button btTakePicture;
-    private Button btSubmit;
+    protected Button btUpload;
+    protected Button btTakePicture;
+    protected Button btSubmit;
 
     // For launch camera
     private File photoFile;
@@ -70,7 +70,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btSubmit:
                 // TODO show preview first?
                 submit();
-                finish();
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
                 break;
             case R.id.btTakePicture:
                 launchCamera();

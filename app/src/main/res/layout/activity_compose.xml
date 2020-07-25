@@ -1,66 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@color/composeColor"
+    android:orientation="vertical"
     android:padding="20dp">
 
     <TextView
+        android:id="@+id/tvPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Announcement"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp"
-        android:layout_marginBottom="10dp"/>
+        android:textSize="24sp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etTitleWrapper"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:background="@color/white"
-        android:textColorHint="@color/colorAccent"
-        app:boxStrokeColor="@color/colorAccent">
 
     <EditText
         android:id="@+id/etTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:ems="10"
+        android:padding="10dp"
+        android:background="@color/white"
         android:gravity="start|top"
-        android:hint="Title"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        android:hint="Title"
+        android:textColorHint="@color/colorAccent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etComposeWrapper"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+    <EditText
+        android:id="@+id/etBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
         android:background="@color/white"
+        android:gravity="start|top"
+        android:hint="What's your announcement?"
+        android:inputType="textMultiLine"
+        android:minLines="5"
         android:textColorHint="@color/colorAccent"
-        app:boxStrokeColor="@color/colorAccent"
-        android:layout_marginTop="10dp">
-
-
-
-        <EditText
-            android:id="@+id/etBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="What's your announcement?"
-            android:inputType="textMultiLine"
-            android:minLines="5" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:boxStrokeColor="@color/colorAccent" />
 
     <ImageView
         android:id="@+id/ivPreview"
@@ -68,8 +50,8 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        tools:srcCompat="@tools:sample/avatars"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -84,10 +66,10 @@
             android:text="Take a Photo" />
 
         <Button
-        android:id="@+id/btUpload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upload an Image" />
+            android:id="@+id/btUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload an Image" />
 
     </RelativeLayout>
 

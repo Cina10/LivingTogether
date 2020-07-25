@@ -19,6 +19,7 @@ public class Message extends ParseObject {
     public static final String KEY_BODY = "body";
     public static final String CREATED_AT = "createdAt";
     public static final String KEY_TYPE = "messageType";
+    public static final String KEY_QUANTITY = "quantity";
 
     //for time calculations
     private static final int SECOND_MILLIS = 1000;
@@ -28,31 +29,27 @@ public class Message extends ParseObject {
     private static final int YEAR_MILLIS = 365 * DAY_MILLIS;
 
     public enum MessageType {
-        ANNOUNCEMENT, TODO, PURCHASE, SHOPPING_LIST;
+        ANNOUNCEMENT, TODO, PURCHASE, SHOPPING_LIST_ITEM;
     }
 
-    // Getters and Setters
     public String getTitle() {
         return getString(KEY_TITLE);
     }
     public void setTitle(String title) {
         put(KEY_TITLE, title);
     }
-
     public ParseFile getImage() {
         return getParseFile(KEY_IMAGE);
     }
     public void setImage(ParseFile image) {
         put(KEY_IMAGE, image);
     }
-
     public String getType() {
         return getString(KEY_TYPE);
     }
     public void setType(String type) {
-        put(KEY_TYPE, MessageType.ANNOUNCEMENT.toString());
+        put(KEY_TYPE, type);
     }
-
     public CustomUser getCustomUser() {
         return (CustomUser) get(KEY_CUSTOM_USER);
     }
@@ -65,8 +62,17 @@ public class Message extends ParseObject {
     public void setBody(String body) {
         put(KEY_BODY, body);
     }
+    public int getQuantity() {
+        return getInt(KEY_QUANTITY);
+    }
+    public void setQuantity(int quantity) {
+        super.put(KEY_QUANTITY, quantity);
+    }
+    public void incrementQuantity(Message message) {
+        int newQuantity = getQuantity() + 1;
+        super.put(KEY_QUANTITY, newQuantity);
+    }
 
-    // Time Calculation
     public String getRelativeTime() {
         long time = getCreatedAt().getTime();
         Log.i(TAG, "time: " + time);
@@ -95,9 +101,5 @@ public class Message extends ParseObject {
         }
     }
 
-//    public static List<Message> queryForMessageType(MessageType type) {
-//
-//    }
-
-
+ // TODO query for message type
 }

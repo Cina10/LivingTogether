@@ -1,6 +1,7 @@
 package com.livingtogether;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import com.facebook.Profile;
+import com.google.android.material.card.MaterialCardView;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.Message;
 
@@ -64,6 +67,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         private TextView tvBody;
         private ImageView ivMedia;
         private TextView tvTime;
+        private MaterialCardView card;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +76,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             tvBody = itemView.findViewById(R.id.tvBody);
             ivMedia = itemView.findViewById(R.id.ivMedia);
             tvTime = itemView.findViewById(R.id.tvTime);
+            card = itemView.findViewById(R.id.card);
         }
 
         public void bind(Message message) {
@@ -99,10 +104,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
             if (message.getType().equals(Message.MessageType.ANNOUNCEMENT.toString())) {
                 bindAnnouncement(message);
-            }
+            } else if (message.getType().equals(Message.MessageType.SHOPPING_LIST_ITEM.toString()))
+                bindShoppingListItem(message);
         }
 
         private void bindAnnouncement(Message message) {
+            card.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
             String title = message.getCustomUser().getName() + ": ";
             if (message.getTitle() != null) {
                 title = title + message.getTitle();
@@ -118,6 +125,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                         .into(ivMedia);
                 ivMedia.setVisibility(View.VISIBLE);
             }
+
+        }
+        private void bindShoppingListItem(Message message) {
+            card.setBackgroundColor(ContextCompat.getColor(context, R.color.shoppingList));
+            ivMedia.setVisibility(View.GONE);
+            String title = message.getTitle() + " added to the shopping list" ;
+            tvTitle.setText(title);
         }
     }
 }

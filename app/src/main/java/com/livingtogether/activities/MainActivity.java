@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         floatingbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ComposeActivity.class);
+                Intent i = new Intent(MainActivity.this, ComposeOptionsActivity.class);
                 startActivity(i);
             }
         });
