@@ -44,12 +44,9 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
 
     }
 
-    @SuppressLint("LongLogTag")
     private void submit() {
-        Log.i(TAG,"Submit pressed");
         String title = etTitle.getText().toString();
         String body = etBody.getText().toString();
-        Log.i(TAG,"0");
         if (title.isEmpty()) {
             Toast.makeText(this, "No item entered!", Toast.LENGTH_SHORT).show();
         } else {

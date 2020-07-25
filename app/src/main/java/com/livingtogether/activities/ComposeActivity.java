@@ -84,6 +84,38 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
+                Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
+                Bitmap resizedBitmap = scaleToFitWidth(rawTakenImage, 1500);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                File resizedFile = getPhotoFileUri("resized_" + photoFileName);
+                try {
+                    resizedFile.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(resizedFile);
+                    fos.write(bytes.toByteArray());
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                photoFile = resizedFile;
+
+                ivPreview.setImageBitmap(resizedBitmap);
+                ivPreview.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName);
@@ -117,39 +149,6 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
 
         return file;
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
-                Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
-                Bitmap resizedBitmap = scaleToFitWidth(rawTakenImage, 1500);
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                File resizedFile = getPhotoFileUri("resized_" + photoFileName);
-                try {
-                    resizedFile.createNewFile();
-                    FileOutputStream fos = new FileOutputStream(resizedFile);
-                    fos.write(bytes.toByteArray());
-                    fos.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                photoFile = resizedFile;
-
-                ivPreview.setImageBitmap(resizedBitmap);
-                ivPreview.setVisibility(View.VISIBLE);
-            } else {
-                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     public static Bitmap scaleToFitWidth(Bitmap b, int width) {

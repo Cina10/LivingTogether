@@ -64,10 +64,6 @@ public class AddPhotoActivity extends AppCompatActivity {
         ivProfile = findViewById(R.id.ivProfile);
     }
 
-    private void uploadPhoto() {
-        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY_REQUEST_CODE);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -88,6 +84,9 @@ public class AddPhotoActivity extends AppCompatActivity {
         }
     }
 
+    private void uploadPhoto() {
+        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY_REQUEST_CODE);
+    }
 
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {

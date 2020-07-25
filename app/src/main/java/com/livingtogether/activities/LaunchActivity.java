@@ -84,18 +84,6 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void goLoginActivity() {
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-        // TODO make for result to finish() once you finish login activity
-    }
-
-    private void goSignupActivity() {
-        Intent i = new Intent(this, SignUpActivity.class);
-        startActivity(i);
-        // TODO make for result to finish() once you finish login activity
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,7 +105,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                     Log.i(TAG, "The user cancelled the Facebook login.");
                 } else if (parseUser.isNew()) {
                     Log.i(TAG, "User signed up and logged in through Facebook!");
-                    signUpFBUser();
+                    signUpFB();
 
                 } else {
                     Log.i(TAG, "User logged in through Facebook!");
@@ -127,13 +115,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    private void goMainActivity() {
-        Intent i = new Intent(LaunchActivity.this, MainActivity.class);
-        startActivity(i);
-        finish();
-    }
-
-    private void signUpFBUser() {
+    private void signUpFB() {
         Toast.makeText(LaunchActivity.this, "New Account Created", Toast.LENGTH_SHORT).show();
         CustomUser customUser = new CustomUser();
         Profile profile = Profile.getCurrentProfile();
@@ -150,4 +132,24 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
             Log.e(TAG, "Error retrieving Facebook profile");
         }
     }
+
+    private void goMainActivity() {
+        Intent i = new Intent(LaunchActivity.this, MainActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    private void goLoginActivity() {
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+        // TODO make for result to finish() once you finish login activity
+    }
+
+    private void goSignupActivity() {
+        Intent i = new Intent(this, SignUpActivity.class);
+        startActivity(i);
+        // TODO make for result to finish() once you finish login activity
+    }
+
+
 }
