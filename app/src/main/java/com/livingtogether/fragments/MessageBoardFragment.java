@@ -2,23 +2,30 @@ package com.livingtogether.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.livingtogether.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
+import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Message;
+import com.livingtogether.models.PinnedMessages;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +38,8 @@ public class MessageBoardFragment extends Fragment {
     private MessagesAdapter adapter;
     private List<Message> allMessages;
     private SwipeRefreshLayout swipeContainer;
+    private AlertDialog alertDialog;
+    private AlertDialog.Builder builder;
 
     public MessageBoardFragment() { }
 
@@ -55,11 +64,24 @@ public class MessageBoardFragment extends Fragment {
                 getResources().getColor(R.color.colorAccent),
                 getResources().getColor(R.color.composeColor));
 
-
+        builder =  new AlertDialog.Builder(getContext());
 
         rvMessages = view.findViewById(R.id.rvMessages);
         allMessages = new ArrayList<>();
         adapter = new MessagesAdapter(getContext(), allMessages);
+        adapter.setOnItemLongClickListener(new MessagesAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View itemView, int position) {
+                pinDialogue(position);
+            }
+        });
+        adapter.setOnItemClickListener(new MessagesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                // TODO also set onClick to bring to details view
+                // must keep as place holder so it doesn't crash
+            }
+        });
 
         rvMessages.setAdapter(adapter);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
@@ -67,6 +89,40 @@ public class MessageBoardFragment extends Fragment {
         rvMessages.setLayoutManager(layoutManager);
         queryMessages();
     }
+
+    private void pinDialogue(final int position) {
+        builder.setTitle("Save this message?");
+        builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                PinnedMessages pinned = new PinnedMessages();
+                Message message = allMessages.get(position);
+                pinned.setMessage(message);
+                pinned.setCustomUser(CustomUser.queryForCurUser());
+                pinned.setType(message.getType());
+                pinned.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null) {
+                            // TODO replace toast with snackbar
+                            Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e(TAG, "Error saving pinned message", e);
+                        }
+                    }
+                });
+            }
+        });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                return;
+            }
+        });
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
     private void queryMessages() {
         ParseQuery query = ParseQuery.getQuery(Message.class);

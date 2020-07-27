@@ -31,8 +31,6 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
             @Override
             public void onClick(View view) {
                 submit();
-                Intent i = new Intent(ShoppingItemComposeActivity.this, MainActivity.class);
-                startActivity(i);
             }
         });
 
@@ -60,6 +58,8 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
             item.saveInBackground();
             etBody.setText("");
             etTitle.setText("");
+            Intent i = new Intent(ShoppingItemComposeActivity.this, MainActivity.class);
+            startActivity(i);
         }
     }
 }

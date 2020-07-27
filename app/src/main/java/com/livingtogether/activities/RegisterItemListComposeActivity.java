@@ -48,6 +48,17 @@ public class RegisterItemListComposeActivity extends AppCompatActivity {
             }
         });
 
+        // Necessary to setOnItemLongClick to prevent crashing because MessageBoard uses it
+        adapter.setOnItemLongClickListener(new MessagesAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View itemView, int position) {
+                Message message = allItems.get(position);
+                Intent intent = new Intent(RegisterItemListComposeActivity.this, ReceiptComposeActivity.class);
+                intent.putExtra(Message.class.getSimpleName(), Parcels.wrap(message));
+                startActivity(intent);
+            }
+        });
+
         rvShoppingList.setAdapter(adapter);
         rvShoppingList.setLayoutManager(new LinearLayoutManager(this));
 

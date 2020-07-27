@@ -53,8 +53,6 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
             case R.id.btSubmit:
                 // TODO show preview first?
                 submit();
-                Intent i = new Intent(this, MainActivity.class);
-                startActivity(i);
                 break;
             case R.id.btTakePicture:
                 launchCamera();
@@ -74,6 +72,7 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
         Drawable preview = ivPreview.getDrawable();
         if (preview == null) {
             Toast.makeText(this, "Please submit a receipt!", Toast.LENGTH_SHORT).show();
+            return;
         } else {
             CustomUser curUser = CustomUser.queryForCurUser();
             if (itemMessage.getCustomUser() != curUser) {
@@ -82,22 +81,26 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
                 curUser.addLent(cost);
                 curUser.saveInBackground();
                 body += itemMessage.getCustomUser().getName() + " was charged.";
-            }
-            Message message = new Message();
-            message.setTitle(title);
-            message.setBody(body);
-            message.setCustomUser(curUser);
-            message.setType(Message.MessageType.PURCHASE.toString());
-            message.setImage(new ParseFile(photoFile));
-            message.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e != null) {
-                        Log.e(TAG, "Error while saving", e);
-                        Toast.makeText(ReceiptComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+
+                Message message = new Message();
+                message.setTitle(title);
+                message.setBody(body);
+                message.setCustomUser(curUser);
+                message.setType(Message.MessageType.PURCHASE.toString());
+                message.setImage(new ParseFile(photoFile));
+                itemMessage.deleteInBackground();
+                message.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Error while saving", e);
+                            Toast.makeText(ReceiptComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
+                });
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
         }
     }
 }

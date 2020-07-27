@@ -10,6 +10,7 @@ import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Group;
 import com.livingtogether.models.Message;
 
+import com.livingtogether.models.PinnedMessages;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.facebook.ParseFacebookUtils;
@@ -24,6 +25,7 @@ public class LivingApplication extends Application {
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(CustomUser.class);
         ParseObject.registerSubclass(Group.class);
+        ParseObject.registerSubclass(PinnedMessages.class);
 
         // values based on Heroku settings
         Parse.initialize(new Parse.Configuration.Builder(this)

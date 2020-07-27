@@ -70,8 +70,6 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btSubmit:
                 // TODO show preview first?
                 submit();
-                Intent i = new Intent(this, MainActivity.class);
-                startActivity(i);
                 break;
             case R.id.btTakePicture:
                 launchCamera();
@@ -187,7 +185,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 }
             });
-
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
         }
     }
 

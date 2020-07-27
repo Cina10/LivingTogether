@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,10 +26,15 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     Context context;
     List<Message> messages;
     private OnItemClickListener listener;
+    private OnItemLongClickListener longClickListener;
 
     // Define the listener interface
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
+    }
+
+    public interface OnItemLongClickListener {
+        void onItemLongClick(View itemView, int position);
     }
 
     public MessagesAdapter(Context context, List<Message> messages) {
@@ -39,7 +46,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_message, parent, false);
-        return new ViewHolder(view, listener);
+        return new ViewHolder(view, listener, longClickListener);
     }
 
     @Override
@@ -55,6 +62,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
     }
 
     public void clear() {
@@ -75,7 +86,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         private TextView tvTime;
         private MaterialCardView card;
 
-        public ViewHolder(@NonNull final View itemView, final OnItemClickListener clickListener) {
+        public ViewHolder(@NonNull final View itemView, final OnItemClickListener clickListener, final OnItemLongClickListener longClickListener) {
             super(itemView);
             ivProfile = itemView.findViewById(R.id.ivProfile);
             tvTitle = itemView.findViewById(R.id.tvTitle);
@@ -88,6 +99,14 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     clickListener.onItemClick(itemView, getAdapterPosition());
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    longClickListener.onItemLongClick(itemView, getAdapterPosition());
+                    return true;
                 }
             });
         }
