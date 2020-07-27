@@ -3,8 +3,10 @@ package com.livingtogether.models;
 import android.util.Log;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -109,5 +111,18 @@ public class Message extends ParseObject {
             DateFormat df = new SimpleDateFormat("MMMM dd, YYYY");
             return df.format(getCreatedAt());
         }
+    }
+
+    public static List<Message> queryForMessageType(MessageType type) {
+        ParseQuery query = ParseQuery.getQuery(Message.class);
+        query.whereEqualTo(Message.KEY_TYPE, type.toString());
+        try {
+            List<Message> messages = query.find();
+            return messages;
+        } catch (ParseException e) {
+            Log.e(TAG, "Issue with queryForMessageType()", e);
+            return null;
+        }
+
     }
 }

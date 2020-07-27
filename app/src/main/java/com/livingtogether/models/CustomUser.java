@@ -20,6 +20,8 @@ public class CustomUser extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_PROFILE = "profilePhoto";
     public static final String KEY_NAME = "name";
+    public static final String KEY_OWED = "owed";
+    public static final String KEY_LENT = "lent";
     public static final String KEY_IS_FACEBOOK_USER = "isFacebookUser";
     public static final String KEY_PHOTO_URL = "photoUrl";
     public static final String KEY_CURRENT_GROUP = "curGroup";
@@ -72,6 +74,34 @@ public class CustomUser extends ParseObject {
 
     public void setCurrentGroup(ParseObject currentGroup) {
         put(KEY_CURRENT_GROUP, currentGroup);
+    }
+
+    public Double getOwed() {
+        return getDouble(KEY_OWED);
+    }
+
+    public void addOwed(Double cost) {
+        double newOwed = cost + getOwed();
+        put(KEY_OWED, newOwed);
+    }
+
+    public void subtractOwed(Double payed) {
+        double newOwed = getOwed() - payed;
+        put(KEY_OWED, newOwed);
+    }
+
+    public Double getLent() {
+        return getDouble(KEY_LENT);
+    }
+
+    public void addLent(Double cost) {
+        double newLent = cost + getLent();
+        put(KEY_LENT, newLent);
+    }
+
+    public void subtractLent(Double payed) {
+        double newLent = getLent() - payed;
+        put(KEY_LENT, newLent);
     }
 
     public ArrayList<Group> getGroups() {

@@ -1,9 +1,6 @@
 package com.livingtogether;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import com.facebook.Profile;
 import com.google.android.material.card.MaterialCardView;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.Message;
@@ -27,6 +23,12 @@ import java.util.List;
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHolder> {
     Context context;
     List<Message> messages;
+    private OnItemClickListener listener;
+
+    // Define the listener interface
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
 
     public MessagesAdapter(Context context, List<Message> messages) {
         this.context = context;
@@ -37,7 +39,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_message, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, listener);
     }
 
     @Override
@@ -49,6 +51,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public int getItemCount() {
         return messages.size();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     public void clear() {
@@ -69,7 +75,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         private TextView tvTime;
         private MaterialCardView card;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView, final OnItemClickListener clickListener) {
             super(itemView);
             ivProfile = itemView.findViewById(R.id.ivProfile);
             tvTitle = itemView.findViewById(R.id.tvTitle);
@@ -77,7 +83,16 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             ivMedia = itemView.findViewById(R.id.ivMedia);
             tvTime = itemView.findViewById(R.id.tvTime);
             card = itemView.findViewById(R.id.card);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(itemView, getAdapterPosition());
+                }
+            });
         }
+
+
 
         public void bind(Message message) {
             // If/else block so that if there is no body text, it doesn't show a blank line.
@@ -92,7 +107,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             if (message.getCustomUser().getProfilePhoto() != null) {
                 Glide.with(context)
                         .load(message.getCustomUser().getProfilePhoto().getUrl()).into(ivProfile);
-            } else if(message.getCustomUser().getIsFacebookUser()) {
+            } else if (message.getCustomUser().getIsFacebookUser()) {
                 Glide.with(context)
                         .load(message.getCustomUser().getPhotoUrl()).into(ivProfile);
             } else {
@@ -104,8 +119,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
             if (message.getType().equals(Message.MessageType.ANNOUNCEMENT.toString())) {
                 bindAnnouncement(message);
-            } else if (message.getType().equals(Message.MessageType.SHOPPING_LIST_ITEM.toString()))
+            } else if (message.getType().equals(Message.MessageType.SHOPPING_LIST_ITEM.toString())) {
                 bindShoppingListItem(message);
+            } else if (message.getType().equals(Message.MessageType.PURCHASE.toString()))
+                bindPurchase(message);
         }
 
         private void bindAnnouncement(Message message) {
@@ -127,12 +144,24 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             }
 
         }
+
         private void bindShoppingListItem(Message message) {
             card.setBackgroundColor(ContextCompat.getColor(context, R.color.shoppingList));
             ivMedia.setVisibility(View.GONE);
-            String title = message.getTitle() + " added to the shopping list" ;
+            String title = message.getTitle() + " added to the shopping list";
             tvTitle.setText(title);
         }
+
+        private void bindPurchase(Message message) {
+            String title = message.getCustomUser().getName() + " purchased " + message.getTitle();;
+            card.setBackgroundColor(ContextCompat.getColor(context, R.color.purchase));
+            Glide.with(context)
+                    .load(message.getImage().getUrl())
+                    .into(ivMedia);
+            ivMedia.setVisibility(View.VISIBLE);
+            tvTitle.setText(title);
+        }
+
     }
 }
 

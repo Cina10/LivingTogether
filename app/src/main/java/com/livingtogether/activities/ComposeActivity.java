@@ -39,14 +39,14 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
 
     protected EditText etTitle;
     protected EditText etBody;
-    private ImageView ivPreview;
+    protected ImageView ivPreview;
     protected Button btUpload;
     protected Button btTakePicture;
     protected Button btSubmit;
 
     // For launch camera
-    private File photoFile;
-    private String photoFileName = "photo.jpg";
+    protected File photoFile;
+    protected String photoFileName = "photo.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -12,6 +12,7 @@ import com.livingtogether.livingtogether.R;
 public class ComposeOptionsActivity extends AppCompatActivity implements View.OnClickListener {
     Button btAnnouncement;
     Button btShoppingList;
+    Button btPurchase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +20,11 @@ public class ComposeOptionsActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_compose_options);
         btAnnouncement = findViewById(R.id.btAnnouncement);
         btShoppingList = findViewById(R.id.btShoppingList);
+        btPurchase = findViewById(R.id.btPurchase);
 
         btAnnouncement.setOnClickListener(this);
         btShoppingList.setOnClickListener(this);
+        btPurchase.setOnClickListener(this);
     }
 
     @Override
@@ -33,6 +36,10 @@ public class ComposeOptionsActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.btShoppingList:
                 i = new Intent(ComposeOptionsActivity.this, ShoppingItemComposeActivity.class);
+                startActivity(i);
+                break;
+            case R.id.btPurchase:
+                i = new Intent(ComposeOptionsActivity.this, RegisterItemListComposeActivity.class);
                 startActivity(i);
                 break;
             default:
