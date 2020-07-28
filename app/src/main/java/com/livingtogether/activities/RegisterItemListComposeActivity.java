@@ -81,6 +81,5 @@ public class RegisterItemListComposeActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-
     }
 }

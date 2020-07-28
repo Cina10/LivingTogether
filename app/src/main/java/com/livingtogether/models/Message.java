@@ -2,6 +2,8 @@ package com.livingtogether.models;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -30,7 +32,17 @@ public class Message extends ParseObject {
     private static final int YEAR_MILLIS = 365 * DAY_MILLIS;
 
     public enum MessageType {
-        ANNOUNCEMENT, TODO, PURCHASE, SHOPPING_LIST_ITEM;
+        ANNOUNCEMENT("Announcements"), TODO("To Do List"), PURCHASE("Purchases"), SHOPPING_LIST_ITEM("Shopping List");
+
+        private final String name;
+
+        MessageType(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 
     public String getTitle() {

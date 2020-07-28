@@ -12,13 +12,18 @@ import android.widget.Toast;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Message;
+import com.livingtogether.models.PinnedMessages;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
 import java.text.NumberFormat;
+import java.util.List;
 
 public class ReceiptComposeActivity extends ComposeActivity implements View.OnClickListener {
     private TextView tvPage;
@@ -82,7 +87,7 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
                 message.setCustomUser(curUser);
                 message.setType(Message.MessageType.PURCHASE.toString());
                 message.setImage(new ParseFile(photoFile));
-                // TODO Delete pinned versions first
+                deletePinned(itemMessage);
                 itemMessage.deleteInBackground();
                 message.saveInBackground(new SaveCallback() {
                     @Override
@@ -97,5 +102,29 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
                 startActivity(i);
             }
         }
+    }
+
+    private void deletePinned(Message message) {
+        ParseQuery query = ParseQuery.getQuery(PinnedMessages.class);
+        query.whereEqualTo(PinnedMessages.KEY_MESSAGE, message);
+        query.findInBackground(new FindCallback<PinnedMessages>() {
+            @Override
+            public void done(List<PinnedMessages> pinned, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with querying for related pins", e);
+                    return;
+                }
+                for(PinnedMessages pin: pinned) {
+                    pin.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e != null) {
+                                Log.e(TAG, "Error deleting pins", e);
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 }

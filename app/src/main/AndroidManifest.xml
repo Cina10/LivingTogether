@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.livingtogether.activities.ReceiptComposeActivity"></activity>
+        <activity android:name="com.livingtogether.activities.MessageDetailActivity"></activity>
+        <activity android:name="com.livingtogether.activities.ReceiptComposeActivity" />
         <activity android:name="com.livingtogether.activities.RegisterItemListComposeActivity" />
         <activity android:name="com.livingtogether.activities.ComposeOptionsActivity" />
         <activity android:name="com.livingtogether.activities.ShoppingItemComposeActivity" />

@@ -14,6 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.livingtogether.adaptors.MessagesAdapter;
@@ -29,7 +32,7 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageBoardFragment extends Fragment {
+public class MessageBoardFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "MessageBoardFragment";
     public static final String CREATED_AT = "createdAt";
 
@@ -39,6 +42,7 @@ public class MessageBoardFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     private AlertDialog alertDialog;
     private AlertDialog.Builder builder;
+    private Spinner sortSpinner;
 
     public MessageBoardFragment() {}
 
@@ -87,6 +91,43 @@ public class MessageBoardFragment extends Fragment {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         rvMessages.setLayoutManager(layoutManager);
+
+        sortSpinner = view.findViewById(R.id.sortSpinner);
+        List<String> sortOptions = new ArrayList<>();
+        sortOptions.add("All Messages");
+        sortOptions.add(Message.MessageType.ANNOUNCEMENT.getName());
+        sortOptions.add(Message.MessageType.SHOPPING_LIST_ITEM.getName());
+        sortOptions.add(Message.MessageType.PURCHASE.getName());
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sortOptions);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(spinnerAdapter);
+        sortSpinner.setOnItemSelectedListener(this);
+
+        queryMessages();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        switch (position) {
+            case 0:
+                queryMessages();
+                break;
+            case 1:
+                queryForMessageType(Message.MessageType.ANNOUNCEMENT);
+                break;
+            case 2:
+                queryForMessageType(Message.MessageType.SHOPPING_LIST_ITEM);
+                break;
+            case 3:
+                queryForMessageType(Message.MessageType.PURCHASE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
         queryMessages();
     }
 
@@ -128,6 +169,31 @@ public class MessageBoardFragment extends Fragment {
         ParseQuery query = ParseQuery.getQuery(Message.class);
         query.include(Message.KEY_CUSTOM_USER);
         query.setLimit(20);
+        query.addDescendingOrder(CREATED_AT);
+        query.findInBackground(new FindCallback<Message>() {
+            @Override
+            public void done(List<Message> messages, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with finding messages", e);
+                    return;
+                } else {
+                    for (Message message : messages) {
+                        Log.i(TAG, "Message: " + message.getTitle());
+                    }
+                    adapter.clear();
+                    adapter.addAll(messages);
+                    swipeContainer.setRefreshing(false);
+                    Log.i(TAG, "Posts added");
+                }
+            }
+        });
+    }
+
+    private void queryForMessageType(Message.MessageType type) {
+        ParseQuery query = ParseQuery.getQuery(Message.class);
+        query.include(Message.KEY_CUSTOM_USER);
+        query.setLimit(20);
+        query.whereEqualTo(Message.KEY_TYPE, type.toString());
         query.addDescendingOrder(CREATED_AT);
         query.findInBackground(new FindCallback<Message>() {
             @Override

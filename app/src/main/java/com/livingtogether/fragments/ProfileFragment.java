@@ -12,7 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,7 +31,7 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements AdapterView.OnItemSelectedListener{
     public static final String TAG = "ProfileFragment";
     public static final String CREATED_AT = "createdAt";
 
@@ -40,6 +43,7 @@ public class ProfileFragment extends Fragment {
     private List<Message> allPinned;
     private SwipeRefreshLayout swipeContainer;
     private CustomUser curUser;
+    private Spinner sortSpinner;
 
 
     public ProfileFragment() {
@@ -107,8 +111,72 @@ public class ProfileFragment extends Fragment {
         rvPinnedMessages.setAdapter(adapter);
         rvPinnedMessages.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        queryPinnedMessages();
+        sortSpinner = view.findViewById(R.id.sortSpinner);
+        List<String> sortOptions = new ArrayList<>();
+        sortOptions.add("All of Your Sent Messages");
+        sortOptions.add("All Pinned Messages");
+        sortOptions.add(Message.MessageType.ANNOUNCEMENT.getName());
+        sortOptions.add(Message.MessageType.SHOPPING_LIST_ITEM.getName());
+        sortOptions.add(Message.MessageType.PURCHASE.getName());
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sortOptions);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(spinnerAdapter);
+        sortSpinner.setOnItemSelectedListener(this);
 
+        queryPinnedMessages();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        switch (position) {
+            case 0:
+                queryMessagesProfile();
+                break;
+            case 1:
+                queryPinnedMessages();
+                break;
+            case 2:
+                queryPinnedMessagesByType(Message.MessageType.ANNOUNCEMENT);
+                break;
+            case 3:
+                queryPinnedMessagesByType(Message.MessageType.SHOPPING_LIST_ITEM);
+                break;
+            case 4:
+                queryPinnedMessagesByType(Message.MessageType.PURCHASE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        queryMessagesProfile();
+    }
+
+    private void queryMessagesProfile() {
+        ParseQuery query = ParseQuery.getQuery(Message.class);
+        query.include(Message.KEY_CUSTOM_USER);
+        query.whereEqualTo(Message.KEY_CUSTOM_USER, curUser);
+        query.setLimit(20);
+        query.addDescendingOrder(CREATED_AT);
+        query.findInBackground(new FindCallback<Message>() {
+            @Override
+            public void done(List<Message> messages, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with finding messages", e);
+                    return;
+                } else {
+                    for (Message message : messages) {
+                        Log.i(TAG, "Message: " + message.getTitle());
+                    }
+                    adapter.clear();
+                    adapter.addAll(messages);
+                    swipeContainer.setRefreshing(false);
+                    Log.i(TAG, "Posts added");
+                }
+            }
+        });
     }
 
     private void queryPinnedMessages() {
@@ -124,7 +192,6 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
                 adapter.clear();
-                // TODO fix issue when a post is deleted
                 for (PinnedMessages pin : pinned) {
                     adapter.add(pin.getMessage());
                 }
@@ -133,5 +200,30 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
+    private void queryPinnedMessagesByType(Message.MessageType type) {
+        ParseQuery query = ParseQuery.getQuery(PinnedMessages.class);
+        query.include(PinnedMessages.KEY_MESSAGE);
+        query.whereEqualTo(Message.KEY_CUSTOM_USER, curUser);
+        query.whereEqualTo(Message.KEY_TYPE, type.toString());
+        query.addDescendingOrder(CREATED_AT);
+        query.findInBackground(new FindCallback<PinnedMessages>() {
+            @Override
+            public void done(List<PinnedMessages> pinned, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with finding messages", e);
+                    return;
+                }
+                adapter.clear();
+                for (PinnedMessages pin : pinned) {
+                    adapter.add(pin.getMessage());
+                }
+                swipeContainer.setRefreshing(false);
+                Log.i(TAG, "Posts added");
+            }
+        });
+    }
+
+
 
 }
