@@ -9,9 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.livingtogether.MessagesAdapter;
+import com.livingtogether.adaptors.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.Message;
 import com.parse.FindCallback;

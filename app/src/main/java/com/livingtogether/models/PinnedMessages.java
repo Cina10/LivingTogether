@@ -3,7 +3,7 @@ package com.livingtogether.models;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-@ParseClassName("Message")
+@ParseClassName("PinnedMessages")
 public class PinnedMessages extends ParseObject {
     public static final String KEY_CUSTOM_USER = "customUser";
     public static final String KEY_MESSAGE = "message";

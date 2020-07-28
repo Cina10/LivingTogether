@@ -16,14 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.livingtogether.MessagesAdapter;
+import com.livingtogether.adaptors.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Message;
 import com.livingtogether.models.PinnedMessages;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -41,7 +40,7 @@ public class MessageBoardFragment extends Fragment {
     private AlertDialog alertDialog;
     private AlertDialog.Builder builder;
 
-    public MessageBoardFragment() { }
+    public MessageBoardFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +58,7 @@ public class MessageBoardFragment extends Fragment {
                 queryMessages();
             }
         });
+
         // setting refreshing colors
         swipeContainer.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(R.color.colorAccent),
@@ -104,7 +104,7 @@ public class MessageBoardFragment extends Fragment {
                     @Override
                     public void done(ParseException e) {
                         if(e == null) {
-                            // TODO replace toast with snackbar
+                            // TODO replace toast with snackbar, check if message has already been pinned
                             Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e(TAG, "Error saving pinned message", e);

@@ -1,63 +1,70 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.livingtogether.fragments.ProfileFragment"
-    android:background="@color/creme">
+    android:background="@color/creme"
+    tools:context="com.livingtogether.fragments.ProfileFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/headerWrapper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:background="@color/colorPrimaryDark">
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/profileWrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="5dp">
-
-        <ImageView
-            android:id="@+id/ivProfile"
-            android:layout_width="125dp"
-            android:layout_height="125dp"
-            tools:srcCompat="@tools:sample/avatars">
-        </ImageView>
-    </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/headerWrapper"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/profileWrapper"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/white"
-            android:layout_marginLeft="10dp"
-            tools:text="Chianna Cohen" />
-        <TextView
-            android:id="@+id/tvGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/profileWrapper"
-            android:layout_below="@+id/tvName"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/white"
-            android:layout_marginLeft="10dp"
-            tools:text="Eve's Fridge" />
-    </RelativeLayout>
+            android:background="@color/colorPrimaryDark"
+            android:padding="20dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/headerWrapper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/profileWrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp">
+
+                <ImageView
+                    android:id="@+id/ivProfile"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/profileWrapper"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/white"
+                tools:text="Chianna Cohen" />
+
+            <TextView
+                android:id="@+id/tvGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvName"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/profileWrapper"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/white"
+                tools:text="Eve's Fridge" />
+        </RelativeLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/headerWrapper">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPinnedMessages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
 

@@ -1,11 +1,9 @@
-package com.livingtogether;
+package com.livingtogether.adaptors;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,15 +25,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     List<Message> messages;
     private OnItemClickListener listener;
     private OnItemLongClickListener longClickListener;
-
-    // Define the listener interface
-    public interface OnItemClickListener {
-        void onItemClick(View itemView, int position);
-    }
-
-    public interface OnItemLongClickListener {
-        void onItemLongClick(View itemView, int position);
-    }
 
     public MessagesAdapter(Context context, List<Message> messages) {
         this.context = context;
@@ -78,6 +67,23 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    public void addAl(List<Message> list) {
+        messages.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void add(Message message) {
+        messages.add(message);
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+
+    public interface OnItemLongClickListener {
+        void onItemLongClick(View itemView, int position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivProfile;
         private TextView tvTitle;
@@ -111,8 +117,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             });
         }
 
-
-
         public void bind(Message message) {
             // If/else block so that if there is no body text, it doesn't show a blank line.
             if (message.getBody().equals("")) {
@@ -121,7 +125,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                 tvBody.setVisibility(View.VISIBLE);
                 tvBody.setText(message.getBody());
             }
-
 
             if (message.getCustomUser().getProfilePhoto() != null) {
                 Glide.with(context)
@@ -161,7 +164,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                         .into(ivMedia);
                 ivMedia.setVisibility(View.VISIBLE);
             }
-
         }
 
         private void bindShoppingListItem(Message message) {
@@ -180,7 +182,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             ivMedia.setVisibility(View.VISIBLE);
             tvTitle.setText(title);
         }
-
     }
 }
 

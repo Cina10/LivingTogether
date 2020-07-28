@@ -1,20 +1,14 @@
 package com.livingtogether.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.livingtogether.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Message;
@@ -88,6 +82,7 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
                 message.setCustomUser(curUser);
                 message.setType(Message.MessageType.PURCHASE.toString());
                 message.setImage(new ParseFile(photoFile));
+                // TODO Delete pinned versions first
                 itemMessage.deleteInBackground();
                 message.saveInBackground(new SaveCallback() {
                     @Override
