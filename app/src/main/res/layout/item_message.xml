@@ -70,7 +70,6 @@
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 
-
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
@@ -82,4 +81,5 @@
             tools:text="3 days ago" />
 
     </RelativeLayout>
+
 </com.google.android.material.card.MaterialCardView>

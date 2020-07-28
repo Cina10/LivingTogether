@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="25dp"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
+    android:padding="25dp"
     tools:context="com.livingtogether.activities.LaunchActivity">
 
     <ImageView
@@ -20,44 +20,41 @@
         android:id="@+id/tvAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/white"
-        android:textSize="36sp"
-        android:layout_gravity="center"/>
-
-
+        android:textSize="36sp" />
 
     <Button
         android:id="@+id/btSignup"
-        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create an Account"
-        android:background="@color/creme"/>
+        android:layout_marginTop="30dp"
+        android:background="@color/creme"
+        android:text="Create an Account" />
 
     <Button
         android:id="@+id/btLogin"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log In"
-        android:background="@color/creme"/>
+        android:layout_marginTop="20dp"
+        android:background="@color/creme"
+        android:text="Log In" />
 
     <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="30dp"
         android:background="@color/colorAccent"
-        android:text="Log in with Facebook" >
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Log in with Facebook">
 
     </Button>
-
 
 </LinearLayout>

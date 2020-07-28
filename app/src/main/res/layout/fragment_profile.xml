@@ -70,4 +70,5 @@
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </LinearLayout>
+
 </FrameLayout>
