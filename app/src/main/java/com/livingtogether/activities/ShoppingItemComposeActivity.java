@@ -19,7 +19,6 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG,"Compose on Create");
         setContentView(R.layout.activity_compose);
         tvPage = findViewById(R.id.tvPage);
         etTitle = findViewById(R.id.etTitle);
@@ -39,7 +38,6 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
         btTakePicture.setVisibility(View.GONE);
         etTitle.setHint("What item do you want?");
         etBody.setHint("Let your shopper know the details!");
-
     }
 
     private void submit() {

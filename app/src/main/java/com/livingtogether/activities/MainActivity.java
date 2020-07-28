@@ -24,9 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingbt;
     private Toolbar toolbar;
-
     private Fragment fragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
         fragment = new MessageBoardFragment();
-
         ft.replace(R.id.flContainer, fragment);
         ft.commit();
 
@@ -67,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.actionSettings:
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
-                Log.i(TAG, "1");
                 startActivity(i);
                 return true;
             case R.id.actionMessageBoard:

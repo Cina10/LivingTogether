@@ -43,7 +43,6 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
         btSubmit.setOnClickListener(this);
         itemMessage = (Message) Parcels.unwrap(getIntent().getParcelableExtra(Message.class.getSimpleName()));
         tvPage.setText(itemMessage.getTitle());
-
     }
 
     @Override

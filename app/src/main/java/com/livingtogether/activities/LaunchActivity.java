@@ -66,7 +66,6 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         fbLogin.setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -150,6 +149,4 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(i);
         // TODO make for result to finish() once you finish login activity
     }
-
-
 }

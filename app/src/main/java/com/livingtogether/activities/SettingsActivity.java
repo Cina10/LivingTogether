@@ -60,7 +60,6 @@ public class SettingsActivity extends AppCompatActivity {
                 // TODO onActivityResult add the resulting group to the list of Groups
             }
         });
-
     }
 
     private void onCurGroup() {
@@ -82,5 +81,4 @@ public class SettingsActivity extends AppCompatActivity {
             allGroupsArrow.setImageResource(R.drawable.ic_action_down);
         }
     }
-
 }

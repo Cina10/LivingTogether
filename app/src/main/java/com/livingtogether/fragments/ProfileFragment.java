@@ -167,13 +167,9 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
                     Log.e(TAG, "Issue with finding messages", e);
                     return;
                 } else {
-                    for (Message message : messages) {
-                        Log.i(TAG, "Message: " + message.getTitle());
-                    }
                     adapter.clear();
                     adapter.addAll(messages);
                     swipeContainer.setRefreshing(false);
-                    Log.i(TAG, "Posts added");
                 }
             }
         });
@@ -196,7 +192,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
                     adapter.add(pin.getMessage());
                 }
                 swipeContainer.setRefreshing(false);
-                Log.i(TAG, "Posts added");
             }
         });
     }
@@ -219,11 +214,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
                     adapter.add(pin.getMessage());
                 }
                 swipeContainer.setRefreshing(false);
-                Log.i(TAG, "Posts added");
             }
         });
     }
-
-
-
 }

@@ -25,7 +25,6 @@ public class NewGroupActivity extends AppCompatActivity {
     Button btJoinGroup;
     Button btCreateGroup;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +75,6 @@ public class NewGroupActivity extends AppCompatActivity {
                         curUser.addGroup(group);
                         curUser.saveInBackground();
                     }
-
                 }
             });
         }
