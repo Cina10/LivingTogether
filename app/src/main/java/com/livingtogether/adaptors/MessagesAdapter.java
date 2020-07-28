@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide;
 
 import com.google.android.material.card.MaterialCardView;
 import com.livingtogether.livingtogether.R;
+import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Message;
+import com.parse.ParseException;
 
 
 import java.util.List;
@@ -41,7 +43,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Message message = messages.get(position);
-        holder.bind(message);
+        try {
+            holder.bind(message);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -67,13 +73,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public void addAl(List<Message> list) {
-        messages.addAll(list);
-        notifyDataSetChanged();
-    }
-
     public void add(Message message) {
         messages.add(message);
+        notifyItemChanged(messages.size());
     }
 
     public interface OnItemClickListener {
@@ -117,7 +119,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             });
         }
 
-        public void bind(Message message) {
+        public void bind(Message message) throws ParseException {
             // If/else block so that if there is no body text, it doesn't show a blank line.
             if (message.getBody().equals("")) {
                 tvBody.setVisibility(View.GONE);
@@ -126,7 +128,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                 tvBody.setText(message.getBody());
             }
 
-            if (message.getCustomUser().getProfilePhoto() != null) {
+            CustomUser customUser = message.getCustomUser().fetchIfNeeded();
+            if (customUser.getProfilePhoto() != null) {
                 Glide.with(context)
                         .load(message.getCustomUser().getProfilePhoto().getUrl()).into(ivProfile);
             } else if (message.getCustomUser().getIsFacebookUser()) {

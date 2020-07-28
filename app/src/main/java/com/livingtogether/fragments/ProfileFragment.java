@@ -127,9 +127,7 @@ public class ProfileFragment extends Fragment {
                 // TODO fix issue when a post is deleted
                 for (PinnedMessages pin : pinned) {
                     adapter.add(pin.getMessage());
-                    Log.i(TAG, pin.getMessage().getBody());
                 }
-                adapter.notifyDataSetChanged();
                 swipeContainer.setRefreshing(false);
                 Log.i(TAG, "Posts added");
             }
