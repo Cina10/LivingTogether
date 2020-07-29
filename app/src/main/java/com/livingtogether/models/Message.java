@@ -22,7 +22,6 @@ public class Message extends ParseObject {
     public static final String KEY_CUSTOM_USER = "customUser";
     public static final String KEY_BODY = "body";
     public static final String KEY_TYPE = "messageType";
-    public static final String KEY_QUANTITY = "quantity";
 
     // For time calculations
     private static final int SECOND_MILLIS = 1000;
@@ -83,19 +82,6 @@ public class Message extends ParseObject {
 
     public void setBody(String body) {
         put(KEY_BODY, body);
-    }
-
-    public int getQuantity() {
-        return getInt(KEY_QUANTITY);
-    }
-
-    public void setQuantity(int quantity) {
-        super.put(KEY_QUANTITY, quantity);
-    }
-
-    public void incrementQuantity(Message message) {
-        int newQuantity = getQuantity() + 1;
-        super.put(KEY_QUANTITY, newQuantity);
     }
 
     public String getRelativeTime() {

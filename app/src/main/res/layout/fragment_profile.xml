@@ -58,6 +58,28 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@color/white"
                     tools:text="Eve's Fridge" />
+
+                <TextView
+                    android:id="@+id/tvOwed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvGroup"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/profileWrapper"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/white"
+                    tools:text="Owed: $5.00" />
+
+                <TextView
+                    android:id="@+id/tvLent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvOwed"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/profileWrapper"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/white"
+                    tools:text="Lent: $7.00" />
             </RelativeLayout>
 
             <LinearLayout

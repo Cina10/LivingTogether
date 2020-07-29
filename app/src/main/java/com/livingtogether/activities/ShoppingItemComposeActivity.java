@@ -50,7 +50,6 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
             item.setType(Message.MessageType.SHOPPING_LIST_ITEM.toString());
             item.setTitle(title);
             item.setBody(body);
-            item.setQuantity(1);
             CustomUser curUser = CustomUser.queryForCurUser();
             item.setCustomUser(curUser);
             item.saveInBackground();
