@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.livingtogether.activities.MessageDetailActivity;
 import com.livingtogether.adaptors.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
@@ -28,6 +30,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +86,10 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         adapter.setOnItemClickListener(new MessagesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
+                Message message = allMessages.get(position);
+                Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+                intent.putExtra(Message.class.getSimpleName(), Parcels.wrap(message));
+                startActivity(intent);
                 // TODO also set onClick to bring to details view
                 // must keep as place holder so it doesn't crash
             }
