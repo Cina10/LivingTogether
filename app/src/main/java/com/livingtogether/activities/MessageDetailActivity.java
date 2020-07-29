@@ -1,17 +1,23 @@
 package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.livingtogether.OnDoubleTapListener;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Message;
@@ -20,18 +26,21 @@ import com.parse.ParseException;
 import org.parceler.Parcels;
 
 public class MessageDetailActivity extends AppCompatActivity {
-    ImageView ivProfile;
-    TextView tvTitle;
-    TextView tvBody;
-    ImageView ivMedia;
-    TextView tvTime;
-    TextView tvLikeDescription;
-    ImageView ivLike;
-    RecyclerView rvComments;
-    EditText etComment;
-    ImageButton btSend;
-    Message message;
+    public static final String TAG = "MessageDetailActivity";
+    private ImageView ivProfile;
+    private TextView tvTitle;
+    private TextView tvBody;
+    private ImageView ivMedia;
+    private TextView tvTime;
+    private TextView tvLikeDescription;
+    private ImageView ivLike;
+    private RecyclerView rvComments;
+    private EditText etComment;
+    private ImageButton btSend;
+    private Message message;
+    private RelativeLayout messageWrapper;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +56,9 @@ public class MessageDetailActivity extends AppCompatActivity {
         rvComments = findViewById(R.id.rvComments);
         etComment = findViewById(R.id.etComment);
         btSend = findViewById(R.id.btSend);
+        messageWrapper = findViewById(R.id.messageWrapper);
         message = (Message) Parcels.unwrap(getIntent().getParcelableExtra(Message.class.getSimpleName()));
+
 
         if (message.getBody().equals("")) {
             tvBody.setVisibility(View.GONE);
@@ -82,8 +93,21 @@ public class MessageDetailActivity extends AppCompatActivity {
             onCreateShoppingListItem(message);
         } else if (message.getType().equals(Message.MessageType.PURCHASE.toString()))
             onCreatePurchase(message);
-
         // TODO likes, double tap to like, comments, submit comment
+
+        ivMedia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MessageDetailActivity.this, "OnClick", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ivMedia.setOnTouchListener(new OnDoubleTapListener(this) {
+            @Override
+            public void onDoubleTap(MotionEvent e) {
+                Toast.makeText(MessageDetailActivity.this, "Double Tap", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Log.i(TAG, "onTouch");
     }
 
     private void onCreateAnnouncement(Message message) {
@@ -112,7 +136,6 @@ public class MessageDetailActivity extends AppCompatActivity {
 
     private void onCreatePurchase(Message message) {
         String title = message.getCustomUser().getName() + " purchased " + message.getTitle();
-        ;
         Glide.with(this)
                 .load(message.getImage().getUrl())
                 .into(ivMedia);

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card"
+    android:id="@+id/ScrollView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
@@ -11,97 +11,104 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="2dp">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/headerWrapper">
+            android:id="@+id/messageWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/headerWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/profileWrapper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:elevation="2dp"
+                    app:cardCornerRadius="10dp">
+
+                    <ImageView
+                        android:id="@+id/ivProfile"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/com_facebook_profile_picture_blank_portrait" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_toEndOf="@+id/profileWrapper"
+                    android:textStyle="bold"
+                    tools:text="Chianna made an announcement" />
+
+                <TextView
+                    android:id="@+id/tvBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvTitle"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_toEndOf="@+id/profileWrapper"
+                    tools:text="This is my message" />
+
+            </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/profileWrapper"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="2dp"
-                android:layout_marginStart="5dp"
-                app:cardCornerRadius="10dp">
-
-                <ImageView
-                    android:id="@+id/ivProfile"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:src="@drawable/com_facebook_profile_picture_blank_portrait" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_toEndOf="@+id/profileWrapper"
-                android:textStyle="bold"
-                tools:text="Chianna made an announcement" />
-
-            <TextView
-                android:id="@+id/tvBody"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvTitle"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="0dp"
-                android:layout_toEndOf="@+id/profileWrapper"
-                tools:text="This is my message" />
-
-        </RelativeLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/mediaWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/headerWrapper">
-
-            <ImageView
-                android:id="@+id/ivMedia"
+                android:id="@+id/mediaWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:layout_below="@+id/headerWrapper">
 
-        </com.google.android.material.card.MaterialCardView>
+                <ImageView
+                    android:id="@+id/ivMedia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-        <RelativeLayout
-            android:id="@+id/likesWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/mediaWrapper">
+            </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/tvTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="3 days ago"
-            android:layout_marginStart="5dp"/>
-
-            <TextView
-                android:id="@+id/tvLikeDescription"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/likesWrapper"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/ivLike"
-                android:text="Quantity Needed: 3" />
+                android:layout_below="@id/mediaWrapper"
+                android:layout_marginTop="5dp">
 
-        <ImageView
-            android:id="@+id/ivLike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_star_24"
-            android:layout_alignParentEnd="true"/>
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    tools:text="3 days ago" />
+
+                <TextView
+                    android:id="@+id/tvLikeDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/ivLike"
+                    android:text="Quantity Needed: 3" />
+
+                <ImageView
+                    android:id="@+id/ivLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_baseline_star_24" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -109,7 +116,7 @@
             android:id="@+id/rvComments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/likesWrapper"
+            android:layout_below="@+id/messageWrapper"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="0dp" />
@@ -127,13 +134,13 @@
             android:hint="Add a comment" />
 
         <ImageButton
-            android:layout_below="@+id/rvComments"
             android:id="@+id/btSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/rvComments"
             android:layout_alignParentEnd="true"
-            app:srcCompat="@drawable/ic_baseline_send_24"
-            android:backgroundTint="@color/colorPrimary" />
+            android:backgroundTint="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_baseline_send_24" />
 
     </RelativeLayout>
 

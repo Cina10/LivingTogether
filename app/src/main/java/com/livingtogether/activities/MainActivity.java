@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Spinner;
 
 import com.livingtogether.fragments.MessageBoardFragment;
 import com.livingtogether.fragments.ProfileFragment;
