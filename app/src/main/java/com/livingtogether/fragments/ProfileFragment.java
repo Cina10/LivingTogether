@@ -22,12 +22,16 @@ import com.bumptech.glide.Glide;
 import com.livingtogether.adaptors.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
+import com.livingtogether.models.Group;
 import com.livingtogether.models.Message;
 import com.livingtogether.models.PinnedMessages;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import org.w3c.dom.Text;
+
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +41,16 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 
     private TextView tvName;
     private TextView tvGroup;
+    private TextView tvOwed;
+    private TextView tvLent;
+    private CustomUser curUser;
     private ImageView ivProfile;
     private RecyclerView rvPinnedMessages;
     private MessagesAdapter adapter;
     private List<Message> allPinned;
     private SwipeRefreshLayout swipeContainer;
-    private CustomUser curUser;
     private Spinner sortSpinner;
+
 
 
     public ProfileFragment() {}
@@ -73,6 +80,9 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 
 
         tvName = view.findViewById(R.id.tvName);
+        tvGroup = view.findViewById(R.id.tvGroup);
+        tvLent = view.findViewById(R.id.tvLent);
+        tvOwed = view.findViewById(R.id.tvOwed);
         curUser = CustomUser.queryForCurUser();
 
         ivProfile = view.findViewById(R.id.ivProfile);
@@ -87,8 +97,22 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         }
 
         tvName.setText(curUser.getName());
-        tvGroup = view.findViewById(R.id.tvGroup);
-        // TODO insert group name to header
+        NumberFormat defaultFormat = NumberFormat.getCurrencyInstance();
+        String strLent = defaultFormat.format(curUser.getLent());
+        String strOwed = defaultFormat.format(curUser.getOwed());
+        tvLent.setText("Your Group Owes You: " + strLent);
+        tvOwed.setText("You Owe Others: " + strOwed);
+
+        Group group = null;
+        try {
+            group = curUser.getCurGroup().fetch();
+            tvGroup.setText(group.getGroupName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            tvGroup.setText("");
+            //TODO During Sign Up flow take the person to the group creation page
+        }
+
         rvPinnedMessages = view.findViewById(R.id.rvPinnedMessages);
         allPinned = new ArrayList<>();
         adapter = new MessagesAdapter(getContext(), allPinned);

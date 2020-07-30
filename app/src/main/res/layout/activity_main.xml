@@ -28,7 +28,7 @@
             android:layout_alignParentTop="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#FFFFFF"
-            tools:text="LivingTogether" />
+            android:text="LivingTogether" />
 
     </androidx.appcompat.widget.Toolbar>
 
