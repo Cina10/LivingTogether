@@ -96,21 +96,12 @@ public class MessageDetailActivity extends AppCompatActivity {
             onCreatePurchase(message);
         // TODO likes, double tap to like, comments, submit comment
 
-
-        messageWrapper.setOnTouchListener(new OnDoubleTapListener(this) {
+        ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDoubleTap(MotionEvent e) {
-                Toast.makeText(MessageDetailActivity.this, "Double Tap", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                Toast.makeText(MessageDetailActivity.this, "Liked", Toast.LENGTH_SHORT).show();
             }
         });
-        Log.i(TAG, "onTouch");
-
-//        messageWrapper.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(MessageDetailActivity.this, "send OnClick", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     private void onCreateAnnouncement(Message message) {
