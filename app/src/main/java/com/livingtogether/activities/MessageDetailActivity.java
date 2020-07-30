@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.nisrulz.sensey.Sensey;
+import com.github.nisrulz.sensey.TouchTypeDetector;
 import com.livingtogether.OnDoubleTapListener;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
@@ -59,7 +61,6 @@ public class MessageDetailActivity extends AppCompatActivity {
         messageWrapper = findViewById(R.id.messageWrapper);
         message = (Message) Parcels.unwrap(getIntent().getParcelableExtra(Message.class.getSimpleName()));
 
-
         if (message.getBody().equals("")) {
             tvBody.setVisibility(View.GONE);
         } else {
@@ -95,19 +96,21 @@ public class MessageDetailActivity extends AppCompatActivity {
             onCreatePurchase(message);
         // TODO likes, double tap to like, comments, submit comment
 
-        ivMedia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MessageDetailActivity.this, "OnClick", Toast.LENGTH_SHORT).show();
-            }
-        });
-        ivMedia.setOnTouchListener(new OnDoubleTapListener(this) {
+
+        messageWrapper.setOnTouchListener(new OnDoubleTapListener(this) {
             @Override
             public void onDoubleTap(MotionEvent e) {
                 Toast.makeText(MessageDetailActivity.this, "Double Tap", Toast.LENGTH_SHORT).show();
             }
         });
         Log.i(TAG, "onTouch");
+
+//        messageWrapper.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(MessageDetailActivity.this, "send OnClick", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private void onCreateAnnouncement(Message message) {

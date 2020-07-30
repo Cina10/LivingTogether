@@ -13,11 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.livingtogether.fragments.MessageBoardFragment;
 import com.livingtogether.fragments.ProfileFragment;
 import com.livingtogether.livingtogether.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.livingtogether.models.CustomUser;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton floatingbt;
     private Toolbar toolbar;
     private Fragment fragment;
+    private TextView tvGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        CustomUser curUser = CustomUser.queryForCurUser();
+        tvGroup = findViewById(R.id.tvGroup);
+        tvGroup.setText(curUser.);
     }
 
     @Override

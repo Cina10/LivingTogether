@@ -46,8 +46,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private Spinner sortSpinner;
 
 
-    public ProfileFragment() {
-    }
+    public ProfileFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
