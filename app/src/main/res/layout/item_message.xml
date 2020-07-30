@@ -57,7 +57,6 @@
                 android:layout_marginTop="0dp"
                 android:layout_toEndOf="@+id/profileWrapper"
                 tools:text="This is my message" />
-
         </RelativeLayout>
 
         <ImageView
@@ -79,7 +78,5 @@
             android:layout_marginEnd="7dp"
             android:layout_marginBottom="0dp"
             tools:text="3 days ago" />
-
     </RelativeLayout>
-
 </com.google.android.material.card.MaterialCardView>

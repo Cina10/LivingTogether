@@ -51,8 +51,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
     public MessageBoardFragment() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_message_board, container, false);
     }
 
@@ -73,7 +72,6 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
                 getResources().getColor(R.color.composeColor));
 
         builder =  new AlertDialog.Builder(getContext());
-
         rvMessages = view.findViewById(R.id.rvMessages);
         allMessages = new ArrayList<>();
         adapter = new MessagesAdapter(getContext(), allMessages);
@@ -110,7 +108,6 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(spinnerAdapter);
         sortSpinner.setOnItemSelectedListener(this);
-
         queryMessages();
     }
 

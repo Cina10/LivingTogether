@@ -63,5 +63,4 @@
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
         android:text="Create New Group" />
-
 </LinearLayout>

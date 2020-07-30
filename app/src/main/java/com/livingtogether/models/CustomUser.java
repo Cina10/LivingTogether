@@ -72,7 +72,7 @@ public class CustomUser extends ParseObject {
         return getParseObject(KEY_CURRENT_GROUP);
     }
 
-    public void setCurrentGroup(ParseObject currentGroup) {
+    public void setCurGroup(ParseObject currentGroup) {
         put(KEY_CURRENT_GROUP, currentGroup);
     }
 
@@ -102,21 +102,6 @@ public class CustomUser extends ParseObject {
     public void subtractLent(Double payed) {
         double newLent = getLent() - payed;
         put(KEY_LENT, newLent);
-    }
-
-    public ArrayList<Group> getGroups() {
-        JSONArray groups = getJSONArray(KEY_GROUP_LIST);
-        ArrayList<Group> ret = new ArrayList<>();
-        if (groups != null) {
-            for (int i = 0; i < groups.length(); i++) {
-                //retrieve groups pointers
-            }
-        }
-        return ret;
-    }
-
-    public void addGroup(Group group) {
-        add(KEY_CURRENT_GROUP, group);
     }
 
     public static CustomUser queryForCurUser(){

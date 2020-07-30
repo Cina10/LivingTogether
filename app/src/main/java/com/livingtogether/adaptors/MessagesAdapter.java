@@ -142,6 +142,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
             tvTime.setText(message.getRelativeTime());
 
+            // TODO break up into generic method that gets passed a message type
             if (message.getType().equals(Message.MessageType.ANNOUNCEMENT.toString())) {
                 bindAnnouncement(message);
             } else if (message.getType().equals(Message.MessageType.SHOPPING_LIST_ITEM.toString())) {

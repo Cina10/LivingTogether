@@ -51,14 +51,10 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private SwipeRefreshLayout swipeContainer;
     private Spinner sortSpinner;
 
-
-
     public ProfileFragment() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
@@ -78,7 +74,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
                 getResources().getColor(R.color.colorAccent),
                 getResources().getColor(R.color.composeColor));
 
-
         tvName = view.findViewById(R.id.tvName);
         tvGroup = view.findViewById(R.id.tvGroup);
         tvLent = view.findViewById(R.id.tvLent);
@@ -88,10 +83,13 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         ivProfile = view.findViewById(R.id.ivProfile);
         if (curUser.getProfilePhoto() != null) {
             Glide.with(getContext())
-                    .load(curUser.getProfilePhoto().getUrl()).into(ivProfile);
+                    .load(curUser.getProfilePhoto().getUrl())
+                    .into(ivProfile);
         } else if (curUser.getIsFacebookUser()) {
-            Glide.with(getContext())
-                    .load(curUser.getPhotoUrl()).into(ivProfile);
+            Glide
+                    .with(getContext())
+                    .load(curUser.getPhotoUrl())
+                    .into(ivProfile);
         } else {
             ivProfile.setImageResource(R.drawable.com_facebook_profile_picture_blank_portrait);
         }
@@ -145,7 +143,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(spinnerAdapter);
         sortSpinner.setOnItemSelectedListener(this);
-
         queryPinnedMessages();
     }
 

@@ -76,6 +76,7 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
             if (itemMessage.getCustomUser() != curUser) {
                 itemMessage.getCustomUser().addOwed(cost);
                 itemMessage.getCustomUser().saveInBackground();
+
                 curUser.addLent(cost);
                 curUser.saveInBackground();
                 body += itemMessage.getCustomUser().getName() + " was charged.";

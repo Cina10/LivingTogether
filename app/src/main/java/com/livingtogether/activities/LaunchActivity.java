@@ -42,7 +42,7 @@ import java.util.List;
 
 public class LaunchActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "LaunchActivity";
-    private static final String EMAIL = "email";
+    private static final int PHOTO_DIMENSIONS = 300;
 
     private Button btSignup;
     private Button btLogin;
@@ -123,7 +123,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
             customUser.setName(name);
             customUser.setIsFacebookUser(true);
             customUser.setParseUser(ParseUser.getCurrentUser());
-            String pictureUrl = profile.getProfilePictureUri(300, 300).toString();
+            String pictureUrl = profile.getProfilePictureUri(PHOTO_DIMENSIONS, PHOTO_DIMENSIONS).toString();
             customUser.setPhotoUrl(pictureUrl);
             customUser.saveInBackground();
             goMainActivity();

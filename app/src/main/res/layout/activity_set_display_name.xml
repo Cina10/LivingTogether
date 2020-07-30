@@ -37,7 +37,5 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_baseline_arrow_forward_24"
         app:maxImageSize="40dp">
-
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
 </LinearLayout>

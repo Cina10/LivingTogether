@@ -28,12 +28,13 @@ import java.io.IOException;
 public class AddPhotoActivity extends AppCompatActivity {
     public static final String TAG = "AddPhotoActivity";
     public static final int GET_FROM_GALLERY_REQUEST_CODE = 42;
+    private String PHOTO_FILE_NAME = "profile.jpg";
 
     private FloatingActionButton floatingbt;
     private Button btUpload;
     private ImageView ivProfile;
     private File photoFile;
-    private String photoFileName = "profile.jpg";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

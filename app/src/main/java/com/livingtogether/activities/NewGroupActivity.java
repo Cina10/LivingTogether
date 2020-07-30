@@ -71,7 +71,7 @@ public class NewGroupActivity extends AppCompatActivity {
                         Toast.makeText(NewGroupActivity.this, "Error creating group", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(NewGroupActivity.this, "Group joined", Toast.LENGTH_SHORT).show();
-                        curUser.setCurrentGroup(group);
+                        curUser.setCurGroup(group);
                         curUser.addGroup(group);
                         curUser.saveInBackground();
                     }

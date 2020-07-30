@@ -36,6 +36,7 @@ import java.io.IOException;
 public class ComposeActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "ComposeActivity";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 12;
+    protected static final String PHOTO_FILE_NAME = "photo.jpg";
 
     protected EditText etTitle;
     protected EditText etBody;
@@ -43,10 +44,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     protected Button btUpload;
     protected Button btTakePicture;
     protected Button btSubmit;
-
-    // For launch camera
     protected File photoFile;
-    protected String photoFileName = "photo.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +85,12 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
+                Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(PHOTO_FILE_NAME));
                 Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                 Bitmap resizedBitmap = scaleToFitWidth(rawTakenImage, 1500);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                File resizedFile = getPhotoFileUri("resized_" + photoFileName);
+                File resizedFile = getPhotoFileUri("resized_" + PHOTO_FILE_NAME);
                 try {
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
@@ -116,7 +114,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
 
     public void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoFile = getPhotoFileUri(photoFileName);
+        photoFile = getPhotoFileUri(PHOTO_FILE_NAME);
 
         // wrap File object into a content provider
         // required for API >= 24
@@ -124,8 +122,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         Uri fileProvider = FileProvider.getUriForFile(ComposeActivity.this, "com.codepath.fileProvider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
+        // checks to make sure intent is safe to use, so the app doesn't crash
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }

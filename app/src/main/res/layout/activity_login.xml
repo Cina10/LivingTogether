@@ -54,5 +54,4 @@
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
         android:text="log in" />
-
 </LinearLayout>

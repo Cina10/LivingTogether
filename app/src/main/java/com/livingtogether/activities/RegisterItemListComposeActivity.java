@@ -17,7 +17,6 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-
 import org.parceler.Parcels;
 
 import java.util.ArrayList;

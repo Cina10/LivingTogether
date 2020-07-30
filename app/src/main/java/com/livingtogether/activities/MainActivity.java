@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         floatingbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ComposeOptionsActivity.class);
-                startActivity(i);
+                Intent composeIntent = new Intent(MainActivity.this, ComposeOptionsActivity.class);
+                startActivity(composeIntent);
             }
         });
     }
@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.actionSettings:
-                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(i);
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
                 return true;
             case R.id.actionMessageBoard:
                 fragment = new MessageBoardFragment();
@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
                 ParseUser.logOut();
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 if (currentUser == null) {
-                    Intent j = new Intent(MainActivity.this, LaunchActivity.class);
-                    startActivity(j);
+                    Intent mainActivityIntent = new Intent(MainActivity.this, LaunchActivity.class);
+                    startActivity(mainActivityIntent );
                 }
                 return true;
             default:

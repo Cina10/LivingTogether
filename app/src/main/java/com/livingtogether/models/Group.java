@@ -16,10 +16,10 @@ import java.util.List;
 @ParseClassName("Group")
 public class Group extends ParseObject {
     public static final String TAG = "Group";
+    public static final String KEY_ADMIN = "admin";
     public static final String KEY_GROUP_NAME = "groupName";
     public static final String KEY_GROUP_CODE = "groupCode";
     public static final String KEY_MEMBERS = "groupMembers";
-    public static final String KEY_ADMIN = "admin";
 
     public ParseUser getAdmin() {
         return getParseUser(KEY_ADMIN);
@@ -27,14 +27,6 @@ public class Group extends ParseObject {
 
     public void setAdmin(CustomUser admin) {
         put(KEY_ADMIN, admin);
-    }
-
-    public String getGroupCode() {
-        return getString(KEY_GROUP_CODE);
-    }
-
-    public void setGroupCode(String groupCode) {
-        put(KEY_GROUP_CODE, groupCode);
     }
 
     public String getGroupName() {
@@ -45,6 +37,15 @@ public class Group extends ParseObject {
         put(KEY_GROUP_NAME, groupName);
     }
 
+    public String getGroupCode() {
+        return getString(KEY_GROUP_CODE);
+    }
+
+    public void setGroupCode(String groupCode) {
+        put(KEY_GROUP_CODE, groupCode);
+    }
+
+    // TODO change to array, rather than arrayList
     public ArrayList<CustomUser> getMembers() {
         return (ArrayList<CustomUser>) get(KEY_MEMBERS);
     }
@@ -52,8 +53,6 @@ public class Group extends ParseObject {
     public void setMembers(ArrayList<CustomUser> members) {
         put(KEY_MEMBERS, members);
     }
-
-    ;
 
     public void addMember(CustomUser member) {
         getMembers().add(member);
