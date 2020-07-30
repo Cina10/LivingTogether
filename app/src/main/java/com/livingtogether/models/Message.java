@@ -93,6 +93,10 @@ public class Message extends ParseObject {
         put(KEY_BODY, getInt(KEY_LIKES) + 1);
     }
 
+    public void decrementLikes() {
+        put(KEY_BODY, getInt(KEY_LIKES) - 1);
+    }
+
     public String getRelativeTime() {
         long time = getCreatedAt().getTime();
         long now = System.currentTimeMillis();

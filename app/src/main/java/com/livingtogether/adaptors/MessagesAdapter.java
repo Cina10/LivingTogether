@@ -131,13 +131,16 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             CustomUser customUser = message.getCustomUser().fetchIfNeeded();
             if (customUser.getProfilePhoto() != null) {
                 Glide.with(context)
-                        .load(message.getCustomUser().getProfilePhoto().getUrl()).into(ivProfile);
+                        .load(message.getCustomUser().getProfilePhoto().getUrl())
+                        .into(ivProfile);
             } else if (message.getCustomUser().getIsFacebookUser()) {
                 Glide.with(context)
-                        .load(message.getCustomUser().getPhotoUrl()).into(ivProfile);
+                        .load(message.getCustomUser().getPhotoUrl())
+                        .into(ivProfile);
             } else {
                 Glide.with(context)
-                        .load(R.drawable.com_facebook_profile_picture_blank_portrait).into(ivProfile);
+                        .load(R.drawable.com_facebook_profile_picture_blank_portrait)
+                        .into(ivProfile);
             }
 
             tvTime.setText(message.getRelativeTime());

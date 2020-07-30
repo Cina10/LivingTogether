@@ -110,7 +110,6 @@ public class CustomUser extends ParseObject {
 
         try {
             List<CustomUser> curUser = query.find();
-            Log.i(TAG, curUser.get(0).getName());
             return curUser.get(0);
         } catch (ParseException e) {
             Log.e(TAG, "Issue with finding CustomUser", e);

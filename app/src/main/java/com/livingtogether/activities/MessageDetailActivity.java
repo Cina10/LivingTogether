@@ -1,28 +1,32 @@
 package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
+import com.livingtogether.models.Like;
 import com.livingtogether.models.Message;
+import com.parse.DeleteCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
+
+import java.util.List;
 
 public class MessageDetailActivity extends AppCompatActivity {
     public static final String TAG = "MessageDetailActivity";
@@ -38,6 +42,7 @@ public class MessageDetailActivity extends AppCompatActivity {
     private ImageButton btSend;
     private Message message;
     private RelativeLayout messageWrapper;
+    private Boolean liked;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -91,17 +96,57 @@ public class MessageDetailActivity extends AppCompatActivity {
             onCreateShoppingListItem(message);
         } else if (message.getType().equals(Message.MessageType.PURCHASE.toString()))
             onCreatePurchase(message);
-        // TODO likes, double tap to like, comments, submit comment
+
+        // TODO double tap to like, comments, submit comment
+        final CustomUser curUser = CustomUser.queryForCurUser();
+        final Like like = queryIfLiked(curUser);
+        if(like == null) {
+            liked = false;
+            ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
+        } else {
+            liked = true;
+            ivLike.setImageResource(R.drawable.ic_baseline_star_24);
+        }
 
         ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MessageDetailActivity.this, "Liked", Toast.LENGTH_SHORT).show();
+                if(liked) {
+                    like.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            liked = false;
+                            message.decrementLikes();
+                            message.saveInBackground();
+                            ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
+                            tvLikeDescription.setText("Likes: " + message.getLikes());
+                            Log.i(TAG, "setDecription");
+                        }
+                    });
+                } else {
+                    Like newLike = new Like();
+                    newLike.setCustomUser(curUser);
+                    newLike.setMessage(message);
+                    newLike.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            liked = true;
+                            message.incrementLikes();
+                            message.saveInBackground();
+                            ivLike.setImageResource(R.drawable.ic_baseline_star_24);
+                            tvLikeDescription.setText("Likes: " + message.getLikes());
+                            Log.i(TAG, "setDecription");
+                        }
+                    });
+
+                }
+
             }
         });
     }
 
     private void onCreateAnnouncement(Message message) {
+        tvLikeDescription.setText("Likes: " + message.getLikes());
         String title = message.getCustomUser().getName() + ": ";
         if (message.getTitle() != null) {
             title = title + message.getTitle();
@@ -120,18 +165,37 @@ public class MessageDetailActivity extends AppCompatActivity {
     }
 
     private void onCreateShoppingListItem(Message message) {
+        tvLikeDescription.setText("Quantity Needed: " + message.getLikes());
         ivMedia.setVisibility(View.GONE);
         String title = message.getTitle() + " added to the shopping list";
         tvTitle.setText(title);
     }
 
     private void onCreatePurchase(Message message) {
+        tvLikeDescription.setText("Likes: " + message.getLikes());
         String title = message.getCustomUser().getName() + " purchased " + message.getTitle();
         Glide.with(this)
                 .load(message.getImage().getUrl())
                 .into(ivMedia);
         ivMedia.setVisibility(View.VISIBLE);
         tvTitle.setText(title);
+    }
+
+    private Like  queryIfLiked(CustomUser user)
+    {
+        ParseQuery query = ParseQuery.getQuery(Like.class);
+        query.whereEqualTo(Like.KEY_CUSTOM_USER, user);
+        try {
+            List<Like> likes = query.find();
+            if(likes.isEmpty()) {
+                return null;
+            } else {
+                return likes.get(0);
+            }
+        } catch (ParseException e) {
+            Log.e(TAG, "Issue with querying for likes", e);
+            return null;
+        }
     }
 }
 
