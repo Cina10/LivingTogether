@@ -76,7 +76,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
                 goLoginActivity();
                 break;
             case R.id.btSignup:
-                goSignupActivity();
+                goSignUpActivity();
                 break;
             default:
                 break;
@@ -126,7 +126,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
             String pictureUrl = profile.getProfilePictureUri(PHOTO_DIMENSIONS, PHOTO_DIMENSIONS).toString();
             customUser.setPhotoUrl(pictureUrl);
             customUser.saveInBackground();
-            goMainActivity();
+            goGroupActivity();
         } else {
             Log.e(TAG, "Error retrieving Facebook profile");
         }
@@ -136,6 +136,12 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         Intent i = new Intent(LaunchActivity.this, MainActivity.class);
         startActivity(i);
         finish();
+
+    }
+
+    private void goGroupActivity() {
+        Intent i = new Intent(LaunchActivity.this, NewGroupActivity.class);
+        startActivity(i);
     }
 
     private void goLoginActivity() {
@@ -144,7 +150,7 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         // TODO make for result to finish() once you finish login activity
     }
 
-    private void goSignupActivity() {
+    private void goSignUpActivity() {
         Intent i = new Intent(this, SignUpActivity.class);
         startActivity(i);
         // TODO make for result to finish() once you finish login activity

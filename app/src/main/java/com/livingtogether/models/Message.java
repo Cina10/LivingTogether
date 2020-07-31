@@ -23,6 +23,7 @@ public class Message extends ParseObject {
     public static final String KEY_BODY = "body";
     public static final String KEY_TYPE = "messageType";
     public static final String KEY_LIKES = "likes";
+    public static final String KEY_GROUP = "group";
 
     // For time calculations
     private static final int SECOND_MILLIS = 1000;
@@ -95,6 +96,14 @@ public class Message extends ParseObject {
 
     public void decrementLikes() {
         put(KEY_BODY, getInt(KEY_LIKES) - 1);
+    }
+
+    public Group getGroup() {
+        return (Group) get(KEY_GROUP);
+    }
+
+    public void setGroup(Group group) {
+       put(KEY_GROUP, group);
     }
 
     public String getRelativeTime() {

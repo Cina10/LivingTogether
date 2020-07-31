@@ -44,7 +44,6 @@ public class MessageDetailActivity extends AppCompatActivity {
     private RelativeLayout messageWrapper;
     private Boolean liked;
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,33 +111,34 @@ public class MessageDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(liked) {
-                    like.deleteInBackground(new DeleteCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            liked = false;
-                            message.decrementLikes();
-                            message.saveInBackground();
-                            ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
-                            tvLikeDescription.setText("Likes: " + message.getLikes());
-                            Log.i(TAG, "setDecription");
-                        }
-                    });
+                    try {
+                        ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
+                        like.delete();
+                        liked = false;
+                        message.decrementLikes();
+                        message.save();
+                        tvLikeDescription.setText("Likes: " + message.getLikes());
+                        Log.i(TAG, "setDecription");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 } else {
+                    ivLike.setImageResource(R.drawable.ic_baseline_star_24);
                     Like newLike = new Like();
                     newLike.setCustomUser(curUser);
                     newLike.setMessage(message);
-                    newLike.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            liked = true;
-                            message.incrementLikes();
-                            message.saveInBackground();
-                            ivLike.setImageResource(R.drawable.ic_baseline_star_24);
-                            tvLikeDescription.setText("Likes: " + message.getLikes());
-                            Log.i(TAG, "setDecription");
-                        }
-                    });
-
+                    Log.i(TAG, liked + "");
+                    try {
+                        newLike.save();
+                        liked = true;
+                        Log.i(TAG, liked + "");
+                        message.incrementLikes();
+                        message.save();
+                        tvLikeDescription.setText("Likes: " + message.getLikes());
+                        Log.i(TAG, "" + message.getLikes());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }

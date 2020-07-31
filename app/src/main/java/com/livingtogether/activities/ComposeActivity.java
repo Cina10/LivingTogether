@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
+import com.livingtogether.models.Group;
 import com.livingtogether.models.Message;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -66,7 +67,6 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btSubmit:
-                // TODO show preview first?
                 submit();
                 break;
             case R.id.btTakePicture:
@@ -164,26 +164,13 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             CustomUser curUser = CustomUser.queryForCurUser();
             message.setCustomUser(curUser);
             message.setType(Message.MessageType.ANNOUNCEMENT.toString());
-            // TODO set linked group
+            message.setGroup(curUser.getCurGroup());
             if (preview != null)
                 message.setImage(new ParseFile(photoFile));
-            message.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e != null) {
-                        Log.e(TAG, "Error while saving", e);
-                        Toast.makeText(ComposeActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.i(TAG, "Post saved!");
-                        etBody.setText("");
-                        etTitle.setText("");
-                        ivPreview.setImageResource(0);
-                        ivPreview.setVisibility(View.GONE);
-                    }
-                }
-            });
+            message.saveInBackground();
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
+            finish();
         }
     }
 

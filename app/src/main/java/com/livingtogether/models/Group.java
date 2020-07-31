@@ -19,7 +19,6 @@ public class Group extends ParseObject {
     public static final String KEY_ADMIN = "admin";
     public static final String KEY_GROUP_NAME = "groupName";
     public static final String KEY_GROUP_CODE = "groupCode";
-    public static final String KEY_MEMBERS = "groupMembers";
 
     public ParseUser getAdmin() {
         return getParseUser(KEY_ADMIN);
@@ -45,28 +44,15 @@ public class Group extends ParseObject {
         put(KEY_GROUP_CODE, groupCode);
     }
 
-    // TODO change to array, rather than arrayList
-    public ArrayList<CustomUser> getMembers() {
-        return (ArrayList<CustomUser>) get(KEY_MEMBERS);
-    }
-
-    public void setMembers(ArrayList<CustomUser> members) {
-        put(KEY_MEMBERS, members);
-    }
-
-    public void addMember(CustomUser member) {
-        getMembers().add(member);
-    }
-
-    public Group queryForGroup(String name, String code) {
+    public static Group queryForGroup(String name, String code) {
         ParseQuery query = ParseQuery.getQuery(Group.class);
         query.whereEqualTo(Group.KEY_GROUP_NAME, name);
         query.whereEqualTo(Group.KEY_GROUP_CODE, code);
         try {
             List<Group> groups = query.find();
             return groups.get(0);
-        } catch (ParseException e) {
-            Log.e(TAG, "Issue with finding group", e);
+        } catch (Exception e) {
+            // if there is no such group returns null
             return null;
         }
     }

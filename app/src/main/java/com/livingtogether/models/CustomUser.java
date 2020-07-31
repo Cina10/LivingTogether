@@ -68,8 +68,8 @@ public class CustomUser extends ParseObject {
         put(KEY_IS_FACEBOOK_USER, isFacebookUser);
     }
 
-    public ParseObject getCurGroup() {
-        return getParseObject(KEY_CURRENT_GROUP);
+    public Group getCurGroup() {
+        return (Group) get(KEY_CURRENT_GROUP);
     }
 
     public void setCurGroup(ParseObject currentGroup) {

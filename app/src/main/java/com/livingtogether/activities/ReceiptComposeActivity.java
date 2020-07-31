@@ -87,6 +87,7 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
                 message.setCustomUser(curUser);
                 message.setType(Message.MessageType.PURCHASE.toString());
                 message.setImage(new ParseFile(photoFile));
+                message.setGroup(curUser.getCurGroup());
                 deletePinned(itemMessage);
                 itemMessage.deleteInBackground();
                 message.saveInBackground(new SaveCallback() {

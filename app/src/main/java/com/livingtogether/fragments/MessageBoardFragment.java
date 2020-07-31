@@ -47,6 +47,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
     private AlertDialog alertDialog;
     private AlertDialog.Builder builder;
     private Spinner sortSpinner;
+    private CustomUser curUser = CustomUser.queryForCurUser();
 
     public MessageBoardFragment() {}
 
@@ -173,6 +174,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
     private void queryMessages() {
         ParseQuery query = ParseQuery.getQuery(Message.class);
         query.include(Message.KEY_CUSTOM_USER);
+        query.whereEqualTo(Message.KEY_GROUP, curUser.getCurGroup());
         query.setLimit(20);
         query.addDescendingOrder(CREATED_AT);
         query.findInBackground(new FindCallback<Message>() {
@@ -195,6 +197,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         query.include(Message.KEY_CUSTOM_USER);
         query.setLimit(20);
         query.whereEqualTo(Message.KEY_TYPE, type.toString());
+        query.whereEqualTo(Message.KEY_GROUP, curUser.getCurGroup());
         query.addDescendingOrder(CREATED_AT);
         query.findInBackground(new FindCallback<Message>() {
             @Override

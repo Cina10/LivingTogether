@@ -46,11 +46,12 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
         if (title.isEmpty()) {
             Toast.makeText(this, "No item entered!", Toast.LENGTH_SHORT).show();
         } else {
+            CustomUser curUser = CustomUser.queryForCurUser();
             Message item = new Message();
             item.setType(Message.MessageType.SHOPPING_LIST_ITEM.toString());
             item.setTitle(title);
             item.setBody(body);
-            CustomUser curUser = CustomUser.queryForCurUser();
+            item.setGroup(curUser.getCurGroup());
             item.setCustomUser(curUser);
             item.saveInBackground();
             etBody.setText("");

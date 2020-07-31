@@ -36,7 +36,8 @@ public class SetDisplayNameActivity extends AppCompatActivity {
                 if (extras != null) {
                     int nextActivity = extras.getInt(NEXT_ACTIVITY);
                     if (nextActivity == CREATE_PROFILE_ACTION_CODE) {
-                        Intent i = new Intent(SetDisplayNameActivity.this, AddPhotoActivity.class);
+                        Intent i = new Intent(SetDisplayNameActivity.this, NewGroupActivity.class);
+                        // TODO go to change profile photo activity
                         startActivity(i);
                     }
                     // TODO for edit display name once signed in
