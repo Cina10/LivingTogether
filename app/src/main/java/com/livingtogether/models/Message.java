@@ -2,8 +2,6 @@ package com.livingtogether.models;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -15,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @ParseClassName("Message")
-public class Message extends ParseObject {
+public class Message extends ParseObject implements Comparable<Message> {
     public static final String TAG = "Message";
     public static final String KEY_TITLE = "title";
     public static final String KEY_IMAGE = "image";
@@ -33,17 +31,32 @@ public class Message extends ParseObject {
     private static final int YEAR_MILLIS = 365 * DAY_MILLIS;
 
     public enum MessageType {
-        ANNOUNCEMENT("Announcements"), TODO("To Do List"), PURCHASE("Purchases"), SHOPPING_LIST_ITEM("Shopping List");
+        ANNOUNCEMENT("Announcements", 1),
+        TODO("To Do List", 2),
+        PURCHASE("Purchases", 0),
+        SHOPPING_LIST_ITEM("Shopping List", 2);
 
         private final String name;
+        private final int priority;
 
-        MessageType(String name) {
+        MessageType(String name, int priority) {
             this.name = name;
+            this.priority = priority;
         }
 
         public String getName() {
             return name;
         }
+
+        public int getPriority() {
+            return priority;
+        }
+    }
+
+    @Override
+    public int compareTo(Message other) {
+        long diffInMills = getCreatedAt().getTime() - other.getCreatedAt().getTime();
+        return -1* (int) diffInMills;
     }
 
     public String getTitle() {
@@ -64,6 +77,18 @@ public class Message extends ParseObject {
 
     public String getType() {
         return getString(KEY_TYPE);
+    }
+
+    public MessageType getTypeAsEnum() {
+        String type = getString(KEY_TYPE);
+        if (type.equals(MessageType.PURCHASE.toString())) {
+            return MessageType.PURCHASE;
+        }
+        if (type.equals(MessageType.SHOPPING_LIST_ITEM.toString())) {
+            return MessageType.SHOPPING_LIST_ITEM;
+        } else {
+                return MessageType.ANNOUNCEMENT;
+        }
     }
 
     public void setType(String type) {
@@ -103,7 +128,7 @@ public class Message extends ParseObject {
     }
 
     public void setGroup(Group group) {
-       put(KEY_GROUP, group);
+        put(KEY_GROUP, group);
     }
 
     public String getRelativeTime() {

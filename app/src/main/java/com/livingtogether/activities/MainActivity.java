@@ -27,6 +27,7 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
+    private static CustomUser curUser;
     private FloatingActionButton floatingbt;
     private Toolbar toolbar;
     private Fragment fragment;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        curUser = CustomUser.queryForCurUser();
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         fragment = new MessageBoardFragment();
@@ -89,5 +91,9 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
         return true;
+    }
+
+    public static CustomUser getCurUser() {
+        return curUser;
     }
 }

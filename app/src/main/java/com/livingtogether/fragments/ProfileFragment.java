@@ -43,11 +43,11 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     private TextView tvGroup;
     private TextView tvOwed;
     private TextView tvLent;
-    private CustomUser curUser;
     private ImageView ivProfile;
     private RecyclerView rvPinnedMessages;
     private MessagesAdapter adapter;
     private List<Message> allPinned;
+    public CustomUser curUser;
     private SwipeRefreshLayout swipeContainer;
     private Spinner sortSpinner;
 

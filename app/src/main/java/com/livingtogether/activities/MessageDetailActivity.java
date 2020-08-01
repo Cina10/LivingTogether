@@ -98,7 +98,7 @@ public class MessageDetailActivity extends AppCompatActivity {
 
         // TODO double tap to like, comments, submit comment
         final CustomUser curUser = CustomUser.queryForCurUser();
-        final Like like = queryIfLiked(curUser);
+        final Like like = Like.queryIfLiked(curUser);
         if(like == null) {
             liked = false;
             ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
@@ -118,7 +118,6 @@ public class MessageDetailActivity extends AppCompatActivity {
                         message.decrementLikes();
                         message.save();
                         tvLikeDescription.setText("Likes: " + message.getLikes());
-                        Log.i(TAG, "setDecription");
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -131,11 +130,9 @@ public class MessageDetailActivity extends AppCompatActivity {
                     try {
                         newLike.save();
                         liked = true;
-                        Log.i(TAG, liked + "");
                         message.incrementLikes();
                         message.save();
                         tvLikeDescription.setText("Likes: " + message.getLikes());
-                        Log.i(TAG, "" + message.getLikes());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -179,23 +176,6 @@ public class MessageDetailActivity extends AppCompatActivity {
                 .into(ivMedia);
         ivMedia.setVisibility(View.VISIBLE);
         tvTitle.setText(title);
-    }
-
-    private Like  queryIfLiked(CustomUser user)
-    {
-        ParseQuery query = ParseQuery.getQuery(Like.class);
-        query.whereEqualTo(Like.KEY_CUSTOM_USER, user);
-        try {
-            List<Like> likes = query.find();
-            if(likes.isEmpty()) {
-                return null;
-            } else {
-                return likes.get(0);
-            }
-        } catch (ParseException e) {
-            Log.e(TAG, "Issue with querying for likes", e);
-            return null;
-        }
     }
 }
 

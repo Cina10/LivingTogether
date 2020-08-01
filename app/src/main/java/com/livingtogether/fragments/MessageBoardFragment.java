@@ -20,10 +20,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.livingtogether.activities.MainActivity;
 import com.livingtogether.activities.MessageDetailActivity;
 import com.livingtogether.adaptors.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
+import com.livingtogether.models.Like;
 import com.livingtogether.models.Message;
 import com.livingtogether.models.PinnedMessages;
 import com.parse.FindCallback;
@@ -34,7 +36,10 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MessageBoardFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "MessageBoardFragment";
@@ -47,7 +52,6 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
     private AlertDialog alertDialog;
     private AlertDialog.Builder builder;
     private Spinner sortSpinner;
-    private CustomUser curUser = CustomUser.queryForCurUser();
 
     public MessageBoardFragment() {}
 
@@ -174,7 +178,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
     private void queryMessages() {
         ParseQuery query = ParseQuery.getQuery(Message.class);
         query.include(Message.KEY_CUSTOM_USER);
-        query.whereEqualTo(Message.KEY_GROUP, curUser.getCurGroup());
+        query.whereEqualTo(Message.KEY_GROUP, MainActivity.getCurUser().getCurGroup());
         query.setLimit(20);
         query.addDescendingOrder(CREATED_AT);
         query.findInBackground(new FindCallback<Message>() {
@@ -184,6 +188,28 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
                     Log.e(TAG, "Issue with finding messages", e);
                     return;
                 } else {
+                    Collections.sort(messages, new Comparator<Message>() {
+                        @Override
+                        public int compare(Message a, Message b) {
+                            int relevancyScore = 0;
+                            long diffInMills = a.getCreatedAt().getTime() - b.getCreatedAt().getTime();
+                            long diff = TimeUnit.DAYS.convert(diffInMills, TimeUnit.MILLISECONDS);
+                            relevancyScore -= 3 * diff;
+                            int diffInLikes = a.getLikes() - b.getLikes();
+                            relevancyScore += 2 * diffInLikes;
+                            if (Like.queryIfLiked(MainActivity.getCurUser()) != null) {
+                                relevancyScore -= 2;
+                            }
+                            if (Like.queryIfLiked(MainActivity.getCurUser()) != null) {
+                                relevancyScore += 2;
+                            }
+                            int diffInPriority;
+                            diffInPriority = a.getTypeAsEnum().getPriority() - b.getTypeAsEnum().getPriority();
+                            relevancyScore -= 6 * diffInPriority;
+                            // TODO make more complex: different scoring like urgency, that goes higher the more days have passed instead of lower like announcements
+                            return relevancyScore;
+                        }
+                    });
                     adapter.clear();
                     adapter.addAll(messages);
                     swipeContainer.setRefreshing(false);
@@ -197,7 +223,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         query.include(Message.KEY_CUSTOM_USER);
         query.setLimit(20);
         query.whereEqualTo(Message.KEY_TYPE, type.toString());
-        query.whereEqualTo(Message.KEY_GROUP, curUser.getCurGroup());
+        query.whereEqualTo(Message.KEY_GROUP, MainActivity.getCurUser().getCurGroup());
         query.addDescendingOrder(CREATED_AT);
         query.findInBackground(new FindCallback<Message>() {
             @Override
