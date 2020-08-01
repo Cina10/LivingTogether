@@ -82,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
                 ParseUser.logOut();
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 if (currentUser == null) {
-                    Intent mainActivityIntent = new Intent(MainActivity.this, LaunchActivity.class);
-                    startActivity(mainActivityIntent );
+                    Intent launchActivityIntent = new Intent(MainActivity.this, LaunchActivity.class);
+                    launchActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(launchActivityIntent );
                 }
                 return true;
             default:

@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.RenderScript;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 public class MessageBoardFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "MessageBoardFragment";
     public static final String CREATED_AT = "createdAt";
+    public static final String PRIORITY = "priority";
 
     private RecyclerView rvMessages;
     private MessagesAdapter adapter;
@@ -52,8 +54,10 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
     private AlertDialog alertDialog;
     private AlertDialog.Builder builder;
     private Spinner sortSpinner;
+    private int positionOfCurItemSelected;
 
-    public MessageBoardFragment() {}
+    public MessageBoardFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +71,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                queryMessages();
+                queryMessages(positionOfCurItemSelected);
             }
         });
 
@@ -76,7 +80,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
                 getResources().getColor(R.color.colorAccent),
                 getResources().getColor(R.color.composeColor));
 
-        builder =  new AlertDialog.Builder(getContext());
+        builder = new AlertDialog.Builder(getContext());
         rvMessages = view.findViewById(R.id.rvMessages);
         allMessages = new ArrayList<>();
         adapter = new MessagesAdapter(getContext(), allMessages);
@@ -99,13 +103,14 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         });
 
         rvMessages.setAdapter(adapter);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         rvMessages.setLayoutManager(layoutManager);
 
         sortSpinner = view.findViewById(R.id.sortSpinner);
         List<String> sortOptions = new ArrayList<>();
         sortOptions.add("All Messages");
+        sortOptions.add("Time Created");
         sortOptions.add(Message.MessageType.ANNOUNCEMENT.getName());
         sortOptions.add(Message.MessageType.SHOPPING_LIST_ITEM.getName());
         sortOptions.add(Message.MessageType.PURCHASE.getName());
@@ -113,32 +118,18 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(spinnerAdapter);
         sortSpinner.setOnItemSelectedListener(this);
-        queryMessages();
+        queryMessages(PRIORITY);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        switch (position) {
-            case 0:
-                queryMessages();
-                break;
-            case 1:
-                queryForMessageType(Message.MessageType.ANNOUNCEMENT);
-                break;
-            case 2:
-                queryForMessageType(Message.MessageType.SHOPPING_LIST_ITEM);
-                break;
-            case 3:
-                queryForMessageType(Message.MessageType.PURCHASE);
-                break;
-            default:
-                break;
-        }
+        positionOfCurItemSelected = position;
+        queryMessages(position);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-        queryMessages();
+        queryMessages(positionOfCurItemSelected);
     }
 
     private void pinDialogue(final int position) {
@@ -154,7 +145,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
                 pinned.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        if(e == null) {
+                        if (e == null) {
                             // TODO replace toast with snackbar, check if message has already been pinned
                             Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
                         } else {
@@ -174,8 +165,29 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         alertDialog.show();
     }
 
+    public void queryMessages(int spinnerPosition) {
+        switch (spinnerPosition) {
+            case 0:
+                queryMessages(PRIORITY);
+                break;
+            case 1:
+                queryMessages(CREATED_AT);
+                break;
+            case 2:
+                queryForMessageType(Message.MessageType.ANNOUNCEMENT);
+                break;
+            case 3:
+                queryForMessageType(Message.MessageType.SHOPPING_LIST_ITEM);
+                break;
+            case 4:
+                queryForMessageType(Message.MessageType.PURCHASE);
+                break;
+            default:
+                break;
+        }
+    }
 
-    private void queryMessages() {
+    private void queryMessages(final String sortMode) {
         ParseQuery query = ParseQuery.getQuery(Message.class);
         query.include(Message.KEY_CUSTOM_USER);
         query.whereEqualTo(Message.KEY_GROUP, MainActivity.getCurUser().getCurGroup());
@@ -188,28 +200,30 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
                     Log.e(TAG, "Issue with finding messages", e);
                     return;
                 } else {
-                    Collections.sort(messages, new Comparator<Message>() {
-                        @Override
-                        public int compare(Message a, Message b) {
-                            int relevancyScore = 0;
-                            long diffInMills = a.getCreatedAt().getTime() - b.getCreatedAt().getTime();
-                            long diff = TimeUnit.DAYS.convert(diffInMills, TimeUnit.MILLISECONDS);
-                            relevancyScore -= 3 * diff;
-                            int diffInLikes = a.getLikes() - b.getLikes();
-                            relevancyScore += 2 * diffInLikes;
-                            if (Like.queryIfLiked(MainActivity.getCurUser()) != null) {
-                                relevancyScore -= 2;
+                    if (sortMode.equals(PRIORITY)) {
+                        Collections.sort(messages, new Comparator<Message>() {
+                            @Override
+                            public int compare(Message a, Message b) {
+                                int relevancyScore = 0;
+                                long diffInMills = a.getCreatedAt().getTime() - b.getCreatedAt().getTime();
+                                long diff = TimeUnit.DAYS.convert(diffInMills, TimeUnit.MILLISECONDS);
+                                relevancyScore -= 3 * diff;
+                                int diffInLikes = a.getLikes() - b.getLikes();
+                                relevancyScore += 2 * diffInLikes;
+                                if (Like.queryIfLiked(MainActivity.getCurUser()) != null) {
+                                    relevancyScore -= 2;
+                                }
+                                if (Like.queryIfLiked(MainActivity.getCurUser()) != null) {
+                                    relevancyScore += 2;
+                                }
+                                int diffInPriority;
+                                diffInPriority = a.getTypeAsEnum().getPriority() - b.getTypeAsEnum().getPriority();
+                                relevancyScore -= 6 * diffInPriority;
+                                // TODO make more complex: different scoring like urgency, that goes higher the more days have passed instead of lower like announcements
+                                return relevancyScore;
                             }
-                            if (Like.queryIfLiked(MainActivity.getCurUser()) != null) {
-                                relevancyScore += 2;
-                            }
-                            int diffInPriority;
-                            diffInPriority = a.getTypeAsEnum().getPriority() - b.getTypeAsEnum().getPriority();
-                            relevancyScore -= 6 * diffInPriority;
-                            // TODO make more complex: different scoring like urgency, that goes higher the more days have passed instead of lower like announcements
-                            return relevancyScore;
-                        }
-                    });
+                        });
+                    }
                     adapter.clear();
                     adapter.addAll(messages);
                     swipeContainer.setRefreshing(false);
