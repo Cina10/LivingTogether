@@ -79,5 +79,5 @@ The purpose of this app is to act as a communal living messaging board. It has t
 ![Living Together Wireframes](https://github.com/Cina10/LivingTogether/blob/master/LivingTogether_Wireframe.png)
 
  ## Walkthrough
-walkthrough 7:31:20.gif
+ ![Walkthrough](walkthrough 7:31:20.gif)
     
