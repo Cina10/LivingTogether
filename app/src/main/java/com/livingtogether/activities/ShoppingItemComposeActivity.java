@@ -53,6 +53,7 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
             item.setBody(body);
             item.setGroup(curUser.getCurGroup());
             item.setCustomUser(curUser);
+            item.setLikes(0);
             item.saveInBackground();
             etBody.setText("");
             etTitle.setText("");

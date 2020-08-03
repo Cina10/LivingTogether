@@ -42,13 +42,15 @@ public class MessageDetailActivity extends AppCompatActivity {
     private ImageButton btSend;
     private Message message;
     private RelativeLayout messageWrapper;
-    private Boolean liked;
+    private boolean liked;
+    private int likes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_detail);
 
+        Log.i(TAG, "onCreate");
         ivProfile = findViewById(R.id.ivProfile);
         tvTitle = findViewById(R.id.tvTitle);
         tvBody = findViewById(R.id.tvBody);
@@ -97,9 +99,11 @@ public class MessageDetailActivity extends AppCompatActivity {
             onCreatePurchase(message);
 
         // TODO double tap to like, comments, submit comment
-        final CustomUser curUser = CustomUser.queryForCurUser();
-        final Like like = Like.queryIfLiked(curUser);
-        if(like == null) {
+        likes = message.getLikes();
+        tvLikeDescription.setText("" + likes);
+        final CustomUser curUser = MainActivity.getCurUser();
+        final Like like = Like.queryIfLiked(message, curUser);
+        if (like == null) {
             liked = false;
             ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
         } else {
@@ -110,14 +114,18 @@ public class MessageDetailActivity extends AppCompatActivity {
         ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(liked) {
+                if (liked) {
                     try {
                         ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
                         like.delete();
                         liked = false;
                         message.decrementLikes();
-                        message.save();
-                        tvLikeDescription.setText("Likes: " + message.getLikes());
+                        message.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                tvLikeDescription.setText("" + message.getLikes());
+                            }
+                        });
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -126,13 +134,17 @@ public class MessageDetailActivity extends AppCompatActivity {
                     Like newLike = new Like();
                     newLike.setCustomUser(curUser);
                     newLike.setMessage(message);
-                    Log.i(TAG, liked + "");
                     try {
                         newLike.save();
                         liked = true;
                         message.incrementLikes();
-                        message.save();
-                        tvLikeDescription.setText("Likes: " + message.getLikes());
+                        message.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                tvLikeDescription.setText("" + message.getLikes());
+                            }
+                        });
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -143,7 +155,6 @@ public class MessageDetailActivity extends AppCompatActivity {
     }
 
     private void onCreateAnnouncement(Message message) {
-        tvLikeDescription.setText("Likes: " + message.getLikes());
         String title = message.getCustomUser().getName() + ": ";
         if (message.getTitle() != null) {
             title = title + message.getTitle();
@@ -162,14 +173,12 @@ public class MessageDetailActivity extends AppCompatActivity {
     }
 
     private void onCreateShoppingListItem(Message message) {
-        tvLikeDescription.setText("Quantity Needed: " + message.getLikes());
         ivMedia.setVisibility(View.GONE);
         String title = message.getTitle() + " added to the shopping list";
         tvTitle.setText(title);
     }
 
     private void onCreatePurchase(Message message) {
-        tvLikeDescription.setText("Likes: " + message.getLikes());
         String title = message.getCustomUser().getName() + " purchased " + message.getTitle();
         Glide.with(this)
                 .load(message.getImage().getUrl())

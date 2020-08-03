@@ -164,6 +164,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             CustomUser curUser = CustomUser.queryForCurUser();
             message.setCustomUser(curUser);
             message.setType(Message.MessageType.ANNOUNCEMENT.toString());
+            message.setLikes(0);
             message.setGroup(curUser.getCurGroup());
             if (preview != null)
                 message.setImage(new ParseFile(photoFile));

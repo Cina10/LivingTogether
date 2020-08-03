@@ -31,10 +31,11 @@ public class Like extends ParseObject {
         put(KEY_MESSAGE, message);
     }
 
-    public static Like  queryIfLiked(CustomUser user)
+    public static Like queryIfLiked(Message message, CustomUser user)
     {
         ParseQuery query = ParseQuery.getQuery(Like.class);
         query.whereEqualTo(Like.KEY_CUSTOM_USER, user);
+        query.whereEqualTo(Like.KEY_MESSAGE, message);
         try {
             List<Like> likes = query.find();
             if(likes.isEmpty()) {

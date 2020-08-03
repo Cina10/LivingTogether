@@ -1,4 +1,4 @@
-package com.livingtogether.adaptors;
+package com.livingtogether.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -19,7 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.livingtogether.adaptors.MessagesAdapter;
+import com.livingtogether.adapters.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Group;
@@ -28,8 +28,6 @@ import com.livingtogether.models.PinnedMessages;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-
-import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -134,8 +132,8 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 
         sortSpinner = view.findViewById(R.id.sortSpinner);
         List<String> sortOptions = new ArrayList<>();
-        sortOptions.add("All of Your Sent Messages");
-        sortOptions.add("All Pinned Messages");
+        sortOptions.add("All Sent Messages");
+        sortOptions.add("All Saved Messages");
         sortOptions.add(Message.MessageType.ANNOUNCEMENT.getName());
         sortOptions.add(Message.MessageType.SHOPPING_LIST_ITEM.getName());
         sortOptions.add(Message.MessageType.PURCHASE.getName());

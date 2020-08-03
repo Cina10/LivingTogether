@@ -11,7 +11,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.RenderScript;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,7 @@ import android.widget.Toast;
 
 import com.livingtogether.activities.MainActivity;
 import com.livingtogether.activities.MessageDetailActivity;
-import com.livingtogether.adaptors.MessagesAdapter;
+import com.livingtogether.adapters.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Like;
@@ -87,7 +86,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         adapter.setOnItemLongClickListener(new MessagesAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View itemView, int position) {
-                pinDialogue(position);
+                saveDialogue(position);
             }
         });
         adapter.setOnItemClickListener(new MessagesAdapter.OnItemClickListener() {
@@ -109,7 +108,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
 
         sortSpinner = view.findViewById(R.id.sortSpinner);
         List<String> sortOptions = new ArrayList<>();
-        sortOptions.add("All Messages");
+        sortOptions.add("Priority");
         sortOptions.add("Time Created");
         sortOptions.add(Message.MessageType.ANNOUNCEMENT.getName());
         sortOptions.add(Message.MessageType.SHOPPING_LIST_ITEM.getName());
@@ -132,7 +131,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         queryMessages(positionOfCurItemSelected);
     }
 
-    private void pinDialogue(final int position) {
+    private void saveDialogue(final int position) {
         builder.setTitle("Save this message?");
         builder.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
             @Override
@@ -210,10 +209,10 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
                                 relevancyScore -= 3 * diff;
                                 int diffInLikes = a.getLikes() - b.getLikes();
                                 relevancyScore += 2 * diffInLikes;
-                                if (Like.queryIfLiked(MainActivity.getCurUser()) != null) {
+                                if (Like.queryIfLiked(a, MainActivity.getCurUser()) != null) {
                                     relevancyScore -= 2;
                                 }
-                                if (Like.queryIfLiked(MainActivity.getCurUser()) != null) {
+                                if (Like.queryIfLiked(b, MainActivity.getCurUser()) != null) {
                                     relevancyScore += 2;
                                 }
                                 int diffInPriority;

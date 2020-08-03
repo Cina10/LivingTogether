@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.livingtogether.adaptors.MessagesAdapter;
+import com.livingtogether.adapters.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.Message;
 import com.parse.FindCallback;
@@ -46,14 +46,11 @@ public class RegisterItemListComposeActivity extends AppCompatActivity {
             }
         });
 
-        // Necessary to setOnItemLongClick to prevent crashing because MessageBoard uses it
+        // This is required, otherwise crashes on long click
         adapter.setOnItemLongClickListener(new MessagesAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View itemView, int position) {
-                Message message = allItems.get(position);
-                Intent intent = new Intent(RegisterItemListComposeActivity.this, ReceiptComposeActivity.class);
-                intent.putExtra(Message.class.getSimpleName(), Parcels.wrap(message));
-                startActivity(intent);
+                return;
             }
         });
 

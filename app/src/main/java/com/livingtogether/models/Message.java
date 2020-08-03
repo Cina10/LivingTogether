@@ -115,12 +115,17 @@ public class Message extends ParseObject implements Comparable<Message> {
         return getInt(KEY_LIKES);
     }
 
+    public void setLikes(int i) {
+        put(KEY_LIKES, i);
+    }
+
     public void incrementLikes() {
-        put(KEY_BODY, getInt(KEY_LIKES) + 1);
+        put(KEY_LIKES, getInt(KEY_LIKES) + 1);
+        Log.i("Like", "increment likes");
     }
 
     public void decrementLikes() {
-        put(KEY_BODY, getInt(KEY_LIKES) - 1);
+        put(KEY_LIKES, getInt(KEY_LIKES) - 1);
     }
 
     public Group getGroup() {

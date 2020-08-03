@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="2dp">
+        android:layout_margin="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:elevation="2dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
                 app:cardCornerRadius="10dp">
 
                 <ImageView
@@ -44,6 +45,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
+                android:layout_toStartOf="@+id/tvLike"
                 android:layout_toEndOf="@+id/profileWrapper"
                 android:textStyle="bold"
                 tools:text="Chianna made an announcement" />
@@ -57,6 +59,20 @@
                 android:layout_marginTop="0dp"
                 android:layout_toEndOf="@+id/profileWrapper"
                 tools:text="This is my message" />
+
+            <TextView
+                android:id="@+id/tvLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_toLeftOf="@+id/ivLike"
+                tools:text="3" />
+            <ImageView
+                android:id="@+id/ivLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_baseline_star_border_24"/>
         </RelativeLayout>
 
         <ImageView
