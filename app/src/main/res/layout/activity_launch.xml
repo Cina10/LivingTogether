@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:orientation="vertical"
     android:padding="25dp"
     tools:context="com.livingtogether.activities.LaunchActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:src="@mipmap/ic_logo_foreground" />
 
     <TextView
@@ -28,30 +31,78 @@
         android:textColor="@color/white"
         android:textSize="36sp" />
 
-    <Button
-        android:id="@+id/btSignup"
+    <EditText
+        android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:background="@color/creme"
-        android:text="Create an Account" />
+        android:background="@color/white"
+        android:ems="10"
+        android:hint="username"
+        android:inputType="textPersonName"
+        android:padding="15dp" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:padding="15dp" />
+
 
     <Button
         android:id="@+id/btLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:background="@color/creme"
-        android:text="Log In" />
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/btn_rounded"
+        android:backgroundTint="@color/composeColor"
+        android:text="Log In"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="OR"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btSignup"
+        android:layout_width="322dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/btn_rounded"
+        android:backgroundTint="@color/composeColor"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:text="Create an Account" />
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/btn_rounded"
+        android:backgroundTint="@color/com_facebook_blue"
+        android:drawableStart="@drawable/com_facebook_button_icon"
+        android:drawableTint="@color/white"
+        android:padding="15dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="Log in with Facebook"/>
-</LinearLayout>
+        android:text="  Log in with Facebook"
+        android:textColor="@color/white" />
+    </LinearLayout>
+</RelativeLayout>

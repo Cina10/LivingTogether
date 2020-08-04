@@ -50,7 +50,6 @@
             android:name="com.facebook.sdk.PERMISSIONS"
             android:value="email" />
 
-        <activity android:name="com.livingtogether.activities.LoginActivity" />
         <activity android:name="com.livingtogether.activities.MainActivity" />
         <activity android:name="com.livingtogether.activities.LaunchActivity">
             <intent-filter>

@@ -28,7 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
 
         tvPage = findViewById(R.id.tvPage);
         tvPage.setText("Sign Up");
@@ -41,7 +41,6 @@ public class SignUpActivity extends AppCompatActivity {
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "onClick login");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 signUp(username, password);

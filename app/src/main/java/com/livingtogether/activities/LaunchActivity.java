@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -47,6 +48,8 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     private Button btSignup;
     private Button btLogin;
     private Button fbLogin;
+    private EditText etUsername;
+    private EditText etPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,19 +67,23 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         btSignup.setOnClickListener(this);
         fbLogin = findViewById(R.id.login_button);
         fbLogin.setOnClickListener(this);
+        etUsername = findViewById(R.id.etUsername);
+        etPassword = findViewById(R.id.etPassword);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.login_button:
-                signInFB();
-                break;
             case R.id.btLogin:
-                goLoginActivity();
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+                login(username, password);
                 break;
             case R.id.btSignup:
                 goSignUpActivity();
+                break;
+            case R.id.login_button:
+                signInFB();
                 break;
             default:
                 break;
@@ -87,6 +94,26 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void login(String username, String password) {
+        Log.i(TAG, "login attempted");
+        // nav to main act if user signed in correctly
+        // use logInInBackground to provide better UX bc default happens on main thread of UI thread
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e != null) {
+                    Toast.makeText(LaunchActivity.this, "Incorrect Login", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Issue with Login", e);
+                    return;
+                } else {
+                    Intent i = new Intent(LaunchActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        });
     }
 
     private void signInFB() {
@@ -144,15 +171,9 @@ public class LaunchActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(i);
     }
 
-    private void goLoginActivity() {
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-        // TODO make for result to finish() once you finish login activity
-    }
 
     private void goSignUpActivity() {
         Intent i = new Intent(this, SignUpActivity.class);
         startActivity(i);
-        // TODO make for result to finish() once you finish login activity
     }
 }

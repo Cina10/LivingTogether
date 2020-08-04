@@ -112,6 +112,7 @@ public class Message extends ParseObject implements Comparable<Message> {
     }
 
     public int getLikes() {
+        Log.i(TAG, "" + getInt(KEY_LIKES));
         return getInt(KEY_LIKES);
     }
 
@@ -121,7 +122,6 @@ public class Message extends ParseObject implements Comparable<Message> {
 
     public void incrementLikes() {
         put(KEY_LIKES, getInt(KEY_LIKES) + 1);
-        Log.i("Like", "increment likes");
     }
 
     public void decrementLikes() {

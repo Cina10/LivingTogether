@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,43 +9,77 @@
     android:padding="20dp"
     tools:context="com.livingtogether.activities.ComposeOptionsActivity">
 
-    <TextView
-        android:id="@+id/tvPage"
+    <ImageView
+        android:id="@+id/ivExit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Choose a message type!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp" />
+        android:src="@drawable/ic_clear"
+        android:layout_alignParentEnd="true"/>
 
-    <Button
-        android:id="@+id/btAnnouncement"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Make an annoucement" />
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
 
-    <Button
-        android:id="@+id/btShoppingList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add a shopping list item" />
+        <Button
+            android:id="@+id/btAnnouncement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableStart="@drawable/ic_announcement"
+            android:text="Make an Announcement"
+            android:padding="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/btPurchase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register a group purchase" />
+        <Button
+            android:id="@+id/btShoppingList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableStart="@drawable/ic_shopping_list"
+            android:text="Add a Shopping List Item"
+            android:padding="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/btEvent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Schedule an event" />
+        <Button
+            android:id="@+id/btPurchase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableStart="@drawable/ic_purchase"
+            android:text=" Register a Group Purchase"
+            android:padding="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/btLostAndFound"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add to the Lost and Found" />
-</LinearLayout>
+        <Button
+            android:id="@+id/btEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableStart="@drawable/ic_event"
+            android:text="  Schedule an Event"
+            android:padding="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btLostAndFound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableStart="@drawable/ic_lost_found"
+            android:text="  Add to the Lost and Found"
+            android:padding="20dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</RelativeLayout>
