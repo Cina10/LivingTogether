@@ -101,6 +101,7 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
                     }
                 });
                 Intent i = new Intent(this, MainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
             }
         }

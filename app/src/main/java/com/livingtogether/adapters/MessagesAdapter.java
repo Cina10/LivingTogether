@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import com.google.android.material.card.MaterialCardView;
+import com.livingtogether.activities.MainActivity;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
+import com.livingtogether.models.Like;
 import com.livingtogether.models.Message;
 import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 
 import java.util.List;
@@ -94,6 +97,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         private ImageView ivMedia;
         private TextView tvTime;
         private MaterialCardView card;
+        private TextView tvLike;
+        private ImageView ivLike;
+        private boolean liked;
 
         public ViewHolder(@NonNull final View itemView, final OnItemClickListener clickListener, final OnItemLongClickListener longClickListener) {
             super(itemView);
@@ -103,6 +109,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             ivMedia = itemView.findViewById(R.id.ivMedia);
             tvTime = itemView.findViewById(R.id.tvTime);
             card = itemView.findViewById(R.id.card);
+            tvLike = itemView.findViewById(R.id.tvLike);
+            ivLike = itemView.findViewById(R.id.ivLike);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,7 +128,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             });
         }
 
-        public void bind(Message message) throws ParseException {
+        public void bind(final Message message) throws ParseException {
             // If/else block so that if there is no body text, it doesn't show a blank line.
             if (message.getBody().equals("")) {
                 tvBody.setVisibility(View.GONE);
@@ -153,6 +161,60 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                 bindShoppingListItem(message);
             } else if (message.getType().equals(Message.MessageType.PURCHASE.toString()))
                 bindPurchase(message);
+
+            int likes = message.getLikes();
+            tvLike.setText("" + likes);
+            final CustomUser curUser = MainActivity.getCurUser();
+            final Like like = Like.queryIfLiked(message, curUser);
+            if (like == null) {
+                liked = false;
+                ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
+            } else {
+                liked = true;
+                ivLike.setImageResource(R.drawable.ic_baseline_star_24);
+            }
+
+            ivLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (liked) {
+                        try {
+                            ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
+                            like.delete();
+                            liked = false;
+                            message.decrementLikes();
+                            message.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    tvLike.setText("" + message.getLikes());
+                                }
+                            });
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        ivLike.setImageResource(R.drawable.ic_baseline_star_24);
+                        Like newLike = new Like();
+                        newLike.setCustomUser(curUser);
+                        newLike.setMessage(message);
+                        try {
+                            newLike.save();
+                            liked = true;
+                            message.incrementLikes();
+                            message.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    tvLike.setText("" + message.getLikes());
+                                }
+                            });
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            });
         }
 
         private void bindAnnouncement(Message message) {

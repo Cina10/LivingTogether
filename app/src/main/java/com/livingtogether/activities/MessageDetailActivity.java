@@ -3,7 +3,6 @@ package com.livingtogether.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -15,19 +14,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Like;
 import com.livingtogether.models.Message;
-import com.parse.DeleteCallback;
+
 import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
-
-import java.util.List;
 
 public class MessageDetailActivity extends AppCompatActivity {
     public static final String TAG = "MessageDetailActivity";

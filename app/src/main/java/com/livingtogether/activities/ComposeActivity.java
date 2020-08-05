@@ -46,6 +46,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     protected Button btTakePicture;
     protected Button btSubmit;
     protected File photoFile;
+    protected ImageView ivExit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         ivPreview = (ImageView) findViewById(R.id.ivPreview);
         btUpload = (Button) findViewById(R.id.btUpload);
         btUpload.setOnClickListener(this);
+        ivExit = findViewById(R.id.ivExit);
+        ivExit.setOnClickListener(this);
     }
 
     @Override
@@ -74,6 +77,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.btUpload:
                 // TODO upload a file (extra)
+                break;
+            case R.id.ivExit:
                 break;
             default:
                 break;
@@ -170,8 +175,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                 message.setImage(new ParseFile(photoFile));
             message.saveInBackground();
             Intent i = new Intent(this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
-            finish();
         }
     }
 

@@ -45,7 +45,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
-                android:layout_toStartOf="@+id/tvLike"
                 android:layout_toEndOf="@+id/profileWrapper"
                 tools:text="Chianna made an announcement" />
 
@@ -59,20 +58,6 @@
                 android:layout_toEndOf="@+id/profileWrapper"
                 android:textStyle="italic"
                 tools:text="This is my message" />
-
-            <TextView
-                android:id="@+id/tvLike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_toLeftOf="@+id/ivLike"
-                tools:text="3" />
-            <ImageView
-                android:id="@+id/ivLike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_baseline_star_border_24"/>
         </RelativeLayout>
 
         <ImageView
@@ -90,9 +75,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivMedia"
-            android:layout_alignParentEnd="true"
             android:layout_marginEnd="7dp"
+            android:layout_marginTop="2dp"
             android:layout_marginBottom="0dp"
             tools:text="3 days ago" />
+
+        <TextView
+            android:id="@+id/tvLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivMedia"
+            android:layout_marginTop="2dp"
+            android:layout_toStartOf="@+id/ivLike"
+            tools:text="3" />
+
+        <ImageView
+            android:id="@+id/ivLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivMedia"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/ic_baseline_star_border_24" />
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>
