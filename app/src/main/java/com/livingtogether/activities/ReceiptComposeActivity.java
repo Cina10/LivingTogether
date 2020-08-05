@@ -2,10 +2,12 @@ package com.livingtogether.activities;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
     private TextView tvPage;
     private Message itemMessage;
     private EditText etCost;
+    private ImageView ivExit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +47,24 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
         btSubmit.setOnClickListener(this);
         itemMessage = (Message) Parcels.unwrap(getIntent().getParcelableExtra(Message.class.getSimpleName()));
         tvPage.setText(itemMessage.getTitle());
+        ivExit = findViewById(R.id.ivExit);
+        ivExit.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btSubmit:
-                // TODO show preview first?
                 submit();
                 break;
             case R.id.btTakePicture:
                 launchCamera();
+                break;
+            case R.id.ivExit:
+                Intent i = new Intent();
+                i.putExtra(ComposeOptionsActivity.FINISH, ComposeOptionsActivity.FINISH_REQUEST_CODE);
+                setResult(RESULT_OK, i);
+                finish();
                 break;
             default:
                 break;

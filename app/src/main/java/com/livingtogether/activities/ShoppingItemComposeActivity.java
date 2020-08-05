@@ -27,6 +27,7 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
         btTakePicture = findViewById(R.id.btTakePicture);
         btSubmit = findViewById(R.id.btSubmit);
         messageWrapper = findViewById(R.id.messageWrapper);
+        ivExit = findViewById(R.id.ivExit);
 
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +35,17 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
                 submit();
             }
         });
+
+        ivExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                i.putExtra(ComposeOptionsActivity.FINISH, ComposeOptionsActivity.FINISH_REQUEST_CODE);
+                setResult(RESULT_OK, i);
+                finish();
+            }
+        });
+
         tvPage.setText("Add a Shopping List Item");
         btUpload.setVisibility(View.GONE);
         btTakePicture.setVisibility(View.GONE);

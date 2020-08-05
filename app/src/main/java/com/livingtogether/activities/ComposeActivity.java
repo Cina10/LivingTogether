@@ -77,6 +77,10 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                 // TODO upload a file (extra)
                 break;
             case R.id.ivExit:
+                Intent i = new Intent();
+                i.putExtra(ComposeOptionsActivity.FINISH, ComposeOptionsActivity.FINISH_REQUEST_CODE);
+                setResult(RESULT_OK, i);
+                finish();
                 break;
             default:
                 break;
@@ -86,8 +90,8 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
                 Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(PHOTO_FILE_NAME));
                 Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                 Bitmap resizedBitmap = scaleToFitWidth(rawTakenImage, 1500);
@@ -109,10 +113,9 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
 
                 ivPreview.setImageBitmap(resizedBitmap);
                 ivPreview.setVisibility(View.VISIBLE);
-            } else {
-                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 
     public void launchCamera() {
