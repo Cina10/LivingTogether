@@ -6,7 +6,7 @@
         android:title="Profile" />
     <item
         android:id="@+id/actionMessageBoard"
-        android:title=" Message Board" />
+        android:title="Message Board" />
     <item
         android:id="@+id/actionSettings"
         android:title="Settings" />

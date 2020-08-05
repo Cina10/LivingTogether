@@ -1,6 +1,7 @@
 package com.livingtogether.adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +126,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                 tvBody.setVisibility(View.GONE);
             } else {
                 tvBody.setVisibility(View.VISIBLE);
-                tvBody.setText(message.getBody());
+                tvBody.setText(Html.fromHtml(message.getBody()));
             }
 
             CustomUser customUser = message.getCustomUser().fetchIfNeeded();
@@ -156,11 +157,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
         private void bindAnnouncement(Message message) {
             card.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
-            String title = message.getCustomUser().getName() + ": ";
+            String title = "<b>" + message.getCustomUser().getName() + ": ";
             if (message.getTitle() != null) {
-                title = title + message.getTitle();
+                title = title + message.getTitle() + "</b>";
+            } else {
+                title += "</b>";
             }
-            tvTitle.setText(title);
+            tvTitle.setText(Html.fromHtml(title));
 
             // Shows or hides image depending on if message has image.
             if (message.getImage() == null) {
@@ -176,18 +179,18 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         private void bindShoppingListItem(Message message) {
             card.setBackgroundColor(ContextCompat.getColor(context, R.color.shoppingList));
             ivMedia.setVisibility(View.GONE);
-            String title = message.getTitle() + " added to the shopping list";
-            tvTitle.setText(title);
+            String title = "<b>" + message.getCustomUser().getName()+ "</b> added <b>"+  message.getTitle() +"</b> to the shopping list";
+            tvTitle.setText(Html.fromHtml(title));
         }
 
         private void bindPurchase(Message message) {
-            String title = message.getCustomUser().getName() + " purchased " + message.getTitle();;
+            String title = "<b>" + message.getCustomUser().getName() + "</b> purchased <b>" + message.getTitle() + "</b>";
             card.setBackgroundColor(ContextCompat.getColor(context, R.color.purchase));
             Glide.with(context)
                     .load(message.getImage().getUrl())
                     .into(ivMedia);
             ivMedia.setVisibility(View.VISIBLE);
-            tvTitle.setText(title);
+            tvTitle.setText(Html.fromHtml(title));
         }
     }
 }

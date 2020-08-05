@@ -65,7 +65,7 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
         double cost = (double) Math.round(Double.parseDouble(etCost.getText().toString()) * 100) / 100;
         NumberFormat defaultFormat = NumberFormat.getCurrencyInstance();
         String strCost = defaultFormat.format(cost);
-        String body = "The purchase cost a total of " + strCost + ". ";
+        String body = "It cost " + strCost + ". ";
         // TODO change who it charges to who likes/"dittos" the post
         Drawable preview = ivPreview.getDrawable();
         if (preview == null) {
@@ -79,7 +79,7 @@ public class ReceiptComposeActivity extends ComposeActivity implements View.OnCl
 
                 curUser.addLent(cost);
                 curUser.saveInBackground();
-                body += itemMessage.getCustomUser().getName() + " was charged.";
+                body += "<b>" + itemMessage.getCustomUser().getName() + "</b> was charged.";
 
                 Message message = new Message();
                 message.setTitle(title);

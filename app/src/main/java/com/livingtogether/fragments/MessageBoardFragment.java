@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.livingtogether.activities.MainActivity;
@@ -25,6 +27,7 @@ import com.livingtogether.activities.MessageDetailActivity;
 import com.livingtogether.adapters.MessagesAdapter;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
+import com.livingtogether.models.Group;
 import com.livingtogether.models.Like;
 import com.livingtogether.models.Message;
 import com.livingtogether.models.PinnedMessages;
@@ -113,7 +116,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         sortOptions.add(Message.MessageType.ANNOUNCEMENT.getName());
         sortOptions.add(Message.MessageType.SHOPPING_LIST_ITEM.getName());
         sortOptions.add(Message.MessageType.PURCHASE.getName());
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sortOptions);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), R.layout.color_spinner_layout, sortOptions);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(spinnerAdapter);
         sortSpinner.setOnItemSelectedListener(this);
@@ -189,7 +192,10 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
     private void queryMessages(final String sortMode) {
         ParseQuery query = ParseQuery.getQuery(Message.class);
         query.include(Message.KEY_CUSTOM_USER);
-        query.whereEqualTo(Message.KEY_GROUP, MainActivity.getCurUser().getCurGroup());
+
+        CustomUser curUser = CustomUser.queryForCurUser();
+        Group group = curUser.getCurGroup();
+        query.whereEqualTo(Message.KEY_GROUP, group);
         query.setLimit(20);
         query.addDescendingOrder(CREATED_AT);
         query.findInBackground(new FindCallback<Message>() {

@@ -58,8 +58,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvTitle"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="0dp"
+                    android:layout_marginTop="10dp"
                     android:layout_toEndOf="@+id/profileWrapper"
+                    android:textStyle="italic"
                     tools:text="This is my message" />
             </RelativeLayout>
 

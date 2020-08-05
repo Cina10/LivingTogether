@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -155,11 +156,13 @@ public class MessageDetailActivity extends AppCompatActivity {
     }
 
     private void onCreateAnnouncement(Message message) {
-        String title = message.getCustomUser().getName() + ": ";
+        String title = "<b>" + message.getCustomUser().getName() + ": ";
         if (message.getTitle() != null) {
-            title = title + message.getTitle();
+            title = title + message.getTitle() + "</b>";
+        } else {
+            title += "</b>";
         }
-        tvTitle.setText(title);
+        tvTitle.setText(Html.fromHtml(title));
 
         // Shows or hides image depending on if message has image.
         if (message.getImage() == null) {
@@ -174,17 +177,17 @@ public class MessageDetailActivity extends AppCompatActivity {
 
     private void onCreateShoppingListItem(Message message) {
         ivMedia.setVisibility(View.GONE);
-        String title = message.getTitle() + " added to the shopping list";
-        tvTitle.setText(title);
+        String title = "<b>" + message.getCustomUser().getName()+ "</b> added <b>"+  message.getTitle() +"</b> to the shopping list";
+        tvTitle.setText(Html.fromHtml(title));
     }
 
     private void onCreatePurchase(Message message) {
-        String title = message.getCustomUser().getName() + " purchased " + message.getTitle();
+        String title = "<b>" + message.getCustomUser().getName() + "</b> purchased <b>" + message.getTitle() + "</b>";
         Glide.with(this)
                 .load(message.getImage().getUrl())
                 .into(ivMedia);
         ivMedia.setVisibility(View.VISIBLE);
-        tvTitle.setText(title);
+        tvTitle.setText(Html.fromHtml(title));
     }
 }
 
