@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_less_rounded"
-        android:backgroundTint="@color/creme"
+        android:backgroundTint="@color/purchase"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -49,7 +49,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginEnd="5dp"
                 android:text="Cost:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorAccent" />
 
             <EditText
@@ -63,21 +63,13 @@
                 android:padding="10dp" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Receipt:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorAccent" />
-
         <ImageView
             android:id="@+id/ivPreview"
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </LinearLayout>
 
     <Button

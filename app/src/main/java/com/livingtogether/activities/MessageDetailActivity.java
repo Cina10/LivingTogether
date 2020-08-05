@@ -3,6 +3,7 @@ package com.livingtogether.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import com.livingtogether.fragments.MessageBoardFragment;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Like;
@@ -39,6 +41,7 @@ public class MessageDetailActivity extends AppCompatActivity {
     private ImageButton btSend;
     private Message message;
     private RelativeLayout messageWrapper;
+    protected ImageView ivExit;
     private boolean liked;
     private int likes;
 
@@ -59,13 +62,14 @@ public class MessageDetailActivity extends AppCompatActivity {
         etComment = findViewById(R.id.etComment);
         btSend = findViewById(R.id.btSend);
         messageWrapper = findViewById(R.id.messageWrapper);
-        message = (Message) Parcels.unwrap(getIntent().getParcelableExtra(Message.class.getSimpleName()));
+        ivExit = findViewById(R.id.ivExit);
+        message = (Message) Parcels.unwrap(getIntent().getParcelableExtra(MessageBoardFragment.MESSAGE));
 
         if (message.getBody().equals("")) {
             tvBody.setVisibility(View.GONE);
         } else {
             tvBody.setVisibility(View.VISIBLE);
-            tvBody.setText(message.getBody());
+            tvBody.setText(Html.fromHtml(message.getBody()));
         }
 
         CustomUser customUser = null;
@@ -149,6 +153,24 @@ public class MessageDetailActivity extends AppCompatActivity {
 
             }
         });
+
+        ivExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        int position = getIntent().getExtras().getInt("position");
+        Intent i = new Intent();
+        i.putExtra(MessageBoardFragment.MESSAGE, Parcels.wrap(message));
+        i.putExtra(MessageBoardFragment.POSITION, position);
+        setResult(RESULT_OK, i);
+        finish();
+
     }
 
     private void onCreateAnnouncement(Message message) {
@@ -172,12 +194,14 @@ public class MessageDetailActivity extends AppCompatActivity {
     }
 
     private void onCreateShoppingListItem(Message message) {
+        messageWrapper.setBackgroundColor(getResources().getColor(R.color.shoppingList));
         ivMedia.setVisibility(View.GONE);
         String title = "<b>" + message.getCustomUser().getName()+ "</b> added <b>"+  message.getTitle() +"</b> to the shopping list";
         tvTitle.setText(Html.fromHtml(title));
     }
 
     private void onCreatePurchase(Message message) {
+        messageWrapper.setBackgroundColor(getResources().getColor(R.color.purchase));
         String title = "<b>" + message.getCustomUser().getName() + "</b> purchased <b>" + message.getTitle() + "</b>";
         Glide.with(this)
                 .load(message.getImage().getUrl())

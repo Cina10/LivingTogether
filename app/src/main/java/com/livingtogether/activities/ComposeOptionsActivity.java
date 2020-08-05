@@ -11,11 +11,9 @@ import android.widget.Button;
 import com.livingtogether.livingtogether.R;
 
 public class ComposeOptionsActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final int RESULT_CODE = 42;
     Button btAnnouncement;
     Button btShoppingList;
     Button btPurchase;
-    public static Activity fa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -21,11 +21,9 @@ import android.widget.Toast;
 
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
-import com.livingtogether.models.Group;
 import com.livingtogether.models.Message;
-import com.parse.ParseException;
+
 import com.parse.ParseFile;
-import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

@@ -1,10 +1,9 @@
 package com.livingtogether.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +13,8 @@ import com.livingtogether.models.Message;
 
 public class ShoppingItemComposeActivity extends ComposeActivity {
     public static final String TAG = "ShoppingItemComposeActivity";
-    TextView tvPage;
+    private TextView tvPage;
+    private LinearLayout messageWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +26,20 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
         btUpload = findViewById(R.id.btUpload);
         btTakePicture = findViewById(R.id.btTakePicture);
         btSubmit = findViewById(R.id.btSubmit);
+        messageWrapper = findViewById(R.id.messageWrapper);
+
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 submit();
             }
         });
-
         tvPage.setText("Add a Shopping List Item");
         btUpload.setVisibility(View.GONE);
         btTakePicture.setVisibility(View.GONE);
         etTitle.setHint("What item do you want?");
         etBody.setHint("Let your shopper know the details!");
+        messageWrapper.setBackgroundTintList(getResources().getColorStateList(R.color.shopping_list));
     }
 
     private void submit() {
@@ -58,6 +60,7 @@ public class ShoppingItemComposeActivity extends ComposeActivity {
             etBody.setText("");
             etTitle.setText("");
             Intent i = new Intent(ShoppingItemComposeActivity.this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
         }
     }

@@ -91,7 +91,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sort by: " />
+                    android:text="Sort by: "
+                    android:textColor="@color/creme"/>
 
                 <Spinner
                     android:id="@+id/sortSpinner"

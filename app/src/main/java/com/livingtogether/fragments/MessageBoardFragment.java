@@ -1,16 +1,8 @@
 package com.livingtogether.fragments;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +11,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.livingtogether.activities.MainActivity;
 import com.livingtogether.activities.MessageDetailActivity;
@@ -46,8 +45,11 @@ import java.util.concurrent.TimeUnit;
 
 public class MessageBoardFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "MessageBoardFragment";
+    public static final int REQUEST_CODE = 42;
     public static final String CREATED_AT = "createdAt";
     public static final String PRIORITY = "priority";
+    public static final String MESSAGE = "message";
+    public static final String POSITION = "position";
 
     private RecyclerView rvMessages;
     private MessagesAdapter adapter;
@@ -85,6 +87,7 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
         builder = new AlertDialog.Builder(getContext());
         rvMessages = view.findViewById(R.id.rvMessages);
         allMessages = new ArrayList<>();
+        positionOfCurItemSelected = 0;
         adapter = new MessagesAdapter(getContext(), allMessages);
         adapter.setOnItemLongClickListener(new MessagesAdapter.OnItemLongClickListener() {
             @Override
@@ -97,10 +100,9 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
             public void onItemClick(View itemView, int position) {
                 Message message = allMessages.get(position);
                 Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
-                intent.putExtra(Message.class.getSimpleName(), Parcels.wrap(message));
-                startActivity(intent);
-                // TODO also set onClick to bring to details view
-                // must keep as place holder so it doesn't crash
+                intent.putExtra(MESSAGE, Parcels.wrap(message));
+                intent.putExtra(POSITION, position);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -124,11 +126,24 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Message message = Parcels.unwrap(data.getParcelableExtra(MESSAGE));
+            int position = data.getExtras().getInt(POSITION);
+            allMessages.add(position, message);
+            allMessages.remove(position + 1);
+            adapter.notifyItemChanged(position);
+        }
+    }
+
+    // Method for the spinner
+    @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         positionOfCurItemSelected = position;
         queryMessages(position);
     }
 
+    // Method for the spinner
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         queryMessages(positionOfCurItemSelected);

@@ -48,6 +48,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
     public CustomUser curUser;
     private SwipeRefreshLayout swipeContainer;
     private Spinner sortSpinner;
+    private int positionOfCurItemSelected;
 
     public ProfileFragment() {}
 
@@ -63,7 +64,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                queryPinnedMessages();
+                queryMessages(positionOfCurItemSelected);
             }
         });
 
@@ -77,6 +78,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         tvLent = view.findViewById(R.id.tvLent);
         tvOwed = view.findViewById(R.id.tvOwed);
         curUser = CustomUser.queryForCurUser();
+        positionOfCurItemSelected = 0;
 
         ivProfile = view.findViewById(R.id.ivProfile);
         if (curUser.getProfilePhoto() != null) {
@@ -134,10 +136,10 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
         List<String> sortOptions = new ArrayList<>();
         sortOptions.add("All Sent Messages");
         sortOptions.add("All Saved Messages");
-        sortOptions.add(Message.MessageType.ANNOUNCEMENT.getName());
-        sortOptions.add(Message.MessageType.SHOPPING_LIST_ITEM.getName());
-        sortOptions.add(Message.MessageType.PURCHASE.getName());
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, sortOptions);
+        sortOptions.add("Saved " + Message.MessageType.ANNOUNCEMENT.getName());
+        sortOptions.add("Saved " + Message.MessageType.SHOPPING_LIST_ITEM.getName());
+        sortOptions.add("Saved " + Message.MessageType.PURCHASE.getName());
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), R.layout.color_spinner_layout, sortOptions);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(spinnerAdapter);
         sortSpinner.setOnItemSelectedListener(this);
@@ -146,7 +148,17 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        switch (position) {
+        positionOfCurItemSelected = position;
+       queryMessages(position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        queryMessagesProfile();
+    }
+
+    public void queryMessages(int spinnerPosition) {
+        switch (spinnerPosition) {
             case 0:
                 queryMessagesProfile();
                 break;
@@ -165,11 +177,6 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemSelec
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        queryMessagesProfile();
     }
 
     private void queryMessagesProfile() {
