@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -56,7 +57,7 @@ public class MessageDetailActivity extends AppCompatActivity {
         tvBody = findViewById(R.id.tvBody);
         ivMedia = findViewById(R.id.ivMedia);
         tvTime = findViewById(R.id.tvTime);
-        tvLikeDescription = findViewById(R.id.tvLikeDescription);
+        tvLikeDescription = findViewById(R.id.tvLike);
         ivLike = findViewById(R.id.ivLike);
         rvComments = findViewById(R.id.rvComments);
         etComment = findViewById(R.id.etComment);

@@ -63,7 +63,7 @@ public class ComposeOptionsActivity extends AppCompatActivity implements View.On
         if (resultCode == RESULT_OK && requestCode == FINISH_REQUEST_CODE) {
             int finishCode = data.getExtras().getInt(FINISH);
             if (finishCode == FINISH_REQUEST_CODE ) {
-                finish();
+                finishAfterTransition();
             }
         }
     }

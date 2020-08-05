@@ -2,6 +2,7 @@ package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -52,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent composeIntent = new Intent(MainActivity.this, ComposeOptionsActivity.class);
-                startActivity(composeIntent);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(MainActivity.this, (View)floatingbt, "background");
+                startActivity(composeIntent, options.toBundle());
             }
         });
     }

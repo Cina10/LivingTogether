@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/composeColor"
     android:orientation="vertical"
+    android:transitionName="background"
     android:padding="20dp"
     tools:context="com.livingtogether.activities.ComposeOptionsActivity">
 

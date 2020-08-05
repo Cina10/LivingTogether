@@ -102,7 +102,7 @@
                     tools:text="3 days ago" />
 
                 <TextView
-                    android:id="@+id/tvLikeDescription"
+                    android:id="@+id/tvLike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@+id/ivLike"
