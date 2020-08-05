@@ -1,67 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:orientation="vertical"
     android:padding="25dp"
     tools:context="com.livingtogether.activities.NewGroupActivity">
 
-    <TextView
-        android:id="@+id/tvAddGrouo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:text="Add Group"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/white"
-        android:textSize="36sp" />
-
-    <EditText
-        android:id="@+id/etName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@color/white"
-        android:ems="10"
-        android:hint="Group Name"
-        android:inputType="textPersonName"
-        android:padding="15dp" />
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
 
-    <EditText
-        android:id="@+id/etGroupCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@color/white"
-        android:ems="10"
-        android:hint="Group Code"
-        android:inputType="textPassword"
-        android:padding="15dp"
-        />
+        <TextView
+            android:id="@+id/tvAddGrouo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Add Group"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/white"
+            android:textSize="36sp" />
 
-    <Button
-        android:id="@+id/btJoinGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="0dp"
-        android:background="@drawable/btn_rounded"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:text="Join Group" />
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="Group Name"
+            android:inputType="textPersonName"
+            android:padding="15dp" />
 
-    <Button
-        android:id="@+id/btCreateGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="0dp"
-        android:background="@drawable/btn_rounded"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:text="Create New Group" />
-</LinearLayout>
+        <EditText
+            android:id="@+id/etGroupCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="Group Code"
+            android:inputType="textPassword"
+            android:padding="15dp" />
+
+        <Button
+            android:id="@+id/btJoinGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/btn_rounded"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="Join Group" />
+
+        <Button
+            android:id="@+id/btCreateGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/btn_rounded"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="Create New Group" />
+    </LinearLayout>
+</RelativeLayout>

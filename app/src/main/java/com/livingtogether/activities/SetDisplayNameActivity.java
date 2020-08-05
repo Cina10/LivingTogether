@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,17 +16,17 @@ public class SetDisplayNameActivity extends AppCompatActivity {
     public static final int CREATE_PROFILE_ACTION_CODE = 0;
     public static final int EDIT_PROFILE_ACTION_CODE = 1;
     public static final String NEXT_ACTIVITY = "nextActivity";
-    FloatingActionButton floatingBt;
-    EditText etName;
+    private Button btNext;
+    private EditText etName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_display_name);
-        floatingBt = findViewById(R.id.fab);
+        btNext = findViewById(R.id.btNext);
         etName = findViewById(R.id.etName);
 
-        floatingBt.setOnClickListener(new View.OnClickListener() {
+        btNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CustomUser curUser = CustomUser.queryForCurUser();

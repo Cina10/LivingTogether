@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:orientation="vertical"
     android:padding="25dp"
     tools:context="com.livingtogether.activities.SignUpActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:layout_above="@id/signUpWrapper"/>
+
+    <LinearLayout
+        android:id="@+id/signUpWrapper"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
 
     <TextView
         android:id="@+id/tvPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-medium"
+        android:layout_gravity="center_horizontal"
         android:text="@string/log_in"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/white"
@@ -35,7 +50,6 @@
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="30dp"
         android:background="@color/white"
         android:ems="10"
@@ -47,11 +61,12 @@
         android:id="@+id/btLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="0dp"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
         android:background="@drawable/btn_rounded"
         android:text="log in" />
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
