@@ -3,6 +3,7 @@ package com.livingtogether.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -14,11 +15,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import com.livingtogether.fragments.MessageBoardFragment;
 import com.livingtogether.livingtogether.R;
+import com.livingtogether.models.Comment;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Like;
 import com.livingtogether.models.Message;
@@ -28,7 +31,7 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
-public class MessageDetailActivity extends AppCompatActivity {
+public class MessageDetailActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "MessageDetailActivity";
     private ImageView ivProfile;
     private TextView tvTitle;
@@ -42,9 +45,11 @@ public class MessageDetailActivity extends AppCompatActivity {
     private ImageButton btSend;
     private Message message;
     private RelativeLayout messageWrapper;
-    protected ImageView ivExit;
+    private ImageView ivExit;
     private boolean liked;
     private int likes;
+    private Like like;
+    private final CustomUser curUser = MainActivity.getCurUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +78,14 @@ public class MessageDetailActivity extends AppCompatActivity {
             tvBody.setText(Html.fromHtml(message.getBody()));
         }
 
-        CustomUser customUser = null;
+        CustomUser messageUser = null;
         try {
-            customUser = message.getCustomUser().fetchIfNeeded();
+            messageUser = message.getCustomUser().fetchIfNeeded();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        if (customUser.getProfilePhoto() != null) {
+        if (messageUser.getProfilePhoto() != null) {
             Glide.with(this)
                     .load(message.getCustomUser().getProfilePhoto().getUrl()).into(ivProfile);
         } else if (message.getCustomUser().getIsFacebookUser()) {
@@ -100,11 +105,9 @@ public class MessageDetailActivity extends AppCompatActivity {
         } else if (message.getType().equals(Message.MessageType.PURCHASE.toString()))
             onCreatePurchase(message);
 
-        // TODO double tap to like, comments, submit comment
         likes = message.getLikes();
         tvLikeDescription.setText("" + likes);
-        final CustomUser curUser = MainActivity.getCurUser();
-        final Like like = Like.queryIfLiked(message, curUser);
+        like = Like.queryIfLiked(message, curUser);
         if (like == null) {
             liked = false;
             ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
@@ -113,54 +116,9 @@ public class MessageDetailActivity extends AppCompatActivity {
             ivLike.setImageResource(R.drawable.ic_baseline_star_24);
         }
 
-        ivLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (liked) {
-                    try {
-                        ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
-                        like.delete();
-                        liked = false;
-                        message.decrementLikes();
-                        message.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                tvLikeDescription.setText("" + message.getLikes());
-                            }
-                        });
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    ivLike.setImageResource(R.drawable.ic_baseline_star_24);
-                    Like newLike = new Like();
-                    newLike.setCustomUser(curUser);
-                    newLike.setMessage(message);
-                    try {
-                        newLike.save();
-                        liked = true;
-                        message.incrementLikes();
-                        message.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                tvLikeDescription.setText("" + message.getLikes());
-                            }
-                        });
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        });
-
-        ivExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        ivLike.setOnClickListener(this);
+        ivExit.setOnClickListener(this);
+        btSend.setOnClickListener(this);
     }
 
     @Override
@@ -172,6 +130,23 @@ public class MessageDetailActivity extends AppCompatActivity {
         setResult(RESULT_OK, i);
         finish();
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ivLike:
+                like();
+                break;
+            case R.id.btSend:
+                comment();
+                break;
+            case R.id.ivExit:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
     }
 
     private void onCreateAnnouncement(Message message) {
@@ -197,7 +172,7 @@ public class MessageDetailActivity extends AppCompatActivity {
     private void onCreateShoppingListItem(Message message) {
         messageWrapper.setBackgroundColor(getResources().getColor(R.color.shoppingList));
         ivMedia.setVisibility(View.GONE);
-        String title = "<b>" + message.getCustomUser().getName()+ "</b> added <b>"+  message.getTitle() +"</b> to the shopping list";
+        String title = "<b>" + message.getCustomUser().getName() + "</b> added <b>" + message.getTitle() + "</b> to the shopping list";
         tvTitle.setText(Html.fromHtml(title));
     }
 
@@ -209,6 +184,65 @@ public class MessageDetailActivity extends AppCompatActivity {
                 .into(ivMedia);
         ivMedia.setVisibility(View.VISIBLE);
         tvTitle.setText(Html.fromHtml(title));
+    }
+
+    private void like() {
+        if (liked) {
+            try {
+                ivLike.setImageResource(R.drawable.ic_baseline_star_border_24);
+                like.delete();
+                liked = false;
+                message.decrementLikes();
+                message.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        tvLikeDescription.setText("" + message.getLikes());
+                    }
+                });
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            ivLike.setImageResource(R.drawable.ic_baseline_star_24);
+            Like newLike = new Like();
+            newLike.setCustomUser(curUser);
+            newLike.setMessage(message);
+            try {
+                newLike.save();
+                liked = true;
+                message.incrementLikes();
+                message.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        tvLikeDescription.setText("" + message.getLikes());
+                    }
+                });
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void comment() {
+        String text = etComment.getText().toString();
+        if(text.isEmpty()) {
+            Toast.makeText(MessageDetailActivity.this,
+                    "Cannot submit an empty comment",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Comment comment = new Comment();
+            comment.setCustomUser(curUser);
+            comment.setText(text);
+            comment.setMessage(message);
+            comment.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    // update recycler view
+                }
+            });
+        }
     }
 }
 
