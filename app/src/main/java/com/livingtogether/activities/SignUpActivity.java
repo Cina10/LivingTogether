@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if (e == null) {
                     login(username,password);
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Sorry, there was an issue with signing up", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Choose a new username!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.livingtogether.livingtogether.R;
+import com.livingtogether.models.Comment;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Group;
 import com.livingtogether.models.Like;
@@ -28,6 +29,7 @@ public class LivingApplication extends Application {
         ParseObject.registerSubclass(Group.class);
         ParseObject.registerSubclass(PinnedMessages.class);
         ParseObject.registerSubclass(Like.class);
+        ParseObject.registerSubclass(Comment.class);
 
         // values based on Heroku settings
         Parse.initialize(new Parse.Configuration.Builder(this)
