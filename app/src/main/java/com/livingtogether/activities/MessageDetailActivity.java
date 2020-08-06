@@ -252,7 +252,6 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
             newComment.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    Log.i(TAG, "Comment saved");
                    allComments.add(newComment);
                    adapter.notifyItemChanged(allComments.size()-1);
                    etComment.setText("");
@@ -262,22 +261,16 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void queryForComments() {
-        Log.i(TAG, "log1");
         ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
-        Log.i(TAG, "log2");
         query.include(Comment.KEY_CUSTOM_USER);
-        Log.i(TAG, "log3");
         query.whereEqualTo(Comment.KEY_MESSAGE, message);
-        Log.i(TAG, "log4");
         query.addAscendingOrder(MessageBoardFragment.CREATED_AT);
-        Log.i(TAG, "log5");
         query.findInBackground(new FindCallback<Comment>(){
             @Override
             public void done(List<Comment> comments, ParseException e) {
                 if(e != null) {
-                    Log.e(TAG, "Query Error", e);
+                    Log.e(TAG, "Comment query issue", e);
                 }
-                Log.i(TAG, "log6");
                 allComments.addAll(comments);
                 adapter.notifyDataSetChanged();
             }

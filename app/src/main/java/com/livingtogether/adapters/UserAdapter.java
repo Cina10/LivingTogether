@@ -17,11 +17,11 @@ import com.parse.ParseException;
 
 import java.util.List;
 
-public class UserAdaptor extends RecyclerView.Adapter<UserAdaptor.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     Context context;
     List<CustomUser> users;
 
-    public UserAdaptor(Context context, List<CustomUser> users) {
+    public UserAdapter(Context context, List<CustomUser> users) {
         this.context = context;
         this.users = users;
     }
