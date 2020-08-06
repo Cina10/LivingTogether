@@ -23,7 +23,6 @@ public class LivingApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Register Parse model
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(CustomUser.class);
         ParseObject.registerSubclass(Group.class);

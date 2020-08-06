@@ -9,9 +9,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @ParseClassName("CustomUser")
@@ -107,7 +104,6 @@ public class CustomUser extends ParseObject {
     public static CustomUser queryForCurUser(){
         ParseQuery query = ParseQuery.getQuery(CustomUser.class);
         query.whereEqualTo(CustomUser.KEY_USER, ParseUser.getCurrentUser());
-
         try {
             List<CustomUser> curUser = query.find();
             return curUser.get(0);

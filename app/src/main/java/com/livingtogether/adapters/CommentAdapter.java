@@ -14,22 +14,18 @@ import com.bumptech.glide.Glide;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.Comment;
 import com.livingtogether.models.CustomUser;
-import com.livingtogether.models.Message;
 import com.parse.ParseException;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class CommentAdaptor extends RecyclerView.Adapter<CommentAdaptor.ViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
     Context context;
     List<Comment> comments;
 
-    public CommentAdaptor(Context context, List<Comment> comments) {
+    public CommentAdapter(Context context, List<Comment> comments) {
         this.context = context;
         this.comments = comments;
     }
-
 
     @NonNull
     @Override
@@ -69,11 +65,11 @@ public class CommentAdaptor extends RecyclerView.Adapter<CommentAdaptor.ViewHold
             CustomUser commentUser = comment.getCustomUser().fetchIfNeeded();
             if (commentUser.getProfilePhoto() != null) {
                 Glide.with(context)
-                        .load(comment.getCustomUser().getProfilePhoto().getUrl())
+                        .load(commentUser.getProfilePhoto().getUrl())
                         .into(ivProfile);
             } else if (commentUser.getIsFacebookUser()) {
                 Glide.with(context)
-                        .load(comment.getCustomUser().getPhotoUrl())
+                        .load(commentUser.getPhotoUrl())
                         .into(ivProfile);
             } else {
                 Glide.with(context)

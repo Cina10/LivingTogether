@@ -1,15 +1,14 @@
 package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import com.livingtogether.adapters.CommentAdapter;
 import com.livingtogether.fragments.MessageBoardFragment;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.Comment;
@@ -26,10 +26,15 @@ import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Like;
 import com.livingtogether.models.Message;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageDetailActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "MessageDetailActivity";
@@ -46,6 +51,8 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
     private Message message;
     private RelativeLayout messageWrapper;
     private ImageView ivExit;
+    private List<Comment> allComments;
+    private CommentAdapter adapter;
     private boolean liked;
     private int likes;
     private Like like;
@@ -119,6 +126,12 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
         ivLike.setOnClickListener(this);
         ivExit.setOnClickListener(this);
         btSend.setOnClickListener(this);
+
+        allComments = new ArrayList<>();
+        adapter = new CommentAdapter(this, allComments);
+        rvComments.setAdapter(adapter);
+        rvComments.setLayoutManager(new LinearLayoutManager(this));
+        queryForComments();
     }
 
     @Override
@@ -232,17 +245,43 @@ public class MessageDetailActivity extends AppCompatActivity implements View.OnC
                     "Cannot submit an empty comment",
                     Toast.LENGTH_SHORT).show();
         } else {
-            Comment comment = new Comment();
-            comment.setCustomUser(curUser);
-            comment.setText(text);
-            comment.setMessage(message);
-            comment.saveInBackground(new SaveCallback() {
+            final Comment newComment = new Comment();
+            newComment.setCustomUser(curUser);
+            newComment.setText(text);
+            newComment.setMessage(message);
+            newComment.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    // update recycler view
+                    Log.i(TAG, "Comment saved");
+                   allComments.add(newComment);
+                   adapter.notifyItemChanged(allComments.size()-1);
+                   etComment.setText("");
                 }
             });
         }
+    }
+
+    private void queryForComments() {
+        Log.i(TAG, "log1");
+        ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
+        Log.i(TAG, "log2");
+        query.include(Comment.KEY_CUSTOM_USER);
+        Log.i(TAG, "log3");
+        query.whereEqualTo(Comment.KEY_MESSAGE, message);
+        Log.i(TAG, "log4");
+        query.addAscendingOrder(MessageBoardFragment.CREATED_AT);
+        Log.i(TAG, "log5");
+        query.findInBackground(new FindCallback<Comment>(){
+            @Override
+            public void done(List<Comment> comments, ParseException e) {
+                if(e != null) {
+                    Log.e(TAG, "Query Error", e);
+                }
+                Log.i(TAG, "log6");
+                allComments.addAll(comments);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 }
 
