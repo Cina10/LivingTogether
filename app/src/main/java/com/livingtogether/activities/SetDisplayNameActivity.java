@@ -2,6 +2,7 @@ package com.livingtogether.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -37,7 +38,7 @@ public class SetDisplayNameActivity extends AppCompatActivity {
                 if (extras != null) {
                     int nextActivity = extras.getInt(NEXT_ACTIVITY);
                     if (nextActivity == CREATE_PROFILE_ACTION_CODE) {
-                        Intent i = new Intent(SetDisplayNameActivity.this, NewGroupActivity.class);
+                        Intent i = new Intent(SetDisplayNameActivity.this, AddPhotoActivity.class);
                         // TODO go to change profile photo activity
                         startActivity(i);
                     }

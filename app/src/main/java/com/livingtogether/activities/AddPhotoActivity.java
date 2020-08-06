@@ -5,35 +5,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.card.MaterialCardView;
 import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.parse.ParseFile;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 
 public class AddPhotoActivity extends AppCompatActivity {
-    public static final String TAG = "AddPhotoActivity";
-    public static final int GET_FROM_GALLERY_REQUEST_CODE = 42;
-    private String PHOTO_FILE_NAME = "profile.jpg";
+    private static final int GET_FROM_GALLERY_REQUEST_CODE = 42;
+    private static final String PHOTO_FILE_NAME = "profile.jpg";
 
-    private FloatingActionButton floatingbt;
+    private Button btNext;
     private Button btUpload;
     private ImageView ivProfile;
-    private File photoFile;
+    private MaterialCardView photoWrapper;
 
 
     @Override
@@ -41,61 +34,54 @@ public class AddPhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_photo);
 
-        floatingbt = findViewById(R.id.fab);
-        floatingbt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Drawable preview = ivProfile.getDrawable();
-                if (preview != null) {
-                    CustomUser curUser = CustomUser.queryForCurUser();
-                    curUser.setProfilePhoto(new ParseFile(photoFile));
-                    curUser.saveInBackground();
-                }
-                Intent i = new Intent(AddPhotoActivity.this, MainActivity.class);
-                startActivity(i);
-            }
-        });
-        btUpload = findViewById(R.id.btUpload);
-        btUpload.setOnClickListener(new View.OnClickListener() {
+        btNext = findViewById(R.id.btNext);
+        btNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 uploadPhoto();
             }
         });
+
+        btUpload = findViewById(R.id.btUpload);
+        btUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrievePhoto();
+            }
+        });
+
         ivProfile = findViewById(R.id.ivProfile);
+        photoWrapper = findViewById(R.id.photoWrapper);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GET_FROM_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == GET_FROM_GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             Uri imageUri = data.getData();
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                Toast.makeText(this, "Bitmap retrieved", Toast.LENGTH_SHORT).show();
-                ivProfile.setImageBitmap(bitmap);
-                ivProfile.setVisibility(View.VISIBLE);
-
-            } catch (FileNotFoundException e) {
-                Log.e(TAG, "FileNotFound");
-            } catch (IOException e) {
-                Log.e(TAG, "IOException");
-            }
+            ivProfile.setImageURI(imageUri);
+            photoWrapper.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void retrievePhoto() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, GET_FROM_GALLERY_REQUEST_CODE);
     }
 
     private void uploadPhoto() {
-        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY_REQUEST_CODE);
-    }
+        Bitmap preview = ((BitmapDrawable) ivProfile.getDrawable()).getBitmap();
+        if (preview != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            preview.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] image = stream.toByteArray();
 
-    // Returns the File for a photo stored on disk given the fileName
-    public File getPhotoFileUri(String fileName) {
-        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-            Log.d(TAG, "failed to create directory");
+            ParseFile photoFile = new ParseFile(PHOTO_FILE_NAME, image);
+            CustomUser curUser = CustomUser.queryForCurUser();
+            curUser.setProfilePhoto(photoFile);
+            curUser.saveInBackground();
         }
-        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-        return file;
+        Intent i = new Intent(AddPhotoActivity.this, NewGroupActivity.class);
+        startActivity(i);
     }
 }
