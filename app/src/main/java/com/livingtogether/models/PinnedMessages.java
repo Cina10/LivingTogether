@@ -1,6 +1,10 @@
 package com.livingtogether.models;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 @ParseClassName("PinnedMessages")
@@ -31,5 +35,13 @@ public class PinnedMessages extends ParseObject {
 
     public void setMessage(Message message) {
         put(KEY_MESSAGE, message);
+    }
+
+    public static void pinMessage(Message message, CustomUser user) {
+        PinnedMessages pinned = new PinnedMessages();
+        pinned.setMessage(message);
+        pinned.setCustomUser(user);
+        pinned.setType(message.getType());
+        pinned.saveInBackground();
     }
 }

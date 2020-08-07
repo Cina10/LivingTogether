@@ -7,6 +7,8 @@ import androidx.core.content.FileProvider;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import com.livingtogether.livingtogether.R;
 import com.livingtogether.models.CustomUser;
 import com.livingtogether.models.Message;
 
+import com.parse.Parse;
 import com.parse.ParseFile;
 
 import java.io.ByteArrayOutputStream;
@@ -30,11 +33,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 
 public class ComposeActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "ComposeActivity";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 12;
+    private static final int GET_FROM_GALLERY_REQUEST_CODE = 42;
     protected static final String PHOTO_FILE_NAME = "photo.jpg";
 
     protected EditText etTitle;
@@ -44,6 +49,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
     protected Button btTakePicture;
     protected Button btSubmit;
     protected File photoFile;
+    protected ParseFile parseFile;
     protected ImageView ivExit;
 
     @Override
@@ -74,7 +80,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                 launchCamera();
                 break;
             case R.id.btUpload:
-                // TODO upload a file (extra)
+                retrievePhoto();
                 break;
             case R.id.ivExit:
                 Intent i = new Intent();
@@ -95,6 +101,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                 Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(PHOTO_FILE_NAME));
                 Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                 Bitmap resizedBitmap = scaleToFitWidth(rawTakenImage, 1500);
+                resizedBitmap = rotateBitmap(resizedBitmap, 90);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
                 File resizedFile = getPhotoFileUri("resized_" + PHOTO_FILE_NAME);
@@ -110,12 +117,27 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
                 photoFile = resizedFile;
+                parseFile = new ParseFile(photoFile);
 
                 ivPreview.setImageBitmap(resizedBitmap);
                 ivPreview.setVisibility(View.VISIBLE);
             }
-        }
+            if (requestCode == GET_FROM_GALLERY_REQUEST_CODE) {
+                Uri imageUri = data.getData();
+                ivPreview.setImageURI(imageUri);
+                ivPreview.setVisibility(View.VISIBLE);
 
+                Bitmap preview = ((BitmapDrawable) ivPreview.getDrawable()).getBitmap();
+                if (preview != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    preview.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] image = stream.toByteArray();
+
+                    parseFile =  new ParseFile(PHOTO_FILE_NAME, image);
+                }
+            }
+
+        }
     }
 
     public void launchCamera() {
@@ -152,9 +174,20 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
         return file;
     }
 
+    public static Bitmap rotateBitmap(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
     public static Bitmap scaleToFitWidth(Bitmap b, int width) {
         float factor = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
+    }
+
+    private void retrievePhoto() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, GET_FROM_GALLERY_REQUEST_CODE);
     }
 
     private void submit() {
@@ -173,7 +206,7 @@ public class ComposeActivity extends AppCompatActivity implements View.OnClickLi
             message.setLikes(0);
             message.setGroup(curUser.getCurGroup());
             if (preview != null)
-                message.setImage(new ParseFile(photoFile));
+                message.setImage(parseFile);
             message.saveInBackground();
             Intent i = new Intent(this, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

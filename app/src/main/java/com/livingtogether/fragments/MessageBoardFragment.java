@@ -226,26 +226,11 @@ public class MessageBoardFragment extends Fragment implements AdapterView.OnItem
                     return;
                 } else {
                     if (sortMode.equals(PRIORITY)) {
+                        Message.assignRelevancy(messages);
                         Collections.sort(messages, new Comparator<Message>() {
                             @Override
                             public int compare(Message a, Message b) {
-                                int relevancyScore = 0;
-                                long diffInMills = a.getCreatedAt().getTime() - b.getCreatedAt().getTime();
-                                long diff = TimeUnit.DAYS.convert(diffInMills, TimeUnit.MILLISECONDS);
-                                relevancyScore -= 3 * diff;
-                                int diffInLikes = a.getLikes() - b.getLikes();
-                                relevancyScore += 2 * diffInLikes;
-                                if (Like.queryIfLiked(a, MainActivity.getCurUser()) != null) {
-                                    relevancyScore -= 2;
-                                }
-                                if (Like.queryIfLiked(b, MainActivity.getCurUser()) != null) {
-                                    relevancyScore += 2;
-                                }
-                                int diffInPriority;
-                                diffInPriority = a.getTypeAsEnum().getPriority() - b.getTypeAsEnum().getPriority();
-                                relevancyScore -= 6 * diffInPriority;
-                                // TODO make more complex: different scoring like urgency, that goes higher the more days have passed instead of lower like announcements
-                                return relevancyScore;
+                                return a.getCurRelevancy() - b.getCurRelevancy();
                             }
                         });
                     }
